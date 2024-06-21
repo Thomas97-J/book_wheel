@@ -51,9 +51,19 @@ function Signup() {
         });
         navigate(-1);
       }
-    } catch (error) {
-      console.error("Error signing up:", error);
-      alert("Error signing up");
+    } catch (error: any) {
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          setError(
+            "email",
+            { message: "이미 사용 중인 이메일입니다." },
+            { shouldFocus: true }
+          );
+          break;
+        default:
+          setError("tel", { message: "잠시 후 다시 시도하세요." });
+          break;
+      }
     }
   }
   return (
@@ -114,10 +124,17 @@ function Signup() {
         />
         <label>전화번호</label>
         <input
-          {...register("tel", { required: true })}
+          {...register("tel", {
+            required: true,
+            pattern: {
+              value: /^\d{2,3}-\d{3,4}-\d{4}$|^\d{10,11}$/,
+              message: "전화번호 형식이 유효하지 않습니다.",
+            },
+          })}
           placeholder="전화번호를 입력해주세요"
           type="tel"
         />
+        <Warn>{errors?.tel?.message}</Warn>
         <button type="submit" disabled={!isValid}>
           회원가입
         </button>

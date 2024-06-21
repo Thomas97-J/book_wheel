@@ -24,6 +24,7 @@ function Signin() {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       navigate(-1);
     } catch (error) {
+      console.log(error);
       setError(
         "email",
         { message: "이메일 또는 비밀번호를 확인하세요." },
@@ -47,8 +48,6 @@ function Signin() {
           placeholder="이메일을 입력해주세요"
           type="email"
         />
-        <Warn>{errors?.email?.message}</Warn>
-
         <label>비밀번호</label>
         <input
           {...register("password", {
@@ -57,6 +56,7 @@ function Signin() {
           placeholder="비밀번호를 입력해주세요"
           type="password"
         />
+        <Warn>{errors?.email?.message}</Warn>
         <button type="submit" disabled={!isValid}>
           로그인
         </button>

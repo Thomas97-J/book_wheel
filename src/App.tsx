@@ -9,8 +9,17 @@ import My from "./pages/My";
 import ProtectRoute from "./components/ProtectRoute";
 import { AuthProvider } from "./components/AuthContext";
 import UnProtectRoute from "./components/UnProtectRoute";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+export const PATH = {
+  main: "",
+  signIn: "/signin",
+  signUp: "/signup",
+  my: "/my",
+  notFound: "*",
+};
 
 function App() {
   return (
@@ -18,16 +27,17 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path={PATH.main} element={<Main />} />
             <Route
-              path="/signin"
+              path={PATH.signIn}
               element={<UnProtectRoute component={Signin} />}
             />
             <Route
-              path="/signup"
+              path={PATH.signUp}
               element={<UnProtectRoute component={Signup} />}
             />
-            <Route path="/my" element={<ProtectRoute component={My} />} />
+            <Route path={PATH.my} element={<ProtectRoute component={My} />} />
+            <Route path={PATH.notFound} element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
