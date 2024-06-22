@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -45,7 +45,7 @@ function Signup() {
         await updateProfile(user, {
           displayName: data.nickname,
         });
-        await addDoc(collection(db, "users"), {
+        await setDoc(doc(db, "users", user.uid), {
           tel: data.tel,
           nickname: data.nickname,
         });

@@ -10,6 +10,7 @@ import ProtectRoute from "./components/ProtectRoute";
 import { AuthProvider } from "./components/AuthContext";
 import UnProtectRoute from "./components/UnProtectRoute";
 import NotFound from "./pages/NotFound";
+import InfoFixSection from "./pages/UserInfoEdit";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ export const PATH = {
   signIn: "/signin",
   signUp: "/signup",
   my: "/my",
+  infoFix: "/my/edit",
   notFound: "*",
+  profile: "/profile",
 };
 
 function App() {
@@ -37,6 +40,11 @@ function App() {
               element={<UnProtectRoute component={Signup} />}
             />
             <Route path={PATH.my} element={<ProtectRoute component={My} />} />
+            <Route
+              path={PATH.infoFix}
+              element={<ProtectRoute component={InfoFixSection} />}
+            />
+
             <Route path={PATH.notFound} element={<NotFound />} />
           </Routes>
         </BrowserRouter>

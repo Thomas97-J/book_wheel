@@ -1,26 +1,28 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { db } from "../../firebase";
-import { collection, getDocs, query } from "firebase/firestore";
-import { useAuth } from "../../components/AuthContext";
+import ProfileAndInfo from "./ProfileAndInfo";
 
 function My() {
-  const { currentUser, isLoading } = useAuth();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(db, "users"));
-      const querySnapshot = await getDocs(q);
-      console.log("querySnapshot", querySnapshot);
-    };
-    fetchData();
-    console.log(currentUser);
-  }, []);
-  return <MyWrapper>마이페이지</MyWrapper>;
+  return (
+    <MyWrapper>
+      <ProfileAndInfo />
+      <DummySection>작성 글 목록</DummySection>
+      <DummySection>관심 도서</DummySection>
+      <DummySection>내 서재</DummySection>
+    </MyWrapper>
+  );
 }
 
+const DummySection = styled.div`
+  height: 100px;
+  width: 100%;
+  border: 1px solid black;
+  margin: 10px;
+`;
+
 const MyWrapper = styled.div`
-  width: 100vw;
+  width: 100%;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
