@@ -6,7 +6,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useAuth } from "../../components/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -116,12 +116,17 @@ function UserInfoEdit() {
   }
 
   useEffect(() => {
-    console.log(imgPath);
-  }, [imgPath]);
+    if (data?.profileImage) {
+      setImgPath(data?.profileImage);
+    }
+  }, [data]);
+
   return (
     <UserInfoEditWrapper>
-      <img src={imgPath ? imgPath : ``} alt="이미지 업로드" />{" "}
-      <div>더미 이미지</div>
+      <ProFile
+        src={imgPath ? imgPath : "/src/assets/images/icons8-user-64.png"}
+        alt="이미지 업로드"
+      />
       <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
         <input
           {...register("photoFile", { required: true })}

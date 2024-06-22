@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { checkNicknameExists } from "../../apis/checkNicknameExists";
 
 interface SignupForm {
   nickname: string;
@@ -20,13 +21,15 @@ function Signup() {
     register,
     handleSubmit,
     setError,
+    clearErrors,
+    watch,
     formState: { errors, isValid },
   } = useForm<SignupForm>({ mode: "onBlur" });
   const navigate = useNavigate();
   useEffect(() => {
     console.log("error", errors);
   }, [errors]);
-
+  const nickname = watch("nickname");
   async function singUp(data: SignupForm) {
     try {
       if (data.password !== data.password_conform) {
@@ -121,7 +124,19 @@ function Signup() {
           {...register("nickname", { required: true })}
           placeholder="닉네임을 입력해주세요"
           type="nickname"
+          onBlur={async () => {
+            if (await checkNicknameExists(nickname)) {
+              setError(
+                "nickname",
+                { message: "이미 사용 중인 닉네임입니다." },
+                { shouldFocus: true }
+              );
+            } else {
+              clearErrors("nickname");
+            }
+          }}
         />
+        <Warn>{errors?.nickname?.message}</Warn>
         <label>전화번호</label>
         <input
           {...register("tel", {
@@ -135,9 +150,9 @@ function Signup() {
           type="tel"
         />
         <Warn>{errors?.tel?.message}</Warn>
-        <button type="submit" disabled={!isValid}>
+        <SignUpBtn type="submit" disabled={!isValid}>
           회원가입
-        </button>
+        </SignUpBtn>
       </form>
     </SignupWrapper>
   );
@@ -163,6 +178,13 @@ const SignupWrapper = styled.div`
       height: 30px;
       margin-bottom: 10px;
     }
+  }
+`;
+
+const SignUpBtn = styled.button`
+  &:disabled {
+    border: 1px solid #bcbcbc;
+    color: #bcbcbc;
   }
 `;
 

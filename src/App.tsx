@@ -7,10 +7,12 @@ import Signup from "./pages/Signup";
 import Main from "./pages/Main";
 import My from "./pages/My";
 import ProtectRoute from "./components/ProtectRoute";
-import { AuthProvider } from "./components/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import UnProtectRoute from "./components/UnProtectRoute";
 import NotFound from "./pages/NotFound";
 import InfoFixSection from "./pages/UserInfoEdit";
+import BottomNav from "./components/mobile/BottomNav";
+import Explore from "./pages/Explore";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +24,7 @@ export const PATH = {
   infoFix: "/my/edit",
   notFound: "*",
   profile: "/profile",
+  explore: "/explore",
 };
 
 function App() {
@@ -44,9 +47,13 @@ function App() {
               path={PATH.infoFix}
               element={<ProtectRoute component={InfoFixSection} />}
             />
-
+            <Route
+              path={PATH.explore}
+              element={<ProtectRoute component={Explore} />}
+            />
             <Route path={PATH.notFound} element={<NotFound />} />
           </Routes>
+          <BottomNav />
         </BrowserRouter>
       </AuthProvider>
     </QueryClientProvider>

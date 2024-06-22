@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "../../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { useAuth } from "../../../components/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 async function fetchUserData(uid: string) {
   const userDoc = doc(db, "users", uid);
   const userSnapshot = await getDoc(userDoc);
+  console.log(userSnapshot.data());
   return userSnapshot.data();
 }
 
@@ -18,7 +19,7 @@ function ProfileAndInfo() {
   const uid = currentUser?.uid ?? "";
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["user", uid],
+    queryKey: ["users", uid],
     queryFn: () => fetchUserData(uid),
   });
 
@@ -27,7 +28,10 @@ function ProfileAndInfo() {
 
   return (
     <UserInfo>
-      <ProFile src={data?.profileImage} alt="profile" />
+      <ProFile
+        src={data?.profileImage || "/src/assets/images/icons8-user-64.png"}
+        alt="profile"
+      />
       <NameAndBio>
         <NameSection>
           <NickName>{data?.nickname}</NickName>
