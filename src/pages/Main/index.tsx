@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import Mainheaders from "../../components/mobile/headers/Mainheaders";
 import { useAuth } from "../../context/AuthContext";
-import { auth } from "../../firebase";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Main() {
-  const { currentUser, isLoading } = useAuth();
+  const { currentUser, isLoading, logout } = useAuth();
   const [user, setUser] = useState(currentUser);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    console.log(currentUser);
+    setUser(currentUser);
+    console.log("currentUser", currentUser);
   }, [currentUser]);
   return (
     <MainWrapper>
@@ -20,7 +22,18 @@ function Main() {
       <h2>User Profile</h2>
       <p>Email: {user?.email}</p>
       <p>UID: {user?.uid}</p>
-      <button onClick={() => auth.signOut()}>Sign Out</button>
+      <button
+        onClick={() => {
+          console.log("로그아웃");
+
+          logout();
+          console.log("로그아웃2");
+
+          window.location.href = "/";
+        }}
+      >
+        Sign Out
+      </button>
     </MainWrapper>
   );
 }

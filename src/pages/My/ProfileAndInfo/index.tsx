@@ -6,6 +6,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import imgPaths from "../../../assets/images/image_path";
 
 async function fetchUserData(uid: string) {
   const userDoc = doc(db, "users", uid);
@@ -19,7 +20,7 @@ function ProfileAndInfo() {
   const uid = currentUser?.uid ?? "";
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["users", uid],
+    queryKey: ["user_profile", uid],
     queryFn: () => fetchUserData(uid),
   });
 
@@ -29,13 +30,13 @@ function ProfileAndInfo() {
   return (
     <UserInfo>
       <ProFile
-        src={data?.profileImage || "/src/assets/images/icons8-user-64.png"}
+        src={data?.profileImage || imgPaths.defaultProfileImage}
         alt="profile"
       />
       <NameAndBio>
         <NameSection>
           <NickName>{data?.nickname}</NickName>
-          <Link to={PATH.profile}>프로필 보기</Link>
+          <Link to={`${PATH.profile}?user=${data?.nickname}`}>프로필 보기</Link>
         </NameSection>
         <Biography>{data?.bio}</Biography>
         <GoToFixLink to={PATH.infoFix}>정보 수정</GoToFixLink>

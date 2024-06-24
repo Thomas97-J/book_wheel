@@ -3,10 +3,12 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { db } from "../../firebase";
 import { useQuery } from "@tanstack/react-query";
+import UserCard from "./UserCard";
 
-interface UserData {
+export interface UserData {
   id: string;
   nickname?: string;
+  profileImage?: string;
 }
 
 async function fetchUserData(): Promise<UserData[]> {
@@ -16,12 +18,12 @@ async function fetchUserData(): Promise<UserData[]> {
 
 function Explore() {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users_all"],
     queryFn: fetchUserData,
   });
 
   useEffect(() => {
-    console.log(data);
+    console.log("explore", data);
   }, [data]);
 
   if (isLoading) return <span>Loading...</span>;
@@ -29,15 +31,15 @@ function Explore() {
 
   return (
     <ExploreWrapper>
-      {data?.map((user) => (
-        <UserCard key={user.id}>{user.nickname}</UserCard>
-      ))}
+      {data && data?.map((user) => <UserCard key={user.id} userInfo={user} />)}
     </ExploreWrapper>
   );
 }
-const UserCard = styled.div``;
 const ExploreWrapper = styled.div`
-  /* Add your styles here */
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export default Explore;

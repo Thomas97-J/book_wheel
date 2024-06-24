@@ -59,19 +59,19 @@ function UserInfoEdit() {
   const imgRef = useRef<HTMLInputElement | null>(null);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["user", uid],
+    queryKey: ["users", uid],
     queryFn: () => fetchUserData(uid),
   });
   const uploadMutation = useMutation({
     mutationFn: uploadFile,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users", uid] });
     },
   });
   const userInfoUpataeMutation = useMutation({
     mutationFn: updateUserData,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users", uid] });
     },
   });
 
@@ -138,11 +138,13 @@ function UserInfoEdit() {
         <input
           {...register("nickname", { required: true })}
           type="text"
+          placeholder="사용자명을 입력하세요."
           defaultValue={data?.nickname}
         />
         <input
           {...register("bio", { required: true })}
           type="text"
+          placeholder="인사말을 입력하세요."
           defaultValue={data?.bio}
         />
         <button type="submit">{updating ? "저장중" : "저장"}</button>

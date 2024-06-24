@@ -1,18 +1,21 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./context/AuthContext";
 
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Main from "./pages/Main";
 import My from "./pages/My";
 import ProtectRoute from "./components/ProtectRoute";
-import { AuthProvider } from "./context/AuthContext";
 import UnProtectRoute from "./components/UnProtectRoute";
 import NotFound from "./pages/NotFound";
 import InfoFixSection from "./pages/UserInfoEdit";
 import BottomNav from "./components/mobile/BottomNav";
 import Explore from "./pages/Explore";
+import Profile from "./pages/Profile";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import PasswordChange from "./pages/PasswordChange";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,7 @@ export const PATH = {
   notFound: "*",
   profile: "/profile",
   explore: "/explore",
+  passwordChange: "/my/change_password",
 };
 
 function App() {
@@ -51,11 +55,17 @@ function App() {
               path={PATH.explore}
               element={<ProtectRoute component={Explore} />}
             />
+            <Route
+              path={PATH.passwordChange}
+              element={<ProtectRoute component={PasswordChange} />}
+            />
+            <Route path={PATH.profile} element={<Profile />} />
             <Route path={PATH.notFound} element={<NotFound />} />
           </Routes>
           <BottomNav />
         </BrowserRouter>
       </AuthProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

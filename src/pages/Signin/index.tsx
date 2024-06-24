@@ -22,7 +22,8 @@ function Signin() {
   async function signIn(data: SigninFormValue) {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      navigate(-1);
+      // navigate(-1);
+      window.location.href = "/";
     } catch (error) {
       console.log(error);
       setError(

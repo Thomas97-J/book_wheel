@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import ProfileAndInfo from "./ProfileAndInfo";
+import { PATH } from "../../App";
+import { Link } from "react-router-dom";
 
 function My() {
   return (
     <MyWrapper>
       <ProfileAndInfo />
+      <Link to={PATH.passwordChange}>비밀번호 변경</Link>
       <DummySection>작성 글 목록</DummySection>
       <DummySection>관심 도서</DummySection>
       <DummySection>내 서재</DummySection>

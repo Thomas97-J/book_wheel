@@ -1,21 +1,26 @@
 import React, { createContext, ReactNode, useContext } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "../../firebase";
 
 interface AuthContextType {
   currentUser: User | null | undefined;
   isLoading: boolean;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 async function fetchUser(): Promise<User | null> {
   return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      unsubscribe();
-      resolve(user);
-    }, reject);
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        unsubscribe();
+        resolve(user);
+      },
+      reject
+    );
   });
 }
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -23,10 +28,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     data: currentUser,
     error,
     isLoading,
-  } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
+  } = useQuery({ queryKey: ["auth"], queryFn: fetchUser });
+  const queryClient = useQueryClient();
+  async function logout() {
+    await signOut(auth);
+    queryClient.invalidateQueries({ queryKey: ["usauther"] });
+  }
 
   return (
-    <AuthContext.Provider value={{ currentUser, isLoading }}>
+    <AuthContext.Provider value={{ currentUser, isLoading, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 
-const MainheadersWrapper = styled.div`
+const MainheadersWrapper = styled.header`
   height: 40px;
   border-bottom: solid 1px;
   width: 100%;
