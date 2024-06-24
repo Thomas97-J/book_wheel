@@ -27,7 +27,6 @@ function Main() {
         <button
           onClick={() => {
             logout();
-            window.location.href = "/";
           }}
         >
           Sign Out

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import imageCompression from "browser-image-compression";
 
 import { db, storage } from "../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -17,7 +18,7 @@ interface FixUserInfoFormValue {
 interface FileObject extends Blob {
   name: string;
   lastModified: number;
-  lastModifiedDate: Date;
+  // lastModifiedDate: Date;
   webkitRelativePath: string;
   size: number;
   type: string;
@@ -93,19 +94,21 @@ function UserInfoEdit() {
 
   async function sendFixInfo(data: FixUserInfoFormValue) {
     setUpdating(true);
-    console.log("update1", data);
 
     try {
-      console.log("update1");
-
       if (data?.photoFile) {
         const selectedFile: FileObject = data.photoFile;
-        console.log("selectedFile", selectedFile, data);
+        const options = {
+          maxSizeMB: 0.2, // 이미지 최대 용량
+          maxWidthOrHeight: 256, // 최대 넓이(혹은 높이)
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(selectedFile, options); //이미지 파일 압축
 
         const downloadURL = await uploadMutation.mutateAsync({
           uid,
-          name: selectedFile.name,
-          file: selectedFile,
+          name: compressedFile.name,
+          file: compressedFile,
         });
         console.log(downloadURL);
         const dataWithProfile = { ...data, profileImage: downloadURL };
@@ -113,10 +116,8 @@ function UserInfoEdit() {
           uid,
           data: dataWithProfile,
         });
-        console.log("update2");
       } else {
         await userInfoUpataeMutation.mutateAsync({ uid, data });
-        console.log("update3");
       }
     } catch (error: any) {
       console.log(error);
@@ -139,9 +140,6 @@ function UserInfoEdit() {
       setValue("photoFile", file); // Update react-hook-form value
     }
   }
-  function test() {
-    console.log("나와라");
-  }
 
   return (
     <UserInfoEditWrapper>
@@ -157,7 +155,6 @@ function UserInfoEdit() {
           onChange={saveImgFile}
           ref={imgRef}
         />
-        {/* 여기서 문제 발생 */}
         <input
           type="text"
           placeholder="사용자명을 입력하세요."
