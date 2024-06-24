@@ -50,7 +50,13 @@ async function uploadFile(data: {
 }
 
 function UserInfoEdit() {
-  const { register, handleSubmit, setError } = useForm<FixUserInfoFormValue>({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm<FixUserInfoFormValue>({
     mode: "onBlur",
   });
   const { currentUser } = useAuth();
@@ -67,18 +73,18 @@ function UserInfoEdit() {
   const uploadMutation = useMutation({
     mutationFn: uploadFile,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users_profile_image", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users", uid] });
     },
   });
   const userInfoUpataeMutation = useMutation({
     mutationFn: updateUserData,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users_info_updata", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users", uid] });
     },
   });
   useEffect(() => {
-    console.log("in");
-  }, []);
+    console.log("isValid", isValid);
+  }, [isValid]);
   useEffect(() => {
     if (data?.profileImage) {
       setImgPath(data?.profileImage);
@@ -93,7 +99,9 @@ function UserInfoEdit() {
       console.log("update1");
 
       if (data?.photoFile) {
-        const selectedFile: FileObject = data.photoFile[0];
+        const selectedFile: FileObject = data.photoFile;
+        console.log("selectedFile", selectedFile, data);
+
         const downloadURL = await uploadMutation.mutateAsync({
           uid,
           name: selectedFile.name,
@@ -128,7 +136,11 @@ function UserInfoEdit() {
       reader.onload = () => {
         setImgPath(reader.result as string);
       };
+      setValue("photoFile", file); // Update react-hook-form value
     }
+  }
+  function test() {
+    console.log("나와라");
   }
 
   return (
@@ -139,25 +151,28 @@ function UserInfoEdit() {
       />
       <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
         <input
-          {...register("photoFile", { required: true })}
           type="file"
           accept="image/*"
+          {...register("photoFile")}
           onChange={saveImgFile}
           ref={imgRef}
         />
+        {/* 여기서 문제 발생 */}
         <input
-          {...register("nickname", { required: true })}
           type="text"
           placeholder="사용자명을 입력하세요."
           defaultValue={data?.nickname}
+          {...register("nickname", { required: true })}
         />
         <input
-          {...register("bio", { required: true })}
           type="text"
           placeholder="인사말을 입력하세요."
           defaultValue={data?.bio}
+          {...register("bio", { required: true })}
         />
-        <button type="submit">{updating ? "저장중" : "저장"}</button>
+        <button type="submit" disabled={!isValid}>
+          {updating ? "저장중" : "저장"}
+        </button>
       </FixUserForm>
     </UserInfoEditWrapper>
   );
