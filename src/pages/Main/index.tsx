@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { PATH } from "../../App";
 
 function Main() {
   const { currentUser, isLoading, logout } = useAuth();
@@ -22,18 +23,24 @@ function Main() {
       <h2>User Profile</h2>
       <p>Email: {user?.email}</p>
       <p>UID: {user?.uid}</p>
-      <button
-        onClick={() => {
-          console.log("로그아웃");
-
-          logout();
-          console.log("로그아웃2");
-
-          window.location.href = "/";
-        }}
-      >
-        Sign Out
-      </button>
+      {user?.uid ? (
+        <button
+          onClick={() => {
+            logout();
+            window.location.href = "/";
+          }}
+        >
+          Sign Out
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            navigate(PATH.signIn);
+          }}
+        >
+          Sign In
+        </button>
+      )}
     </MainWrapper>
   );
 }

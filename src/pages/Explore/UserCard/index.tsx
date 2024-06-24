@@ -10,8 +10,8 @@ const UserCardWrapper = styled.div`
 `;
 const Nickname = styled.div``;
 const ProFile = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
 `;
 function UserCard({ userInfo }: { userInfo: UserData }) {
   return (

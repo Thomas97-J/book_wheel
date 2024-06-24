@@ -20,6 +20,7 @@ const BottomNavWrapper = styled.div`
   justify-content: space-around;
   position: fixed;
   bottom: 0;
+  background-color: white;
 `;
 
 export default BottomNav;

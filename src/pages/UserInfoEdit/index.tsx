@@ -50,7 +50,9 @@ async function uploadFile(data: {
 }
 
 function UserInfoEdit() {
-  const { register, handleSubmit } = useForm<FixUserInfoFormValue>();
+  const { register, handleSubmit, setError } = useForm<FixUserInfoFormValue>({
+    mode: "onBlur",
+  });
   const { currentUser } = useAuth();
   const uid = currentUser?.uid ?? "";
   const queryClient = useQueryClient();
@@ -65,19 +67,31 @@ function UserInfoEdit() {
   const uploadMutation = useMutation({
     mutationFn: uploadFile,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users_profile_image", uid] });
     },
   });
   const userInfoUpataeMutation = useMutation({
     mutationFn: updateUserData,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users_info_updata", uid] });
     },
   });
+  useEffect(() => {
+    console.log("in");
+  }, []);
+  useEffect(() => {
+    if (data?.profileImage) {
+      setImgPath(data?.profileImage);
+    }
+  }, [data]);
 
   async function sendFixInfo(data: FixUserInfoFormValue) {
     setUpdating(true);
+    console.log("update1", data);
+
     try {
+      console.log("update1");
+
       if (data?.photoFile) {
         const selectedFile: FileObject = data.photoFile[0];
         const downloadURL = await uploadMutation.mutateAsync({
@@ -91,8 +105,10 @@ function UserInfoEdit() {
           uid,
           data: dataWithProfile,
         });
+        console.log("update2");
       } else {
         await userInfoUpataeMutation.mutateAsync({ uid, data });
+        console.log("update3");
       }
     } catch (error: any) {
       console.log(error);
@@ -114,12 +130,6 @@ function UserInfoEdit() {
       };
     }
   }
-
-  useEffect(() => {
-    if (data?.profileImage) {
-      setImgPath(data?.profileImage);
-    }
-  }, [data]);
 
   return (
     <UserInfoEditWrapper>

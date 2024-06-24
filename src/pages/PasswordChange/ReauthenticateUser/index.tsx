@@ -2,11 +2,16 @@ import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useAuth } from "../../../context/AuthContext";
 
 interface PasswordFrom {
   password: string;
 }
-function ReauthenticateUser({ currentUser, reauthDone }) {
+function ReauthenticateUser({
+  reauthDone,
+}: {
+  reauthDone: (bool: boolean) => void;
+}) {
   const {
     register,
     handleSubmit,
@@ -15,12 +20,14 @@ function ReauthenticateUser({ currentUser, reauthDone }) {
     watch,
     formState: { errors, isValid },
   } = useForm<PasswordFrom>({ mode: "onBlur" });
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     // console.log(credential);
   }, []);
   async function reauthenticate(data: PasswordFrom) {
     try {
+      if (!currentUser?.email) return false;
       const credential = EmailAuthProvider.credential(
         currentUser.email,
         data.password

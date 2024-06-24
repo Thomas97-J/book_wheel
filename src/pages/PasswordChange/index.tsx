@@ -62,7 +62,7 @@ function PasswordChange() {
                   "비밀번호는 숫자, 영문 대문자, 소문자, 특수문자를 포함한 8글자 이상이어야 합니다.",
               },
             })}
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="새로운 비밀번호를 입력해주세요."
             type="password"
           />
           <label>비밀번호 확인</label>
@@ -75,7 +75,7 @@ function PasswordChange() {
                   "비밀번호는 숫자, 영문 대,소문자, 특수문자를 포함한 8글자 이상이어야 합니다.",
               },
             })}
-            placeholder="비밀번호를 한번 더 입력해주세요"
+            placeholder="비밀번호를 한번 더 입력해주세요."
             type="password"
           />
           <Warn>{errors?.new_password?.message}</Warn>
@@ -86,7 +86,6 @@ function PasswordChange() {
         </form>
       ) : (
         <ReauthenticateUser
-          currentUser={currentUser}
           reauthDone={(bool: boolean) => {
             setIsReauthUser(bool);
           }}
