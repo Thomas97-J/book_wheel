@@ -15,6 +15,11 @@ function Main() {
     setUser(currentUser);
     console.log("currentUser", currentUser);
   }, [currentUser]);
+
+  useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading]);
+
   return (
     <MainWrapper>
       <Mainheaders />

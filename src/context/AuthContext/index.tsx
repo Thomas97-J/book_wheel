@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "../../firebase";
 
@@ -30,9 +30,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLoading,
   } = useQuery({ queryKey: ["auth"], queryFn: fetchUser });
   const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async () => {
+      return await signOut(auth);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
+    },
+  });
+
   async function logout() {
-    await signOut(auth);
-    queryClient.invalidateQueries({ queryKey: ["usauther"] });
+    mutation.mutateAsync();
   }
 
   return (

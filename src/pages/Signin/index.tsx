@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface SigninFormValue {
   email: string;
@@ -18,20 +19,30 @@ function Signin() {
     formState: { errors, isValid },
   } = useForm<SigninFormValue>({ mode: "onBlur" });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  async function signIn(data: SigninFormValue) {
-    try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+  const mutation = useMutation({
+    mutationFn: async (data: SigninFormValue) => {
+      return signInWithEmailAndPassword(auth, data.email, data.password);
+    },
+    onSuccess: () => {
       navigate(-1);
-    } catch (error) {
-      console.log(error);
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
+    },
+    onError: () => {
       setError(
         "email",
         { message: "이메일 또는 비밀번호를 확인하세요." },
         { shouldFocus: true }
       );
-    }
+    },
+  });
+
+  async function signIn(data: SigninFormValue) {
+    const authData = mutation.mutateAsync(data);
+    console.log(authData);
   }
+
   return (
     <SigninWrapper>
       <div>로고</div>
