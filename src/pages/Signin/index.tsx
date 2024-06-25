@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { signIn } from "../../apis/auth";
 
 interface SigninFormValue {
   email: string;
@@ -22,9 +21,7 @@ function Signin() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (data: SigninFormValue) => {
-      return signInWithEmailAndPassword(auth, data.email, data.password);
-    },
+    mutationFn: signIn,
     onSuccess: () => {
       navigate(-1);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
@@ -38,15 +35,15 @@ function Signin() {
     },
   });
 
-  async function signIn(data: SigninFormValue) {
-    const authData = mutation.mutateAsync(data);
+  async function onSignIn(data: SigninFormValue) {
+    const authData = await mutation.mutateAsync(data);
     console.log(authData);
   }
 
   return (
     <SigninWrapper>
       <div>로고</div>
-      <form onSubmit={handleSubmit(signIn)}>
+      <form onSubmit={handleSubmit(onSignIn)}>
         <label>이메일</label>
         <input
           {...register("email", {

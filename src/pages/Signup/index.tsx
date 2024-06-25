@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { auth } from "../../firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import { checkNicknameExists } from "../../apis/checkNicknameExists";
+import { checkNicknameExists, signUp } from "../../apis/auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface SignupForm {
   nickname: string;
@@ -26,11 +23,20 @@ function Signup() {
     formState: { errors, isValid },
   } = useForm<SignupForm>({ mode: "onBlur" });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const signUpMutation = useMutation({
+    mutationFn: signUp,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["signUp"] });
+    },
+  });
   useEffect(() => {
     console.log("error", errors);
   }, [errors]);
   const nickname = watch("nickname");
-  async function singUp(data: SignupForm) {
+
+  async function onSignup(data: SignupForm) {
     try {
       if (data.password !== data.password_conform) {
         setError(
@@ -39,19 +45,7 @@ function Signup() {
           { shouldFocus: true }
         );
       } else {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          data.email,
-          data.password
-        );
-        const user = userCredential.user;
-        await updateProfile(user, {
-          displayName: data.nickname,
-        });
-        await setDoc(doc(db, "users", user.uid), {
-          tel: data.tel,
-          nickname: data.nickname,
-        });
+        await signUpMutation.mutateAsync(data);
         navigate(-1);
       }
     } catch (error: any) {
@@ -71,7 +65,7 @@ function Signup() {
   }
   return (
     <SignupWrapper>
-      <form onSubmit={handleSubmit(singUp)}>
+      <form onSubmit={handleSubmit(onSignup)}>
         <label>이메일</label>
         <input
           {...register("email", {

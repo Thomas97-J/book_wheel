@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   async function logout() {
-    mutation.mutateAsync();
+    await mutation.mutateAsync();
   }
 
   return (

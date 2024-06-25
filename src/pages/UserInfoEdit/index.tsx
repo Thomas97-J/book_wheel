@@ -1,53 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import imageCompression from "browser-image-compression";
-
-import { db, storage } from "../../firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useAuth } from "../../context/AuthContext";
+import { getUserById, updateUserData } from "../../apis/users";
+import { uploadFile } from "../../apis/firestore";
 
 interface FixUserInfoFormValue {
   nickname: string;
   bio: string;
   photoFile?: any;
-}
-
-interface FileObject extends Blob {
-  name: string;
-  lastModified: number;
-  // lastModifiedDate: Date;
-  webkitRelativePath: string;
-  size: number;
-  type: string;
-}
-
-async function fetchUserData(uid: string) {
-  const userDoc = doc(db, "users", uid);
-  const userSnapshot = await getDoc(userDoc);
-  return userSnapshot.data();
-}
-
-async function updateUserData({ uid, data }: { uid: string; data: any }) {
-  const userDoc = doc(db, "users", uid);
-  await updateDoc(userDoc, {
-    nickname: data?.nickname ?? "",
-    bio: data?.bio ?? "",
-    profileImage: data?.profileImage ?? "",
-  });
-}
-
-async function uploadFile(data: {
-  uid: string;
-  name: string;
-  file: FileObject;
-}) {
-  const imageRef = ref(storage, `${data.uid}/${data.name}`);
-  await uploadBytes(imageRef, data.file);
-  const downloadURL = await getDownloadURL(imageRef);
-  return downloadURL;
 }
 
 function UserInfoEdit() {
@@ -69,7 +32,7 @@ function UserInfoEdit() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["users", uid],
-    queryFn: () => fetchUserData(uid),
+    queryFn: () => getUserById(uid),
   });
   const uploadMutation = useMutation({
     mutationFn: uploadFile,
@@ -83,9 +46,7 @@ function UserInfoEdit() {
       queryClient.invalidateQueries({ queryKey: ["users", uid] });
     },
   });
-  useEffect(() => {
-    console.log("isValid", isValid);
-  }, [isValid]);
+
   useEffect(() => {
     if (data?.profileImage) {
       setImgPath(data?.profileImage);
@@ -99,8 +60,8 @@ function UserInfoEdit() {
       if (data?.photoFile) {
         const selectedFile: FileObject = data.photoFile;
         const options = {
-          maxSizeMB: 0.2, // 이미지 최대 용량
-          maxWidthOrHeight: 256, // 최대 넓이(혹은 높이)
+          maxSizeMB: 0.2,
+          maxWidthOrHeight: 256,
           useWebWorker: true,
         };
         const compressedFile = await imageCompression(selectedFile, options); //이미지 파일 압축
@@ -109,6 +70,7 @@ function UserInfoEdit() {
           uid,
           name: compressedFile.name,
           file: compressedFile,
+          path: `${uid}/${compressedFile.name}`,
         });
         console.log(downloadURL);
         const dataWithProfile = { ...data, profileImage: downloadURL };

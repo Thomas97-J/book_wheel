@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { db } from "../../../firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import imgPaths from "../../../assets/images/image_path";
-
-async function fetchUserData(uid: string) {
-  const userDoc = doc(db, "users", uid);
-  const userSnapshot = await getDoc(userDoc);
-  console.log(userSnapshot.data());
-  return userSnapshot.data();
-}
+import { getUserById } from "../../../apis/users";
 
 function ProfileAndInfo() {
   const { currentUser } = useAuth();
@@ -21,7 +13,7 @@ function ProfileAndInfo() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["user_profile", uid],
-    queryFn: () => fetchUserData(uid),
+    queryFn: () => getUserById(uid),
   });
 
   if (isLoading) return <div>Loading...</div>;

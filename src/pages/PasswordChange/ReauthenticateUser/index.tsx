@@ -1,8 +1,7 @@
-import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useAuth } from "../../../context/AuthContext";
+import { reauthenticate } from "../../../apis/auth";
+import { useMutation } from "@tanstack/react-query";
 
 interface PasswordFrom {
   password: string;
@@ -16,42 +15,26 @@ function ReauthenticateUser({
     register,
     handleSubmit,
     setError,
-    clearErrors,
-    watch,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<PasswordFrom>({ mode: "onBlur" });
-  const { currentUser } = useAuth();
+  const mutation = useMutation({ mutationFn: reauthenticate });
 
-  useEffect(() => {
-    // console.log(credential);
-  }, []);
-  async function reauthenticate(data: PasswordFrom) {
+  async function onReauthenticate(data: PasswordFrom) {
     try {
-      if (!currentUser?.email) return false;
-      const credential = EmailAuthProvider.credential(
-        currentUser.email,
-        data.password
+      await mutation.mutateAsync(data);
+      reauthDone(true);
+    } catch (error) {
+      setError(
+        "password",
+        { message: "비밀번호를 확인하세요." },
+        { shouldFocus: true }
       );
-
-      await reauthenticateWithCredential(currentUser, credential)
-        .then(() => {
-          reauthDone(true);
-        })
-        .catch((error) => {
-          setError(
-            "password",
-            { message: "비밀번호를 확인하세요." },
-            { shouldFocus: true }
-          );
-          reauthDone(false);
-        });
-    } catch {
-      console.log("");
+      reauthDone(false);
     }
   }
 
   return (
-    <ReauthenticateUserWrapper onSubmit={handleSubmit(reauthenticate)}>
+    <ReauthenticateUserWrapper onSubmit={handleSubmit(onReauthenticate)}>
       <input
         {...register("password", {
           required: true,

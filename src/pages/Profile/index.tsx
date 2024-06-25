@@ -1,18 +1,9 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import { db } from "../../firebase";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import imgPaths from "../../assets/images/image_path";
-
-async function fetchUserByNickname(nickname: string) {
-  const usersRef = collection(db, "users");
-  const q = query(usersRef, where("nickname", "==", nickname));
-  const querySnapshot = await getDocs(q);
-  const user = querySnapshot.docs[0].data();
-  return user;
-}
+import { getUserByNickname } from "../../apis/users";
 
 function Profile() {
   const [query, setQuery] = useSearchParams();
@@ -21,7 +12,7 @@ function Profile() {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["users"],
-    queryFn: () => fetchUserByNickname(nickname),
+    queryFn: () => getUserByNickname(nickname),
   });
 
   useEffect(() => {

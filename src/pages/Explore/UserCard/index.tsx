@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { UserData } from "..";
 import imgPaths from "../../../assets/images/image_path";
 import { Link } from "react-router-dom";
 

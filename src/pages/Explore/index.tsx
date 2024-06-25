@@ -1,25 +1,13 @@
-import { collection, doc, getDocs, query } from "firebase/firestore";
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { db } from "../../firebase";
 import { useQuery } from "@tanstack/react-query";
 import UserCard from "./UserCard";
-
-export interface UserData {
-  id: string;
-  nickname?: string;
-  profileImage?: string;
-}
-
-async function fetchUserData(): Promise<UserData[]> {
-  const userSnapshot = await getDocs(collection(db, "users"));
-  return userSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-}
+import { getAllUsers } from "../../apis/users";
 
 function Explore() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["users_all"],
-    queryFn: fetchUserData,
+    queryFn: getAllUsers,
   });
 
   useEffect(() => {

@@ -1,10 +1,10 @@
-import { updatePassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useAuth } from "../../context/AuthContext";
 import ReauthenticateUser from "./ReauthenticateUser";
 import { useNavigate } from "react-router-dom";
+import { passwordUpdate } from "../../apis/auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface PasswordChangeFrom {
   new_password: string;
@@ -20,9 +20,16 @@ function PasswordChange() {
     watch,
     formState: { errors, isValid },
   } = useForm<PasswordChangeFrom>({ mode: "onBlur" });
-  const { currentUser } = useAuth();
   const [isReauthUser, setIsReauthUser] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: passwordUpdate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["password_change"] });
+    },
+  });
   async function passwordChange(data: PasswordChangeFrom) {
     try {
       if (data.new_password !== data.password_conform) {
@@ -33,10 +40,8 @@ function PasswordChange() {
         );
         return;
       }
-      if (currentUser) {
-        await updatePassword(currentUser, data.new_password);
-        navigate(-1);
-      }
+      await mutation.mutateAsync(data.new_password);
+      navigate(-1);
     } catch (error: any) {
       console.log("");
     }
