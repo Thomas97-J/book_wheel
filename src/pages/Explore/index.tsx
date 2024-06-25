@@ -28,17 +28,12 @@ function Explore() {
       queryClient.setQueryData(["users_all"], searchResults);
     },
   });
-  const {
-    register,
-    handleSubmit,
-    setError,
-    clearErrors,
-    watch,
-    // formState: { errors, isValid },
-  } = useForm<Search>({ mode: "onChange" });
+  const { register, handleSubmit } = useForm<Search>({ mode: "onChange" });
+
   useEffect(() => {
     console.log("explore", data);
   }, [data]);
+
   const debouncedSearch = useMemo(
     () =>
       _.debounce(async (keyword: string) => {
