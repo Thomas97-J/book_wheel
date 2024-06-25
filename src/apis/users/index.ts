@@ -26,6 +26,18 @@ export async function getUserByNickname(nickname: string) {
   const user = querySnapshot.docs[0].data();
   return user;
 }
+export async function getUsersByNickname(nickname: string) {
+  const usersRef = collection(db, "users");
+
+  const q = query(
+    usersRef,
+    where("nickname", ">=", nickname),
+    where("nickname", "<=", nickname + "\uf8ff")
+  );
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
 export async function updateUserData({
   uid,
   data,
