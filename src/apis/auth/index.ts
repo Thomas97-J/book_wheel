@@ -19,6 +19,8 @@ import {
 } from "firebase/auth";
 import { EmailAuthProvider } from "firebase/auth/web-extension";
 
+// create
+
 export async function signUp(data: {
   nickname: string;
   email: string;
@@ -42,6 +44,8 @@ export async function signUp(data: {
   });
 }
 
+//read
+
 export async function signIn(data: { email: string; password: string }) {
   return signInWithEmailAndPassword(auth, data.email, data.password);
 }
@@ -60,18 +64,12 @@ export async function reauthenticate(data: { password: string }) {
     throw error;
   }
 }
-export async function passwordUpdate(newPassword: string) {
-  if (auth.currentUser) {
-    await updatePassword(auth.currentUser, newPassword);
-  }
-}
 export async function checkNicknameExists(nickname: string) {
   const usersRef = collection(db, "users");
   const q = query(usersRef, where("nickname", "==", nickname));
   const querySnapshot = await getDocs(q);
   return !querySnapshot.empty;
 }
-
 export async function handleGoogleLogin() {
   const provider = new GoogleAuthProvider(); // provider 구글 설정
   try {
@@ -96,5 +94,13 @@ export async function handleGoogleLogin() {
     }
   } catch (err) {
     console.error("Error during Google login", err);
+  }
+}
+
+//update
+
+export async function passwordUpdate(newPassword: string) {
+  if (auth.currentUser) {
+    await updatePassword(auth.currentUser, newPassword);
   }
 }

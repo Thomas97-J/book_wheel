@@ -10,3 +10,11 @@ interface FileObject extends Blob {
   size: number;
   type: string;
 }
+
+interface Post {
+  title: string;
+  content: string;
+  uid: string;
+  createdAt: Date;
+  id: string;
+}

@@ -23,6 +23,7 @@ const queryClient = new QueryClient();
 const Signin = React.lazy(() => import("./pages/Signin"));
 const Explore = React.lazy(() => import("./pages/Explore"));
 const NewPost = React.lazy(() => import("./pages/NewPost"));
+const PostDetail = React.lazy(() => import("./pages/PostDetail"));
 
 export const PATH = {
   main: "",
@@ -35,6 +36,7 @@ export const PATH = {
   explore: "/explore",
   passwordChange: "/my/change_password",
   newPost: "/newpost",
+  postDetail: "/post/detail",
 };
 
 function App() {
@@ -70,6 +72,8 @@ function App() {
                 path={PATH.newPost}
                 element={<ProtectRoute component={NewPost} />}
               />
+              <Route path={PATH.postDetail} element={<PostDetail />} />
+
               <Route path={PATH.profile} element={<Profile />} />
               <Route path={PATH.notFound} element={<NotFound />} />
             </Routes>

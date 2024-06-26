@@ -9,6 +9,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
+//get
+
 export async function getAllUsers(): Promise<UserData[]> {
   const userSnapshot = await getDocs(collection(db, "users"));
   return userSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -38,6 +40,8 @@ export async function getUsersByNickname(nickname: string) {
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
+//update
+
 export async function updateUserData({
   uid,
   data,
@@ -50,5 +54,6 @@ export async function updateUserData({
     nickname: data?.nickname ?? "",
     bio: data?.bio ?? "",
     profileImage: data?.profileImage ?? "",
+    updatedAt: new Date(),
   });
 }

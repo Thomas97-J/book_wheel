@@ -7,7 +7,6 @@ import { useAuth } from "../../context/AuthContext";
 import { getUserById, updateUserData } from "../../apis/users";
 import { uploadFile } from "../../apis/firestore";
 import imgPaths from "../../assets/images/image_path";
-import { deleteObject } from "firebase/storage";
 
 interface FixUserInfoFormValue {
   nickname: string;

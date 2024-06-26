@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../App";
+import PostSection from "./PostSection";
 
 function Main() {
   const { currentUser, isLoading, logout } = useAuth();
@@ -24,7 +25,7 @@ function Main() {
     <MainWrapper>
       <Mainheaders />
       <Banner>배너 색션</Banner>
-      <CommunityBoard>게시글 섹션</CommunityBoard>
+      <PostSection />
       <NewPostButton to={PATH.newPost}>새 글 쓰기</NewPostButton>
     </MainWrapper>
   );
