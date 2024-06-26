@@ -6,7 +6,7 @@ import { deletePost } from "../../../../apis/posts";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../App";
 
-function PostHeader({ user, postData, postId }) {
+function PostHeader({ user, postData }) {
   const deleteMutation = useMutation({ mutationFn: deletePost });
   const navigate = useNavigate();
   const dropDownOptions = [
@@ -14,15 +14,15 @@ function PostHeader({ user, postData, postId }) {
       label: "삭제",
       clickFunction: async () => {
         console.log("삭제 클릭");
-        await deleteMutation.mutateAsync(postId);
+        await deleteMutation.mutateAsync(postData.id);
         navigate(-1);
       },
     },
     {
       label: "수정",
       clickFunction: () => {
-        console.log("수정 클릭", postData, postId);
-        navigate(`${PATH.postEdit}?id=${postId}`);
+        console.log("수정 클릭", postData);
+        navigate(`${PATH.postEdit}?no=${postData.index}`);
       },
     },
   ];
@@ -38,13 +38,15 @@ function PostHeader({ user, postData, postId }) {
   );
 }
 const PostHeaderWrapper = styled.header`
-  height: 60px;
-  border-bottom: solid 1px;
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   position: fixed;
   top: 0;
+
+  height: 60px;
+  border-bottom: solid 1px;
+  width: 100vw;
+
   button {
     width: 100px;
     margin: 10px;

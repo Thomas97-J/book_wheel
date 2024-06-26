@@ -3,7 +3,14 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { createPost, getPostById, updatePost } from "../../apis/posts";
+import {
+  createPost,
+  createPostWithIndex,
+  getPostById,
+  getPostByIndex,
+  updatePost,
+  updatePostByIndex,
+} from "../../apis/posts";
 import { useAuth } from "../../context/AuthContext";
 import { PATH } from "../../App";
 
@@ -25,13 +32,13 @@ function NewPost() {
   const [updating, setUpdating] = useState(false);
   const queryClient = useQueryClient();
   const createMutation = useMutation({
-    mutationFn: createPost,
+    mutationFn: createPostWithIndex,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post_detail"] });
     },
   });
   const updateMutation = useMutation({
-    mutationFn: updatePost,
+    mutationFn: updatePostByIndex,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post_detail"] });
     },
@@ -39,18 +46,18 @@ function NewPost() {
 
   const { currentUser } = useAuth();
   const [query, setQuery] = useSearchParams();
-  const postId = query.get("id") ?? "";
+  const postIndex = parseInt(query.get("no") ?? "");
 
   const { data, isLoading, error } = useQuery<Post>({
     queryKey: ["post_detail"],
-    queryFn: () => getPostById(postId),
-    enabled: !!postId,
+    queryFn: () => getPostByIndex(postIndex),
+    enabled: !!postIndex,
     staleTime: Infinity, // 데이터를 다시 가져오지 않도록 설정
   });
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data && postId) {
+    if (data && postIndex) {
       if (!currentUser || (currentUser && currentUser?.uid !== data.uid)) {
         alert("잘못된 접근입니다.");
         navigate(-1);
@@ -62,29 +69,28 @@ function NewPost() {
         setValue("title", data?.title);
       }
     }
-    return () => {};
-  }, [data]);
+  }, [data, currentUser, navigate, postIndex, setValue]);
 
   async function onPostSubmit(postData: PostValue) {
     console.log("post", postData);
     setUpdating(true);
 
     try {
-      if (postId) {
+      if (postIndex) {
         await updateMutation.mutateAsync({
           uid: currentUser?.uid || "",
-          postId: postId,
+          index: postIndex,
           title: postData.title,
           content: postData.content,
         });
-        navigate(`${PATH.postDetail}?id=${postId}`);
+        navigate(`${PATH.postDetail}?no=${postIndex}`);
       } else {
-        const newPostId = await createMutation.mutateAsync({
+        const postIndex = await createMutation.mutateAsync({
           uid: currentUser?.uid || "",
           title: postData.title,
           content: postData.content,
         });
-        navigate(`${PATH.postDetail}?id=${newPostId}`);
+        navigate(`${PATH.postDetail}?no=${postIndex}`);
       }
     } catch (err) {
       console.log("err", err);
@@ -116,7 +122,7 @@ function NewPost() {
           type="text"
           placeholder="제목을 입력하세요."
         />
-        <textarea {...register("content")}></textarea>
+        <ContentArea {...register("content")}></ContentArea>
       </PostForm>
     </NewPostWrapper>
   );
@@ -135,5 +141,7 @@ const NewPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
+const ContentArea = styled.textarea`
+  min-height: 500px;
+`;
 export default NewPost;

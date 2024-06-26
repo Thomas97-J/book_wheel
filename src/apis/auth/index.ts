@@ -75,7 +75,6 @@ export async function handleGoogleLogin() {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    console.log("user", user); // console에 UserCredentialImpl 출력
 
     // Firestore에서 해당 유저의 문서가 있는지 확인
     const userDocRef = doc(db, "users", user.uid);

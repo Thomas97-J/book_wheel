@@ -12,9 +12,11 @@ interface FileObject extends Blob {
 }
 
 interface Post {
+  id?: string;
   title: string;
   content: string;
   uid: string;
   createdAt: Date;
+  index: number;
   id: string;
 }

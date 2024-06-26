@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { getPostById } from "../../apis/posts";
+import { getPostById, getPostByIndex } from "../../apis/posts";
 import { useSearchParams } from "react-router-dom";
 import Fallback from "../../components/mobile/Fallback";
 import UserInfo from "./UserInfo";
@@ -10,15 +10,16 @@ import { useAuth } from "../../context/AuthContext";
 
 function PostDetail() {
   const [query, setQuery] = useSearchParams();
-  const postId = query.get("id") ?? "";
+  const postIndex = parseInt(query.get("no") ?? "");
+
   const { data, isLoading, error } = useQuery<Post>({
     queryKey: ["post_detail"],
-    queryFn: () => getPostById(postId),
+    queryFn: () => getPostByIndex(postIndex),
   });
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    console.log(data);
+    console.log("포스트디테일", data);
   }, [data]);
 
   if (isLoading) {
@@ -26,7 +27,7 @@ function PostDetail() {
   }
   return (
     <PostDetailWrapper>
-      <PostHeader user={currentUser} postData={data} postId={postId} />
+      <PostHeader user={currentUser} postData={data} />
       <UserInfo uid={data?.uid || ""} />
       <h2>{data?.title}</h2>
       <div>{data?.content}</div>

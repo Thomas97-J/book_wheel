@@ -37,6 +37,7 @@ function PostSection() {
             title={post.title}
             content={post.content}
             uid={post.uid}
+            index={post.index}
             createdAt={post.createdAt}
           />
         );

@@ -58,7 +58,6 @@ function DropDown({ options, buttonInner }: DropDownProps) {
 
 const DropDownWrapper = styled.div`
   position: relative;
-  width: 200px;
 `;
 
 const DropDownBtn = styled.button`
@@ -68,6 +67,7 @@ const DropDownBtn = styled.button`
 
 const DropDownList = styled.ul`
   position: absolute;
+  right: 0;
   width: 100%;
   margin: 0;
   padding: 0;
