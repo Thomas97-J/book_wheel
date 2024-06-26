@@ -5,10 +5,7 @@ import { getPostById } from "../../apis/posts";
 import { useSearchParams } from "react-router-dom";
 import Fallback from "../../components/mobile/Fallback";
 import UserInfo from "./UserInfo";
-
-const PostDetailWrapper = styled.div`
-  /* Add your styles here */
-`;
+import PostHeader from "../../components/mobile/headers/PostHeader";
 
 function PostDetail() {
   const [query, setQuery] = useSearchParams();
@@ -27,11 +24,21 @@ function PostDetail() {
   }
   return (
     <PostDetailWrapper>
+      <PostHeader />
       <UserInfo uid={data?.uid || ""} />
       <h2>{data?.title}</h2>
       <div>{data?.content}</div>
     </PostDetailWrapper>
   );
 }
+const PostDetailWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  padding: 60px 0 60px;
+  position: relative;
+`;
 
 export default PostDetail;

@@ -6,6 +6,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -22,6 +23,23 @@ export async function createPost(newPostData: {
     createdAt: new Date(),
   });
 }
+
+export async function updatePost(newPostData: {
+  uid: string;
+  postId: string;
+  title: string;
+  content: string;
+}) {
+  const postDoc = doc(db, "posts", newPostData.postId);
+
+  await updateDoc(postDoc, {
+    uid: newPostData.uid,
+    title: newPostData.title,
+    content: newPostData.content,
+    updatedAt: new Date(),
+  });
+}
+
 export async function getAllPosts(): Promise<Post[]> {
   try {
     const querySnapshot = await getDocs(collection(db, "posts"));

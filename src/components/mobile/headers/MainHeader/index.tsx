@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useAuth } from "../../../../context/AuthContext";
 import { PATH } from "../../../../App";
 import { useNavigate } from "react-router-dom";
+import DropDown from "../../../common/DropDown";
 
 const MainheadersWrapper = styled.header`
   height: 60px;
@@ -26,10 +27,23 @@ const MainheadersWrapper = styled.header`
 function Mainheaders() {
   const { currentUser, isLoading, logout } = useAuth();
   const navigate = useNavigate();
-
+  const dropDownOptions = [
+    {
+      label: "지역1",
+      clickFunction: () => {
+        console.log("지역1 클릭");
+      },
+    },
+    {
+      label: "지역2",
+      clickFunction: () => {
+        console.log("지역2 클릭");
+      },
+    },
+  ];
   return (
     <MainheadersWrapper>
-      <button>지역 선택</button>
+      <DropDown options={dropDownOptions} buttonInner={"지역 선택"} />
       {currentUser?.uid ? (
         <button
           onClick={async () => {

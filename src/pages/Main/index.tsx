@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Mainheaders from "../../components/mobile/headers/Mainheaders";
+import Mainheaders from "../../components/mobile/headers/MainHeader";
 import { useAuth } from "../../context/AuthContext";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -26,18 +26,12 @@ function Main() {
       <Mainheaders />
       <Banner>배너 색션</Banner>
       <PostSection />
-      <NewPostButton to={PATH.newPost}>새 글 쓰기</NewPostButton>
+      <NewPostButton to={PATH.postEdit}>새 글 쓰기</NewPostButton>
     </MainWrapper>
   );
 }
 const Banner = styled.div`
   height: 200px;
-  width: 100%;
-  border: solid 1px;
-`;
-
-const CommunityBoard = styled.div`
-  height: 100%;
   width: 100%;
   border: solid 1px;
 `;
