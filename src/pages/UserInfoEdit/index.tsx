@@ -6,6 +6,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../context/AuthContext";
 import { getUserById, updateUserData } from "../../apis/users";
 import { uploadFile } from "../../apis/firestore";
+import imgPaths from "../../assets/images/image_path";
+import { deleteObject } from "firebase/storage";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -57,33 +59,44 @@ function UserInfoEdit() {
     }
   }, [data, setValue]);
 
-  async function sendFixInfo(data: FixUserInfoFormValue) {
+  async function uplodeImgFile(imgFile: FileObject) {
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 256,
+      useWebWorker: true,
+      fileType: "image/jpeg",
+    };
+    const compressedFile = await imageCompression(imgFile, options); //이미지 파일 압축
+
+    const downloadURL = await uploadMutation.mutateAsync({
+      file: compressedFile,
+      path: `${uid}/profile/profileImg`,
+    });
+    console.log("이미지네임", compressedFile.name);
+
+    return downloadURL;
+  }
+
+  async function sendFixInfo(profileData: FixUserInfoFormValue) {
     setUpdating(true);
 
     try {
-      if (data?.photoFile) {
-        const selectedFile: FileObject = data.photoFile;
-        const options = {
-          maxSizeMB: 0.2,
-          maxWidthOrHeight: 256,
-          useWebWorker: true,
-        };
-        const compressedFile = await imageCompression(selectedFile, options); //이미지 파일 압축
-
-        const downloadURL = await uploadMutation.mutateAsync({
-          uid,
-          name: compressedFile.name,
-          file: compressedFile,
-          path: `${uid}/${compressedFile.name}`,
-        });
+      if (profileData?.photoFile) {
+        if (data?.profileImage) {
+          console.log(data?.profileImage);
+        }
+        const downloadURL = await uplodeImgFile(profileData.photoFile);
         console.log(downloadURL);
-        const dataWithProfile = { ...data, profileImage: downloadURL };
+        const dataWithProfile = {
+          ...profileData,
+          profileImage: downloadURL,
+        };
         await userInfoUpataeMutation.mutateAsync({
           uid,
           data: dataWithProfile,
         });
       } else {
-        await userInfoUpataeMutation.mutateAsync({ uid, data });
+        await userInfoUpataeMutation.mutateAsync({ uid, data: profileData });
       }
     } catch (error: any) {
       console.log(error);
@@ -91,6 +104,7 @@ function UserInfoEdit() {
       setUpdating(false);
     }
   }
+
   function saveImgFile() {
     if (
       imgRef.current &&
@@ -110,7 +124,7 @@ function UserInfoEdit() {
   return (
     <UserInfoEditWrapper>
       <ProFile
-        src={imgPath ? imgPath : "/src/assets/images/icons8-user-64.png"}
+        src={imgPath ? imgPath : imgPaths.defaultProfileImage}
         alt="이미지 업로드"
       />
       <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
