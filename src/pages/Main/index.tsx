@@ -23,37 +23,53 @@ function Main() {
   return (
     <MainWrapper>
       <Mainheaders />
-      <Link to="/signup">회원가입</Link>
-      <Link to="/my">마이페이지</Link>
-      <h2>User Profile</h2>
-      <p>Email: {user?.email}</p>
-      <p>UID: {user?.uid}</p>
-      {user?.uid ? (
-        <button
-          onClick={() => {
-            logout();
-          }}
-        >
-          Sign Out
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            navigate(PATH.signIn);
-          }}
-        >
-          Sign In
-        </button>
-      )}
+      <Banner>배너 색션</Banner>
+      <CommunityBoard>게시글 섹션</CommunityBoard>
+      <NewPostButton to={PATH.newPost}>+</NewPostButton>
     </MainWrapper>
   );
 }
+const Banner = styled.div`
+  height: 200px;
+  width: 100%;
+  border: solid 1px;
+`;
+
+const CommunityBoard = styled.div`
+  height: 100%;
+  width: 100%;
+  border: solid 1px;
+`;
+
+const NewPostButton = styled(Link)`
+  display: flex;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 10;
+
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
 const MainWrapper = styled.div`
   width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 60px 10px 60px;
+  position: relative;
 `;
 
 export default Main;

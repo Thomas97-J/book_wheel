@@ -5,12 +5,15 @@ import {
   getDocs,
   doc,
   setDoc,
+  getDoc,
 } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   reauthenticateWithCredential,
   signInWithEmailAndPassword,
+  signInWithPopup,
   updatePassword,
   updateProfile,
 } from "firebase/auth";
@@ -35,6 +38,7 @@ export async function signUp(data: {
   await setDoc(doc(db, "users", user.uid), {
     tel: data.tel,
     nickname: data.nickname,
+    createdAt: new Date(),
   });
 }
 
@@ -66,4 +70,31 @@ export async function checkNicknameExists(nickname: string) {
   const q = query(usersRef, where("nickname", "==", nickname));
   const querySnapshot = await getDocs(q);
   return !querySnapshot.empty;
+}
+
+export async function handleGoogleLogin() {
+  const provider = new GoogleAuthProvider(); // provider 구글 설정
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log("user", user); // console에 UserCredentialImpl 출력
+
+    // Firestore에서 해당 유저의 문서가 있는지 확인
+    const userDocRef = doc(db, "users", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    // 문서가 없으면 새로 생성
+    if (!userDocSnap.exists()) {
+      await setDoc(userDocRef, {
+        uid: user.uid,
+        nickname: user.displayName,
+        createdAt: new Date(),
+      });
+      console.log("New user document created");
+    } else {
+      console.log("User document already exists");
+    }
+  } catch (err) {
+    console.error("Error during Google login", err);
+  }
 }

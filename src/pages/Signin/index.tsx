@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signIn } from "../../apis/auth";
+import { handleGoogleLogin, signIn } from "../../apis/auth";
 
 interface SigninFormValue {
   email: string;
@@ -20,7 +20,7 @@ function Signin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  const signInMutation = useMutation({
     mutationFn: signIn,
     onSuccess: () => {
       navigate(-1);
@@ -35,8 +35,22 @@ function Signin() {
     },
   });
 
+  const googleSignInMutation = useMutation({
+    mutationFn: handleGoogleLogin,
+    onSuccess: () => {
+      navigate(-1);
+      queryClient.invalidateQueries({ queryKey: ["auth"] });
+    },
+    onError: () => {
+      setError(
+        "email",
+        { message: "이메일 또는 비밀번호를 확인하세요." },
+        { shouldFocus: true }
+      );
+    },
+  });
   async function onSignIn(data: SigninFormValue) {
-    const authData = await mutation.mutateAsync(data);
+    const authData = await signInMutation.mutateAsync(data);
     console.log(authData);
   }
 
@@ -70,6 +84,14 @@ function Signin() {
         </button>
       </form>
       <Link to={"/signup"}>회원가입</Link>
+      <button
+        onClick={async () => {
+          await googleSignInMutation.mutateAsync();
+          navigate(-1);
+        }}
+      >
+        구글 로그인
+      </button>
     </SigninWrapper>
   );
 }
