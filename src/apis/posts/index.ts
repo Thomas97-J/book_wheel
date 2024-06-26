@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -16,12 +17,13 @@ export async function createPost(newPostData: {
   title: string;
   content: string;
 }) {
-  await addDoc(collection(db, "posts"), {
+  const docRef = await addDoc(collection(db, "posts"), {
     uid: newPostData.uid,
     title: newPostData.title,
     content: newPostData.content,
     createdAt: new Date(),
   });
+  return docRef.id;
 }
 
 export async function updatePost(newPostData: {
@@ -59,6 +61,7 @@ export async function getAllPosts(): Promise<Post[]> {
     throw error;
   }
 }
+
 export async function getUserPosts(userId: string) {
   try {
     const postsQuery = query(
@@ -87,6 +90,17 @@ export async function getPostById(postId: string): Promise<Post> {
     return data as Post;
   } catch (error) {
     console.error("Error fetching user posts: ", error);
+    throw error;
+  }
+}
+
+export async function deletePost(postId: string) {
+  try {
+    const postRef = doc(db, "posts", postId);
+    await deleteDoc(postRef);
+    console.log("Post successfully deleted!");
+  } catch (error) {
+    console.error("Error deleting post:", error);
     throw error;
   }
 }

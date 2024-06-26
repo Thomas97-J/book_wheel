@@ -1,26 +1,39 @@
 import React from "react";
 import styled from "styled-components";
 import DropDown from "../../../common/DropDown";
+import { useMutation } from "@tanstack/react-query";
+import { deletePost } from "../../../../apis/posts";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../../../../App";
 
-function PostHeader() {
+function PostHeader({ user, postData, postId }) {
+  const deleteMutation = useMutation({ mutationFn: deletePost });
+  const navigate = useNavigate();
   const dropDownOptions = [
     {
       label: "삭제",
-      clickFunction: () => {
+      clickFunction: async () => {
         console.log("삭제 클릭");
+        await deleteMutation.mutateAsync(postId);
+        navigate(-1);
       },
     },
     {
       label: "수정",
       clickFunction: () => {
-        console.log("수정 클릭");
+        console.log("수정 클릭", postData, postId);
+        navigate(`${PATH.postEdit}?id=${postId}`);
       },
     },
   ];
 
   return (
     <PostHeaderWrapper>
-      <DropDown options={dropDownOptions} buttonInner={"드롭다운"} />
+      {user.uid === postData.uid ? (
+        <DropDown options={dropDownOptions} buttonInner={"드롭다운"} />
+      ) : (
+        ""
+      )}
     </PostHeaderWrapper>
   );
 }
