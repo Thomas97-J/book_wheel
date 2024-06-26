@@ -51,7 +51,11 @@ function UserInfoEdit() {
     if (data?.profileImage) {
       setImgPath(data?.profileImage);
     }
-  }, [data]);
+    if (data) {
+      setValue("nickname", data.nickname);
+      setValue("bio", data.bio);
+    }
+  }, [data, setValue]);
 
   async function sendFixInfo(data: FixUserInfoFormValue) {
     setUpdating(true);
@@ -120,13 +124,11 @@ function UserInfoEdit() {
         <input
           type="text"
           placeholder="사용자명을 입력하세요."
-          defaultValue={data?.nickname}
           {...register("nickname", { required: true })}
         />
         <input
           type="text"
           placeholder="인사말을 입력하세요."
-          defaultValue={data?.bio}
           {...register("bio", { required: true })}
         />
         <button type="submit" disabled={!isValid}>

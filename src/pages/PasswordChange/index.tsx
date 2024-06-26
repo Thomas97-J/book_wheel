@@ -106,11 +106,13 @@ const Warn = styled.p`
   font-weight: 700;
 `;
 const PasswordChangeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
   width: 100vw;
   align-items: center;
   justify-content: center;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export default PasswordChange;
