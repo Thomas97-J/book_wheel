@@ -57,11 +57,12 @@ function Explore() {
   return (
     <ExploreWrapper>
       <form onSubmit={handleSubmit(onSearch)}>
-        <input
+        <SearchInput
           {...register("keyword", { required: true })}
           onChange={(e) => {
             onSearch({ type: SearchType.User, keyword: e.target.value });
           }}
+          placeholder="검색어를 입력하세요."
           type="text"
         />
       </form>
@@ -75,5 +76,8 @@ const ExploreWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-
+const SearchInput = styled.input`
+  height: 40px;
+  width: 100%;
+`;
 export default Explore;
