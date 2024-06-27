@@ -14,6 +14,8 @@ const MainheadersWrapper = styled.header`
   justify-content: space-between;
   position: fixed;
   top: 0;
+  background-color: #fff;
+  z-index: 100;
   button {
     width: 100px;
     margin: 10px;

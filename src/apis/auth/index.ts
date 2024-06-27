@@ -47,7 +47,39 @@ export async function signUp(data: {
 //read
 
 export async function signIn(data: { email: string; password: string }) {
-  return signInWithEmailAndPassword(auth, data.email, data.password);
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      data.email,
+      data.password
+    );
+    console.log("User successfully signed in:", userCredential);
+    return userCredential;
+  } catch (error: any) {
+    let errorMessage = "Failed to sign in.";
+    if (error.code) {
+      switch (error.code) {
+        case "auth/invalid-email":
+          errorMessage = "The email address is badly formatted.";
+          break;
+        case "auth/user-disabled":
+          errorMessage =
+            "The user corresponding to the given email has been disabled.";
+          break;
+        case "auth/user-not-found":
+          errorMessage = "There is no user corresponding to the given email.";
+          break;
+        case "auth/wrong-password":
+          errorMessage = "The password is invalid for the given email.";
+          break;
+        default:
+          errorMessage = error.message;
+          break;
+      }
+    }
+    console.error("Error signing in:", errorMessage);
+    throw new Error(errorMessage);
+  }
 }
 
 export async function reauthenticate(data: { password: string }) {

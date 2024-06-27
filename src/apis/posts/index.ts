@@ -19,6 +19,7 @@ export async function createPost(newPostData: {
   uid: string;
   title: string;
   content: string;
+  category?: string;
 }) {
   const docRef = await addDoc(collection(db, "posts"), {
     uid: newPostData.uid,
@@ -37,6 +38,7 @@ export async function createPostWithIndex(newPostData: {
   uid: string;
   title: string;
   content: string;
+  category?: string;
 }) {
   try {
     const postIndex = await runTransaction(db, async (transaction) => {
@@ -61,6 +63,7 @@ export async function createPostWithIndex(newPostData: {
         uid: newPostData.uid,
         title: newPostData.title,
         content: newPostData.content,
+        category: newPostData.category,
         createdAt: new Date(),
         index: newIndex,
       });
@@ -79,6 +82,7 @@ export async function updatePost(newPostData: {
   postId: string;
   title: string;
   content: string;
+  category?: string;
 }) {
   const postDoc = doc(db, "posts", newPostData.postId);
 
@@ -95,6 +99,7 @@ export async function updatePostByIndex(newPostData: {
   index: number;
   title: string;
   content: string;
+  category?: string;
 }) {
   try {
     //인덱스 찾기
@@ -112,6 +117,7 @@ export async function updatePostByIndex(newPostData: {
       uid: newPostData.uid,
       title: newPostData.title,
       content: newPostData.content,
+      category: newPostData.category,
       updatedAt: new Date(),
     });
   } catch (error) {

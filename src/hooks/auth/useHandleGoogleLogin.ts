@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { handleGoogleLogin, signIn } from "../../apis/auth";
+import { handleGoogleLogin } from "../../apis/auth";
 
 export default function useHandleGoogleLogin({
   onSuccess,
@@ -13,8 +13,8 @@ export default function useHandleGoogleLogin({
   const signInMutation = useMutation({
     mutationFn: handleGoogleLogin,
     onSuccess: () => {
-      onSuccess();
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      onSuccess();
     },
     onError: () => {
       onError();

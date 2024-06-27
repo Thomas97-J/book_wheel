@@ -16,7 +16,8 @@ interface Post {
   title: string;
   content: string;
   uid: string;
-  createdAt: Date;
-  index: number;
-  id: string;
+  createdAt?: Date;
+  updatadAt?: Date;
+  category?: string;
+  index?: number;
 }

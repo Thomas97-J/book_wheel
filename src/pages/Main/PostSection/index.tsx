@@ -5,12 +5,6 @@ import Fallback from "../../../components/mobile/Fallback";
 import PostCard from "./PostCard";
 import useGetAllPosts from "../../../hooks/posts/useGetAllPosts";
 
-const PostSectionWrapper = styled.div`
-  height: 100%;
-  width: 100%;
-  border: solid 1px;
-`;
-
 function PostSection() {
   const { postDatas, isLoading, error } = useGetAllPosts();
 
@@ -24,8 +18,8 @@ function PostSection() {
 
   return (
     <PostSectionWrapper>
+      <StickyMenu>카테고리</StickyMenu>
       {postDatas?.map((post: Post) => {
-        console.log(post);
         return (
           <PostCard
             key={post.id}
@@ -41,5 +35,16 @@ function PostSection() {
     </PostSectionWrapper>
   );
 }
-
+const PostSectionWrapper = styled.div`
+  min-height: 70vh;
+  width: 100%;
+  border: solid 1px;
+  position: relative;
+`;
+const StickyMenu = styled.div`
+  position: sticky;
+  background: #fff;
+  top: 60px;
+  height: 50px;
+`;
 export default PostSection;

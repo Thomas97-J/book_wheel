@@ -13,8 +13,8 @@ export default function useSignIn({
   const signInMutation = useMutation({
     mutationFn: signIn,
     onSuccess: () => {
-      onSuccess();
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      onSuccess();
     },
     onError: () => {
       onError();

@@ -7,10 +7,12 @@ import { PATH } from "../../App";
 import useCreatePostWithIndex from "../../hooks/posts/useCreatePostWithIndex";
 import useUpdatePostByIndex from "../../hooks/posts/useUpdatePostByIndex";
 import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
+import DropDownSelect from "../../components/common/DropDownSelect";
 
 interface PostValue {
   title: string;
   content: string;
+  category: string;
 }
 
 function NewPost() {
@@ -24,7 +26,6 @@ function NewPost() {
   } = useForm<PostValue>({
     mode: "onBlur",
   });
-  const [updating, setUpdating] = useState(false);
   const [query, setQuery] = useSearchParams();
 
   const postIndex = parseInt(query.get("no") ?? "");
@@ -33,6 +34,16 @@ function NewPost() {
   const updateMutation = useUpdatePostByIndex();
 
   const navigate = useNavigate();
+  const options = [
+    { label: "도서", value: "book" },
+    { label: "취미", value: "hobby" },
+    { label: "일반", value: "common" },
+  ];
+
+  const handleSelect = (option) => {
+    console.log("Selected option:", option);
+    setValue("category", option.value);
+  };
 
   useEffect(() => {
     if (postData && postIndex) {
@@ -51,7 +62,6 @@ function NewPost() {
 
   async function onPostSubmit(postData: PostValue) {
     console.log("post", postData);
-    setUpdating(true);
 
     try {
       if (postIndex) {
@@ -60,15 +70,17 @@ function NewPost() {
           index: postIndex,
           title: postData.title,
           content: postData.content,
+          category: postData.category,
         });
         navigate(`${PATH.postDetail}?no=${postIndex}`);
       } else {
-        const postIndex = await createMutation.mutateAsync({
+        const newPostIndex = await createMutation.mutateAsync({
           uid: currentUser?.uid || "",
           title: postData.title,
           content: postData.content,
+          category: postData.category,
         });
-        navigate(`${PATH.postDetail}?no=${postIndex}`);
+        navigate(`${PATH.postDetail}?no=${newPostIndex}`);
       }
     } catch (err) {
       console.log("err", err);
@@ -88,8 +100,13 @@ function NewPost() {
           </button>
           <button type="submit">저장</button>
         </TopSection>
-        <label>게시글의 주제를 선택해주세요</label>
-        <input
+        <DropDownSelect
+          options={options}
+          onSelect={handleSelect}
+          placeholder="Select an option"
+        />
+
+        <Title
           {...register("title", {
             required: true,
             minLength: {
@@ -105,6 +122,17 @@ function NewPost() {
     </NewPostWrapper>
   );
 }
+const Title = styled.input`
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+`;
+
 const TopSection = styled.div`
   width: 100%;
   display: flex;
@@ -121,5 +149,13 @@ const NewPostWrapper = styled.div`
 `;
 const ContentArea = styled.textarea`
   min-height: 500px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
 `;
 export default NewPost;

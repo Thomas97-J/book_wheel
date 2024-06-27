@@ -31,7 +31,7 @@ function Main() {
   );
 }
 const Banner = styled.div`
-  height: 200px;
+  min-height: 200px;
   width: 100%;
   border: solid 1px;
 `;
@@ -59,7 +59,6 @@ const NewPostButton = styled(Link)`
 
 const MainWrapper = styled.div`
   width: 100vw;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

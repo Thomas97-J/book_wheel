@@ -6,7 +6,7 @@ export default function useGetPostByIndex(postIndex: number) {
     queryKey: ["post_detail"],
     queryFn: () => getPostByIndex(postIndex),
     enabled: !!postIndex,
-    staleTime: Infinity, // 데이터를 다시 가져오지 않도록 설정
+    // staleTime: Infinity, // 데이터를 다시 가져오지 않도록 설정
   });
 
   return { postData: data, isLoading, error };

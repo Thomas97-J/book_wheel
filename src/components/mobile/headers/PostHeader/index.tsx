@@ -27,7 +27,7 @@ function PostHeader({ user, postData }) {
 
   return (
     <PostHeaderWrapper>
-      {user.uid === postData.uid ? (
+      {user?.uid === postData.uid ? (
         <DropDown options={dropDownOptions} buttonInner={"드롭다운"} />
       ) : (
         ""
