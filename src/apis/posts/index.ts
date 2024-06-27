@@ -10,6 +10,7 @@ import {
   query,
   runTransaction,
   setDoc,
+  startAfter,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -162,6 +163,63 @@ export async function getUserPosts(userId: string) {
   } catch (error) {
     console.error("Error fetching user posts: ", error);
     throw error;
+  }
+}
+
+export async function getPostsBatchBy10({
+  pageParam = null,
+  category = "all",
+}: {
+  pageParam?: any;
+  category?: string;
+}) {
+  try {
+    const postsRef = collection(db, "posts");
+    let q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
+    console.log("getPostsBatchBy10", category);
+
+    if (!category || category == "all") {
+      if (pageParam) {
+        q = query(
+          postsRef,
+          orderBy("createdAt", "desc"),
+          startAfter(pageParam),
+          limit(10)
+        );
+      } else {
+        q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
+      }
+    } else {
+      if (pageParam) {
+        q = query(
+          postsRef,
+          where("category", "==", category),
+          orderBy("createdAt", "desc"),
+          startAfter(pageParam),
+          limit(10)
+        );
+      } else {
+        q = query(
+          postsRef,
+          where("category", "==", category),
+          orderBy("createdAt", "desc"),
+          limit(10)
+        );
+      }
+    }
+
+    const querySnapshot = await getDocs(q);
+    const posts = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log(posts);
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    return { posts, nextPage: lastVisible };
+  } catch (err) {
+    console.log(err);
   }
 }
 

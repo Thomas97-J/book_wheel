@@ -37,7 +37,7 @@ function NewPost() {
   const options = [
     { label: "도서", value: "book" },
     { label: "취미", value: "hobby" },
-    { label: "일반", value: "common" },
+    { label: "전체", value: "all" },
   ];
 
   const handleSelect = (option) => {
