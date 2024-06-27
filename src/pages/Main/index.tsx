@@ -1,26 +1,11 @@
-import { useEffect, useState } from "react";
 import Mainheaders from "../../components/mobile/headers/MainHeader";
-import { useAuth } from "../../context/AuthContext";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../App";
 import PostSection from "./PostSection";
 
 function Main() {
-  const { currentUser, isLoading, logout } = useAuth();
-  const [user, setUser] = useState(currentUser);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setUser(currentUser);
-    console.log("currentUser", currentUser);
-  }, [currentUser]);
-
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
-
   return (
     <MainWrapper>
       <Mainheaders />

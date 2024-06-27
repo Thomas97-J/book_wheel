@@ -8,38 +8,20 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getPostsBatchBy10 } from "../../../apis/posts";
 import DropDownSelect from "../../../components/common/DropDownSelect";
+import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
+import _ from "lodash";
 
 function PostSection() {
-  // const { postDatas, isLoading, error } = useGetAllPosts();
-  const { ref, inView, entry } = useInView();
-  const [category, setCategory] = useState("all");
-
   const {
-    data: postDatas,
+    ref,
+    postDatas,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     status,
-  } = useInfiniteQuery({
-    queryKey: ["posts", category],
-    queryFn: handlePostBatchBy10,
-    getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
-    initialPageParam: null,
-  });
-  const initialLoadRef = useRef(true); //첫 로드 방지용 플래그
-  function handlePostBatchBy10(params: any) {
-    return getPostsBatchBy10({ ...params, category: category });
-  }
-
-  useEffect(() => {
-    if (initialLoadRef.current) {
-      initialLoadRef.current = false;
-      return;
-    }
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [category, inView, hasNextPage, fetchNextPage]);
+    category,
+    setCategory,
+  } = useInfinitePosts("all");
 
   const options = [
     { label: "도서", value: "book" },
@@ -49,7 +31,6 @@ function PostSection() {
 
   const handleSelect = (option: any) => {
     console.log("Selected option:", option);
-    initialLoadRef.current = true;
     setCategory(option.value);
   };
 
