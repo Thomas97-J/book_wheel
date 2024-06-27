@@ -1,9 +1,8 @@
-import React from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { handleGoogleLogin, signIn } from "../../apis/auth";
+import useSignIn from "../../hooks/auth/useSignIn";
+import useHandleGoogleLogin from "../../hooks/auth/useHandleGoogleLogin";
 
 interface SigninFormValue {
   email: string;
@@ -18,13 +17,10 @@ function Signin() {
     formState: { errors, isValid },
   } = useForm<SigninFormValue>({ mode: "onBlur" });
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
-  const signInMutation = useMutation({
-    mutationFn: signIn,
+  const signInMutation = useSignIn({
     onSuccess: () => {
       navigate(-1);
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
     },
     onError: () => {
       setError(
@@ -35,11 +31,9 @@ function Signin() {
     },
   });
 
-  const googleSignInMutation = useMutation({
-    mutationFn: handleGoogleLogin,
+  const googleSignInMutation = useHandleGoogleLogin({
     onSuccess: () => {
       navigate(-1);
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
     },
     onError: () => {
       setError(
@@ -49,6 +43,7 @@ function Signin() {
       );
     },
   });
+
   async function onSignIn(data: SigninFormValue) {
     const authData = await signInMutation.mutateAsync(data);
     console.log(authData);

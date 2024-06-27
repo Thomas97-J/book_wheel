@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAuth } from "../../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
-import { useQuery } from "@tanstack/react-query";
 import imgPaths from "../../../assets/images/image_path";
-import { getUserById } from "../../../apis/users";
+import useGetUserById from "../../../hooks/users/useGetUserById";
 
 function ProfileAndInfo() {
   const { currentUser } = useAuth();
   const uid = currentUser?.uid ?? "";
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["user_profile", uid],
-    queryFn: () => getUserById(uid),
-  });
+  const { userData, isLoading, error } = useGetUserById(uid);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -22,15 +17,17 @@ function ProfileAndInfo() {
   return (
     <UserInfo>
       <ProFile
-        src={data?.profileImage || imgPaths.defaultProfileImage}
+        src={userData?.profileImage || imgPaths.defaultProfileImage}
         alt="profile"
       />
       <NameAndBio>
         <NameSection>
-          <NickName>{data?.nickname}</NickName>
-          <Link to={`${PATH.profile}?user=${data?.nickname}`}>프로필 보기</Link>
+          <NickName>{userData?.nickname}</NickName>
+          <Link to={`${PATH.profile}?user=${userData?.nickname}`}>
+            프로필 보기
+          </Link>
         </NameSection>
-        <Biography>{data?.bio}</Biography>
+        <Biography>{userData?.bio}</Biography>
         <GoToFixLink to={PATH.infoFix}>정보 수정</GoToFixLink>
       </NameAndBio>
     </UserInfo>

@@ -1,13 +1,11 @@
-import React from "react";
 import styled from "styled-components";
 import DropDown from "../../../common/DropDown";
-import { useMutation } from "@tanstack/react-query";
-import { deletePost } from "../../../../apis/posts";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../App";
+import useDeletePost from "../../../../hooks/posts/useDeletePost";
 
 function PostHeader({ user, postData }) {
-  const deleteMutation = useMutation({ mutationFn: deletePost });
+  const deleteMutation = useDeletePost();
   const navigate = useNavigate();
   const dropDownOptions = [
     {

@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UserCard from "./UserCard";
-import { getAllUsers, getUsersByNickname } from "../../apis/users";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
+import useGetAllUsers from "../../hooks/users/useGetAllUsers";
+import useGetUsersByNickname from "../../hooks/users/useGetUsersByNickname";
 
 interface Search {
   type: string;
@@ -16,23 +16,13 @@ enum SearchType {
   Book = "BOOK",
 }
 function Explore() {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["users_all"],
-    queryFn: getAllUsers,
-    staleTime: Infinity, // 데이터를 다시 가져오지 않도록 설정
-  });
-  const queryClient = useQueryClient();
-  const searchMutation = useMutation({
-    mutationFn: getUsersByNickname,
-    onSuccess: (searchResults) => {
-      queryClient.setQueryData(["users_all"], searchResults);
-    },
-  });
+  const { userDatas, isLoading, isError, error } = useGetAllUsers();
+  const searchMutation = useGetUsersByNickname();
   const { register, handleSubmit } = useForm<Search>({ mode: "onChange" });
 
   useEffect(() => {
-    console.log("explore", data);
-  }, [data]);
+    console.log("explore", userDatas);
+  }, [userDatas]);
 
   const debouncedSearch = useMemo(
     () =>
@@ -66,7 +56,8 @@ function Explore() {
           type="text"
         />
       </form>
-      {data && data?.map((user) => <UserCard key={user.id} userInfo={user} />)}
+      {userDatas &&
+        userDatas?.map((user) => <UserCard key={user.id} userInfo={user} />)}
     </ExploreWrapper>
   );
 }

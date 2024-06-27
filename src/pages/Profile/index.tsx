@@ -1,37 +1,25 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import imgPaths from "../../assets/images/image_path";
-import { getUserByNickname } from "../../apis/users";
+import useGetUserByNickname from "../../hooks/users/useGetUserByNickname";
 
 function Profile() {
   const [query, setQuery] = useSearchParams();
   const nickname = query.get("user") ?? "";
-  const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["users"],
-    queryFn: () => getUserByNickname(nickname),
-  });
+  const { userData, isLoading, isError, error } =
+    useGetUserByNickname(nickname);
 
-  useEffect(() => {
-    console.log("Debug:data", data);
-  }, [data]);
-  useEffect(() => {
-    return () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
-    };
-  }, []);
   return (
     <ProfileWrapper>
       <ProFile
-        src={data?.profileImage || imgPaths.defaultProfileImage}
+        src={userData?.profileImage || imgPaths.defaultProfileImage}
         alt="profile"
       />
       <InfoSection>
-        <div>{data?.nickname}</div>
-        <div>{data?.bio}</div>
+        <div>{userData?.nickname}</div>
+        <div>{userData?.bio}</div>
       </InfoSection>
     </ProfileWrapper>
   );

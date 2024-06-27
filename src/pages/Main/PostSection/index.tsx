@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
-import { getAllPosts } from "../../../apis/posts";
+import { useEffect } from "react";
 
 import styled from "styled-components";
 import Fallback from "../../../components/mobile/Fallback";
 import PostCard from "./PostCard";
+import useGetAllPosts from "../../../hooks/posts/useGetAllPosts";
 
 const PostSectionWrapper = styled.div`
   height: 100%;
@@ -13,14 +12,11 @@ const PostSectionWrapper = styled.div`
 `;
 
 function PostSection() {
-  const { data, isLoading, error } = useQuery<Post[]>({
-    queryKey: ["all_posts"],
-    queryFn: () => getAllPosts(),
-  });
+  const { postDatas, isLoading, error } = useGetAllPosts();
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    console.log(postDatas);
+  }, [postDatas]);
 
   if (isLoading) {
     return <Fallback />;
@@ -28,7 +24,7 @@ function PostSection() {
 
   return (
     <PostSectionWrapper>
-      {data?.map((post: Post) => {
+      {postDatas?.map((post: Post) => {
         console.log(post);
         return (
           <PostCard

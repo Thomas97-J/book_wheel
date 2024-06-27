@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { checkNicknameExists, signUp } from "../../apis/auth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { checkNicknameExists } from "../../apis/auth";
+import useSignUp from "../../hooks/auth/useSignUp";
 
 interface SignupForm {
   nickname: string;
@@ -23,17 +22,7 @@ function Signup() {
     formState: { errors, isValid },
   } = useForm<SignupForm>({ mode: "onBlur" });
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const signUpMutation = useMutation({
-    mutationFn: signUp,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["signUp"] });
-    },
-  });
-  useEffect(() => {
-    console.log("error", errors);
-  }, [errors]);
+  const signUpMutation = useSignUp();
   const nickname = watch("nickname");
 
   async function onSignup(data: SignupForm) {

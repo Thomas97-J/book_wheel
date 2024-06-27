@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import imageCompression from "browser-image-compression";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../context/AuthContext";
-import { getUserById, updateUserData } from "../../apis/users";
-import { uploadFile } from "../../apis/firestore";
 import imgPaths from "../../assets/images/image_path";
+import useGetUserById from "../../hooks/users/useGetUserById";
+import useUpdateUserData from "../../hooks/users/useUpdateUserData";
+import useUploadFile from "../../hooks/firestore/useUploadFile";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -26,37 +26,23 @@ function UserInfoEdit() {
   });
   const { currentUser } = useAuth();
   const uid = currentUser?.uid ?? "";
-  const queryClient = useQueryClient();
   const [updating, setUpdating] = useState(false);
   const [imgPath, setImgPath] = useState<string | undefined | null>("");
   const imgRef = useRef<HTMLInputElement | null>(null);
+  const { userData, isLoading, error } = useGetUserById(uid);
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["users", uid],
-    queryFn: () => getUserById(uid),
-  });
-  const uploadMutation = useMutation({
-    mutationFn: uploadFile,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users", uid] });
-    },
-  });
-  const userInfoUpataeMutation = useMutation({
-    mutationFn: updateUserData,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users", uid] });
-    },
-  });
+  const uploadMutation = useUploadFile(uid);
+  const userInfoUpataeMutation = useUpdateUserData(uid);
 
   useEffect(() => {
-    if (data?.profileImage) {
-      setImgPath(data?.profileImage);
+    if (userData?.profileImage) {
+      setImgPath(userData?.profileImage);
     }
-    if (data) {
-      setValue("nickname", data.nickname);
-      setValue("bio", data.bio);
+    if (userData) {
+      setValue("nickname", userData.nickname);
+      setValue("bio", userData.bio);
     }
-  }, [data, setValue]);
+  }, [userData, setValue]);
 
   async function uplodeImgFile(imgFile: FileObject) {
     const options = {
@@ -81,8 +67,8 @@ function UserInfoEdit() {
 
     try {
       if (profileData?.photoFile) {
-        if (data?.profileImage) {
-          console.log(data?.profileImage);
+        if (userData?.profileImage) {
+          console.log(userData?.profileImage);
         }
         const downloadURL = await uplodeImgFile(profileData.photoFile);
         console.log(downloadURL);

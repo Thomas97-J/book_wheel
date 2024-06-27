@@ -1,25 +1,19 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getUserById } from "../../../apis/users";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
 import imgPaths from "../../../assets/images/image_path";
+import useGetUserById from "../../../hooks/users/useGetUserById";
 
 function UserInfo({ uid }: { uid: string }) {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["user_profile_post", uid],
-    queryFn: () => getUserById(uid),
-  });
-
+  const { userData, isLoading, error } = useGetUserById(uid);
   return (
     <UserInfoWrapper>
       <ProFile
-        src={data?.profileImage || imgPaths.defaultProfileImage}
+        src={userData?.profileImage || imgPaths.defaultProfileImage}
         alt="profile"
       />
-      <NameSection to={`${PATH.profile}?user=${data?.nickname}`}>
-        <NickName>{data?.nickname}</NickName>
+      <NameSection to={`${PATH.profile}?user=${userData?.nickname}`}>
+        <NickName>{userData?.nickname}</NickName>
       </NameSection>
     </UserInfoWrapper>
   );

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import ReauthenticateUser from "./ReauthenticateUser";
 import { useNavigate } from "react-router-dom";
-import { passwordUpdate } from "../../apis/auth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import usePasswordUpdate from "../../hooks/auth/usePasswordUpdate";
 
 interface PasswordChangeFrom {
   new_password: string;
@@ -22,14 +21,7 @@ function PasswordChange() {
   } = useForm<PasswordChangeFrom>({ mode: "onBlur" });
   const [isReauthUser, setIsReauthUser] = useState(false);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: passwordUpdate,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["password_change"] });
-    },
-  });
+  const mutation = usePasswordUpdate();
   async function passwordChange(data: PasswordChangeFrom) {
     try {
       if (data.new_password !== data.password_conform) {

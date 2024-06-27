@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { reauthenticate } from "../../../apis/auth";
-import { useMutation } from "@tanstack/react-query";
+import useReauthenticate from "../../../hooks/auth/useReauthenticate";
 
 interface PasswordFrom {
   password: string;
@@ -17,7 +16,7 @@ function ReauthenticateUser({
     setError,
     formState: { errors },
   } = useForm<PasswordFrom>({ mode: "onBlur" });
-  const mutation = useMutation({ mutationFn: reauthenticate });
+  const mutation = useReauthenticate();
 
   async function onReauthenticate(data: PasswordFrom) {
     try {

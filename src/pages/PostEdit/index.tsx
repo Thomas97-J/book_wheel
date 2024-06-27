@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  createPost,
-  createPostWithIndex,
-  getPostById,
-  getPostByIndex,
-  updatePost,
-  updatePostByIndex,
-} from "../../apis/posts";
 import { useAuth } from "../../context/AuthContext";
 import { PATH } from "../../App";
+import useCreatePostWithIndex from "../../hooks/posts/useCreatePostWithIndex";
+import useUpdatePostByIndex from "../../hooks/posts/useUpdatePostByIndex";
+import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
 
 interface PostValue {
   title: string;
@@ -20,6 +14,7 @@ interface PostValue {
 }
 
 function NewPost() {
+  const { currentUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -30,46 +25,29 @@ function NewPost() {
     mode: "onBlur",
   });
   const [updating, setUpdating] = useState(false);
-  const queryClient = useQueryClient();
-  const createMutation = useMutation({
-    mutationFn: createPostWithIndex,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post_detail"] });
-    },
-  });
-  const updateMutation = useMutation({
-    mutationFn: updatePostByIndex,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post_detail"] });
-    },
-  });
-
-  const { currentUser } = useAuth();
   const [query, setQuery] = useSearchParams();
-  const postIndex = parseInt(query.get("no") ?? "");
 
-  const { data, isLoading, error } = useQuery<Post>({
-    queryKey: ["post_detail"],
-    queryFn: () => getPostByIndex(postIndex),
-    enabled: !!postIndex,
-    staleTime: Infinity, // 데이터를 다시 가져오지 않도록 설정
-  });
+  const postIndex = parseInt(query.get("no") ?? "");
+  const { postData, isLoading, error } = useGetPostByIndex(postIndex);
+  const createMutation = useCreatePostWithIndex();
+  const updateMutation = useUpdatePostByIndex();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data && postIndex) {
-      if (!currentUser || (currentUser && currentUser?.uid !== data.uid)) {
+    if (postData && postIndex) {
+      if (!currentUser || (currentUser && currentUser?.uid !== postData.uid)) {
         alert("잘못된 접근입니다.");
         navigate(-1);
       }
-      if (data?.content) {
-        setValue("content", data?.content);
+      if (postData?.content) {
+        setValue("content", postData?.content);
       }
-      if (data?.title) {
-        setValue("title", data?.title);
+      if (postData?.title) {
+        setValue("title", postData?.title);
       }
     }
-  }, [data, currentUser, navigate, postIndex, setValue]);
+  }, [postData, currentUser, navigate, postIndex, setValue]);
 
   async function onPostSubmit(postData: PostValue) {
     console.log("post", postData);
