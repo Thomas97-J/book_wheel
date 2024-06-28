@@ -40,7 +40,7 @@ function NewPost() {
     { label: "전체", value: "all" },
   ];
 
-  const handleSelect = (option) => {
+  const handleSelect = (option: { label: string; value: string }) => {
     console.log("Selected option:", option);
     setValue("category", option.value);
   };
