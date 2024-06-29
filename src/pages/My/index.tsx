@@ -1,14 +1,17 @@
-import React from "react";
 import styled from "styled-components";
-import ProfileAndInfo from "./ProfileAndInfo";
-import { PATH } from "../../App";
-import { Link } from "react-router-dom";
+import ProfileAndInfo from "../../components/mobile/ProfileAndInfo";
+import MypageHeader from "../../components/mobile/headers/MypageHeader";
+import { useAuth } from "../../context/AuthContext";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 function My() {
+  const { currentUser } = useAuth();
+  const uid = currentUser?.uid ?? "";
+
   return (
     <MyWrapper>
-      <ProfileAndInfo />
-      <Link to={PATH.passwordChange}>비밀번호 변경</Link>
+      <MypageHeader />
+      <ProfileAndInfo uid={uid} />
       <DummySection>작성 글 목록</DummySection>
       <DummySection>관심 도서</DummySection>
       <DummySection>내 서재</DummySection>
@@ -18,17 +21,9 @@ function My() {
 
 const DummySection = styled.div`
   height: 100px;
-  width: 100%;
   border: 1px solid black;
-  margin: 10px;
+  margin-bottom: 10px;
 `;
 
-const MyWrapper = styled.div`
-  width: 100%;
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+const MyWrapper = styled(PageWrapper)``;
 export default My;

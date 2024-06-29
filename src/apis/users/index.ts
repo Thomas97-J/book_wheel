@@ -6,6 +6,7 @@ import {
   getDoc,
   getDocs,
   query,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -127,4 +128,80 @@ export async function checkIsFollowing(
   const docSnap = querySnapshot.docs[0];
 
   return docSnap?.id || "";
+}
+
+export async function getUserFollowers(uid: string): Promise<UserData[]> {
+  const followersQuery = query(
+    collection(db, "follows"),
+    where("to_userId", "==", uid)
+  );
+  const followersSnapshot = await getDocs(followersQuery);
+  const followerIds = followersSnapshot.docs.map(
+    (doc) => doc.data().from_userId
+  );
+  console.log(followerIds, followersSnapshot);
+
+  const followersData: UserData[] = [];
+  for (const followerId of followerIds) {
+    const userDoc = await getDoc(doc(db, "users", followerId));
+    if (userDoc.exists()) {
+      followersData.push({ id: userDoc.id, ...userDoc.data() } as UserData);
+    }
+  }
+
+  return followersData;
+}
+
+// 특정 사용자의 팔로잉 목록을 가져오는 함수
+export async function getUserFollowing(uid: string): Promise<UserData[]> {
+  const followingQuery = query(
+    collection(db, "follows"),
+    where("from_userId", "==", uid)
+  );
+  const followingSnapshot = await getDocs(followingQuery);
+  const followingIds = followingSnapshot.docs.map(
+    (doc) => doc.data().to_userId
+  );
+  console.log(followingIds);
+
+  const followingData: UserData[] = [];
+  for (const followingId of followingIds) {
+    const userDoc = await getDoc(doc(db, "users", followingId));
+    if (userDoc.exists()) {
+      followingData.push({ id: userDoc.id, ...userDoc.data() } as UserData);
+    }
+  }
+
+  return followingData;
+}
+
+export async function addNicknameToUidMapping(
+  nickname: string,
+  uid: string
+): Promise<void> {
+  await setDoc(doc(db, "nicknameToUid", nickname), { uid: uid });
+}
+
+export async function getUidByNickname(nickname: string): Promise<string> {
+  try {
+    const nicknameToUidRef = collection(db, "nicknameToUid");
+    const docRef = doc(nicknameToUidRef, nickname);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("쿼리안돌려 찾은 docSnap", docSnap);
+
+      return docSnap.data().uid;
+    } else {
+      const { uid } = await getUserByNickname(nickname);
+      console.log("쿼리돌려 찾은 uid", uid);
+
+      // addNicknameToUidMapping 완료는 기다리지 않음
+      addNicknameToUidMapping(nickname, uid);
+      return uid;
+    }
+  } catch (err) {
+    console.error(err);
+    return "";
+  }
 }

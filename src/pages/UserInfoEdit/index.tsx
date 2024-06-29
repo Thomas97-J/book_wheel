@@ -7,6 +7,7 @@ import imgPaths from "../../assets/images/image_path";
 import useGetUserById from "../../hooks/users/useGetUserById";
 import useUpdateUserData from "../../hooks/users/useUpdateUserData";
 import useUploadFile from "../../hooks/firestore/useUploadFile";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -146,9 +147,5 @@ const FixUserForm = styled.form`
   display: flex;
   flex-direction: column;
 `;
-const UserInfoEditWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-`;
+const UserInfoEditWrapper = styled(PageWrapper)``;
 export default UserInfoEdit;

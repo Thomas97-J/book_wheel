@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { checkNicknameExists } from "../../apis/auth";
 import useSignUp from "../../hooks/auth/useSignUp";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 interface SignupForm {
   nickname: string;
@@ -141,10 +142,7 @@ function Signup() {
   );
 }
 
-const SignupWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
+const SignupWrapper = styled(PageWrapper)`
   align-items: center;
   justify-content: center;
   form {

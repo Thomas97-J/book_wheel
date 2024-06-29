@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PATH } from "../../App";
 
 import styled from "styled-components";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 function NotFound() {
   return (
@@ -12,12 +13,6 @@ function NotFound() {
     </NotFoundWrapper>
   );
 }
-const NotFoundWrapper = styled.div`
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+const NotFoundWrapper = styled(PageWrapper)``;
 
 export default NotFound;

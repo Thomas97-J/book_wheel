@@ -9,9 +9,14 @@ interface DropDownOption {
 interface DropDownProps {
   options: DropDownOption[];
   buttonInner: any;
+  isRightSide?: boolean;
 }
 
-function DropDown({ options, buttonInner }: DropDownProps) {
+function DropDown({
+  options,
+  buttonInner,
+  isRightSide = false,
+}: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +46,7 @@ function DropDown({ options, buttonInner }: DropDownProps) {
         {buttonInner}
       </DropDownBtn>
       {isOpen && (
-        <DropDownList>
+        <DropDownList $isRightSide={isRightSide}>
           {options.map((option) => (
             <DropDownItem
               key={option.label}
@@ -61,16 +66,19 @@ const DropDownWrapper = styled.div`
 `;
 
 const DropDownBtn = styled.button`
+  position: relative;
+
   cursor: pointer;
   border: none;
 `;
 
-const DropDownList = styled.ul`
+const DropDownList = styled.ul<{ $isRightSide: boolean }>`
   position: absolute;
-  right: 0;
-  width: 100%;
   margin: 0;
   padding: 0;
+
+  ${(props) => (props.$isRightSide ? "right: 0;" : "left: 0;")}
+
   border: 1px solid #ccc;
   background-color: #fff;
   list-style: none;
@@ -79,6 +87,7 @@ const DropDownList = styled.ul`
 
 const DropDownItem = styled.li`
   padding: 10px;
+  white-space: nowrap;
   cursor: pointer;
 
   &:hover {

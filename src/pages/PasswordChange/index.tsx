@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ReauthenticateUser from "./ReauthenticateUser";
 import { useNavigate } from "react-router-dom";
 import usePasswordUpdate from "../../hooks/auth/usePasswordUpdate";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 interface PasswordChangeFrom {
   new_password: string;
@@ -97,8 +98,8 @@ const Warn = styled.p`
   font-size: 0.8rem;
   font-weight: 700;
 `;
-const PasswordChangeWrapper = styled.div`
-  width: 100vw;
+
+const PasswordChangeWrapper = styled(PageWrapper)`
   align-items: center;
   justify-content: center;
   form {

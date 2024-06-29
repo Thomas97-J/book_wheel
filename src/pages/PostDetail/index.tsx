@@ -6,6 +6,7 @@ import UserInfo from "./UserInfo";
 import PostHeader from "../../components/mobile/headers/PostHeader";
 import { useAuth } from "../../context/AuthContext";
 import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 function PostDetail() {
   const { currentUser } = useAuth();
@@ -29,14 +30,6 @@ function PostDetail() {
     </PostDetailWrapper>
   );
 }
-const PostDetailWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-
-  padding: 60px 0 60px;
-  position: relative;
-`;
+const PostDetailWrapper = styled(PageWrapper)``;
 
 export default PostDetail;

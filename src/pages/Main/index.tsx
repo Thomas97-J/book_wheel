@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../App";
 import PostSection from "./PostSection";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 function Main() {
   return (
@@ -42,14 +43,6 @@ const NewPostButton = styled(Link)`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const MainWrapper = styled.div`
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 60px 10px 60px;
-  position: relative;
-`;
+const MainWrapper = styled(PageWrapper)``;
 
 export default Main;

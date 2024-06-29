@@ -2,6 +2,7 @@ interface UserData {
   id: string;
   nickname?: string;
   profileImage?: string;
+  bio?: string;
 }
 interface FileObject extends Blob {
   name: string;
@@ -20,4 +21,10 @@ interface Post {
   updatadAt?: Date;
   category?: string;
   index?: number;
+}
+interface FollowData {
+  uid: string;
+  profileImage?: string;
+  nickname: string;
+  bio?: string;
 }

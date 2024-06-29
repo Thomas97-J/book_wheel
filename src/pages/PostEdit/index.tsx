@@ -8,6 +8,7 @@ import useCreatePostWithIndex from "../../hooks/posts/useCreatePostWithIndex";
 import useUpdatePostByIndex from "../../hooks/posts/useUpdatePostByIndex";
 import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
 import DropDownSelect from "../../components/common/DropDownSelect";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 interface PostValue {
   title: string;
@@ -143,10 +144,8 @@ const PostForm = styled.form`
   display: flex;
   flex-direction: column;
 `;
-const NewPostWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+
+const NewPostWrapper = styled(PageWrapper)``;
 const ContentArea = styled.textarea`
   min-height: 500px;
   padding: 8px;

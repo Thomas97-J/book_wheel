@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from "react";
 import styled from "styled-components";
-import UserCard from "./UserCard";
+import UserCard from "../../components/mobile/UserCard";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
 import useGetAllUsers from "../../hooks/users/useGetAllUsers";
 import useGetUsersByNickname from "../../hooks/users/useGetUsersByNickname";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 interface Search {
   type: string;
@@ -61,12 +62,7 @@ function Explore() {
     </ExploreWrapper>
   );
 }
-const ExploreWrapper = styled.div`
-  display: flex;
-  width: 100vw;
-  flex-direction: column;
-  justify-content: center;
-`;
+const ExploreWrapper = styled(PageWrapper)``;
 const SearchInput = styled.input`
   height: 40px;
   width: 100%;

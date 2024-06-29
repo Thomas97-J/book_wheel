@@ -24,6 +24,7 @@ const Signin = React.lazy(() => import("./pages/Signin"));
 const Explore = React.lazy(() => import("./pages/Explore"));
 const PostEdit = React.lazy(() => import("./pages/PostEdit"));
 const PostDetail = React.lazy(() => import("./pages/PostDetail"));
+const Follow = React.lazy(() => import("./pages/Follow"));
 
 export const PATH = {
   main: "",
@@ -31,12 +32,13 @@ export const PATH = {
   signUp: "/signup",
   my: "/my",
   infoFix: "/my/edit",
-  notFound: "*",
-  profile: "/profile",
-  explore: "/explore",
   passwordChange: "/my/change_password",
+  profile: "/profile",
+  follow: "/profile/follow",
+  explore: "/explore",
   postEdit: "/post/postEdit",
   postDetail: "/post/detail",
+  notFound: "*",
 };
 
 function App() {
@@ -73,8 +75,8 @@ function App() {
                 element={<ProtectRoute component={PostEdit} />}
               />
               <Route path={PATH.postDetail} element={<PostDetail />} />
-
               <Route path={PATH.profile} element={<Profile />} />
+              <Route path={PATH.follow} element={<Follow />} />
               <Route path={PATH.notFound} element={<NotFound />} />
             </Routes>
             <BottomNav />

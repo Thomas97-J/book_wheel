@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useSignIn from "../../hooks/auth/useSignIn";
 import useHandleGoogleLogin from "../../hooks/auth/useHandleGoogleLogin";
+import PageWrapper from "../../assets/styles/PageWrapper";
 
 interface SigninFormValue {
   email: string;
@@ -92,10 +93,7 @@ function Signin() {
 }
 ``;
 
-const SigninWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
+const SigninWrapper = styled(PageWrapper)`
   align-items: center;
   justify-content: center;
   form {

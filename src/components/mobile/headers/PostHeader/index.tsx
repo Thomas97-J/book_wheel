@@ -3,6 +3,7 @@ import DropDown from "../../../common/DropDown";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../App";
 import useDeletePost from "../../../../hooks/posts/useDeletePost";
+import Header from "../../../../assets/styles/Header";
 
 function PostHeader({ user, postData }) {
   const deleteMutation = useDeletePost();
@@ -35,16 +36,7 @@ function PostHeader({ user, postData }) {
     </PostHeaderWrapper>
   );
 }
-const PostHeaderWrapper = styled.header`
-  display: flex;
-  justify-content: flex-end;
-  position: fixed;
-  top: 0;
-
-  height: 60px;
-  border-bottom: solid 1px;
-  width: 100vw;
-
+const PostHeaderWrapper = styled(Header)`
   button {
     width: 100px;
     margin: 10px;

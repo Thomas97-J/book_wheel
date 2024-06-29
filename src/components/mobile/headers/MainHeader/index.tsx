@@ -5,29 +5,10 @@ import { useAuth } from "../../../../context/AuthContext";
 import { PATH } from "../../../../App";
 import { useNavigate } from "react-router-dom";
 import DropDown from "../../../common/DropDown";
-
-const MainheadersWrapper = styled.header`
-  height: 60px;
-  border-bottom: solid 1px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  background-color: #fff;
-  z-index: 100;
-  button {
-    width: 100px;
-    margin: 10px;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
+import Header from "../../../../assets/styles/Header";
+import { Link } from "react-router-dom";
 
 function Mainheaders() {
-  const { currentUser, isLoading, logout } = useAuth();
   const navigate = useNavigate();
   const dropDownOptions = [
     {
@@ -46,25 +27,23 @@ function Mainheaders() {
   return (
     <MainheadersWrapper>
       <DropDown options={dropDownOptions} buttonInner={"지역 선택"} />
-      {currentUser?.uid ? (
-        <button
-          onClick={async () => {
-            await logout();
-          }}
-        >
-          Sign Out
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            navigate(PATH.signIn);
-          }}
-        >
-          Sign In
-        </button>
-      )}
+      <SearchLink to={PATH.explore}>검색</SearchLink>
     </MainheadersWrapper>
   );
 }
+const MainheadersWrapper = styled(Header)`
+  justify-content: space-between;
+`;
 
+const SearchLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  border: 1px solid;
+  border-radius: 12%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+`;
 export default Mainheaders;

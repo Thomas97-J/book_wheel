@@ -272,3 +272,27 @@ export async function deletePost(postId: string) {
     throw error;
   }
 }
+
+export async function getFollowCount(uid: string): Promise<{
+  followingCount: number;
+  followersCount: number;
+}> {
+  // from_userId가 uid인 문서의 수를 세어 팔로우하는 수를 구합니다.
+  const followingQuery = query(
+    collection(db, "follows"),
+    where("from_userId", "==", uid)
+  );
+  const followingSnapshot = await getDocs(followingQuery);
+  const followingCount = followingSnapshot.size;
+
+  // to_userId가 uid인 문서의 수를 세어 팔로우 받는 수를 구합니다.
+  const followersQuery = query(
+    collection(db, "follows"),
+    where("to_userId", "==", uid)
+  );
+  const followersSnapshot = await getDocs(followersQuery);
+  const followersCount = followersSnapshot.size;
+
+  // 팔로우하는 수와 팔로우 받는 수를 반환합니다.
+  return { followingCount, followersCount };
+}
