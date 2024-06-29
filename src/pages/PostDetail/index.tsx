@@ -7,6 +7,7 @@ import PostHeader from "../../components/mobile/headers/PostHeader";
 import { useAuth } from "../../context/AuthContext";
 import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
 import PageWrapper from "../../assets/styles/PageWrapper";
+import dayjs from "dayjs";
 
 function PostDetail() {
   const { currentUser } = useAuth();
@@ -17,7 +18,9 @@ function PostDetail() {
   useEffect(() => {
     console.log("포스트디테일", postData);
   }, [postData]);
-
+  const formattedDate = dayjs
+    .unix(postData?.createdAt?.seconds ?? 0)
+    .format("YYYY-MM-DD");
   if (isLoading) {
     return <Fallback />;
   }
@@ -25,6 +28,7 @@ function PostDetail() {
     <PostDetailWrapper>
       <PostHeader user={currentUser} postData={postData} />
       <UserInfo uid={postData?.uid || ""} />
+      <div>{formattedDate}</div>
       <h2>{postData?.title}</h2>
       <div>{postData?.content}</div>
     </PostDetailWrapper>

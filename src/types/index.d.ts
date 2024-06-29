@@ -1,3 +1,7 @@
+interface Timestamp {
+  nanoseconds: number;
+  seconds: number;
+}
 interface UserData {
   id: string;
   nickname?: string;
@@ -17,11 +21,12 @@ interface Post {
   title: string;
   content: string;
   uid: string;
-  createdAt?: Date;
-  updatadAt?: Date;
+  createdAt?: Timestamp;
+  updatadAt?: Timestamp;
   category?: string;
   index?: number;
 }
+
 interface FollowData {
   uid: string;
   profileImage?: string;
