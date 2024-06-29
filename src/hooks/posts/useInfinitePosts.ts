@@ -1,19 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { getPostsBatchBy10 } from "../../apis/posts";
-import _ from "lodash";
 
 function useInfinitePosts(initialCategory: string) {
   const [category, setCategory] = useState(initialCategory);
   const { ref, inView } = useInView();
-  const [getTrigger, setGetTrigger] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     data: postDatas,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
     status,
   } = useInfiniteQuery({
     queryKey: ["posts", category],
@@ -25,7 +23,7 @@ function useInfinitePosts(initialCategory: string) {
   useEffect(() => {
     if (postDatas) {
       console.log("get 허용");
-      setGetTrigger(true);
+      setIsLoading(true);
     }
   }, [postDatas]);
 
@@ -34,9 +32,9 @@ function useInfinitePosts(initialCategory: string) {
   }
 
   useEffect(() => {
-    if (inView && hasNextPage && getTrigger) {
+    if (inView && hasNextPage && isLoading) {
       fetchNextPage();
-      setGetTrigger(false);
+      setIsLoading(false);
     }
   }, [inView, hasNextPage, fetchNextPage]);
 

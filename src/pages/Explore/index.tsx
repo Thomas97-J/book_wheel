@@ -6,6 +6,7 @@ import _ from "lodash";
 import useGetAllUsers from "../../hooks/users/useGetAllUsers";
 import useGetUsersByNickname from "../../hooks/users/useGetUsersByNickname";
 import PageWrapper from "../../assets/styles/PageWrapper";
+import useGetUsersBatchBy10 from "../../hooks/users/useGetUsersBatchBy10";
 
 interface Search {
   type: string;
@@ -17,18 +18,28 @@ enum SearchType {
   Book = "BOOK",
 }
 function Explore() {
-  const { userDatas, isLoading, isError, error } = useGetAllUsers();
+  const {
+    ref,
+    users,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    nickname,
+    setNickname,
+  } = useGetUsersBatchBy10("");
+
   const searchMutation = useGetUsersByNickname();
   const { register, handleSubmit } = useForm<Search>({ mode: "onChange" });
 
   useEffect(() => {
-    console.log("explore", userDatas);
-  }, [userDatas]);
+    console.log("explore", users);
+  }, [users]);
 
   const debouncedSearch = useMemo(
     () =>
       _.debounce(async (keyword: string) => {
-        await searchMutation.mutateAsync(keyword);
+        setNickname(keyword);
       }, 500),
     [searchMutation]
   );
@@ -42,8 +53,6 @@ function Explore() {
       console.error(e);
     }
   }
-  if (isLoading) return <span>Loading...</span>;
-  if (isError) return <span>Error: {error?.message}</span>;
 
   return (
     <ExploreWrapper>
@@ -57,8 +66,14 @@ function Explore() {
           type="text"
         />
       </form>
-      {userDatas &&
-        userDatas?.map((user) => <UserCard key={user.id} userInfo={user} />)}
+      {users?.pages.map((page, pageIndex) => (
+        <div key={pageIndex}>
+          {page?.users.map((user: any) => (
+            <UserCard key={user.id} userInfo={user} />
+          ))}
+        </div>
+      ))}
+      <div ref={ref}></div>
     </ExploreWrapper>
   );
 }

@@ -5,18 +5,69 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   query,
   setDoc,
+  startAfter,
   updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import { getAuth } from "firebase/auth";
+import { orderBy } from "lodash";
 
 //get
 
 export async function getAllUsers(): Promise<UserData[]> {
   const userSnapshot = await getDocs(collection(db, "users"));
   return userSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+export async function getUsersBatchBy10({
+  pageParam = null,
+}: {
+  pageParam?: any;
+}) {
+  try {
+    const auth = getAuth();
+    const currentUserUID = auth.currentUser?.uid;
+
+    if (!currentUserUID) {
+      throw new Error("User is not authenticated");
+    }
+
+    const usersRef = collection(db, "users");
+
+    // Firestore에서 'uid'가 currentUserUID와 다른 문서를 가져오도록 쿼리 생성
+    let q = query(
+      usersRef,
+      where("__name__", "!=", currentUserUID), // '!=' 연산자 사용
+      limit(10)
+    );
+
+    if (pageParam) {
+      q = query(
+        usersRef,
+        where("__name__", "!=", currentUserUID), // '!=' 연산자 사용
+        startAfter(pageParam),
+        limit(10)
+      );
+    }
+
+    const querySnapshot = await getDocs(q);
+    const users = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log(querySnapshot);
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    return { users, nextPage: lastVisible };
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    return { users: [], nextPage: null }; // 오류 발생 시 빈 배열과 null 반환
+  }
 }
 
 export async function getUserById(uid: string) {
@@ -58,6 +109,47 @@ export async function getUsersByNickname(nickname: string) {
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
+export async function getUsersByNicknameBatchBy10({
+  nickname,
+  pageParam = null,
+}: {
+  nickname: string;
+  pageParam?: any;
+}) {
+  try {
+    const usersRef = collection(db, "users");
+
+    let q = query(
+      usersRef,
+      where("nickname", ">=", nickname),
+      where("nickname", "<=", nickname + "\uf8ff"),
+      limit(10)
+    );
+
+    if (pageParam) {
+      q = query(
+        usersRef,
+        where("nickname", ">=", nickname),
+        where("nickname", "<=", nickname + "\uf8ff"),
+        startAfter(pageParam),
+        limit(10)
+      );
+    }
+
+    const querySnapshot = await getDocs(q);
+    const users = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    return { users, nextPage: lastVisible };
+  } catch (err) {
+    console.error("Error fetching users by nickname:", err);
+    return { users: [], nextPage: null };
+  }
+}
 //update
 
 export async function updateUserData({
