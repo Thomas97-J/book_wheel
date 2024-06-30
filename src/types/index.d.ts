@@ -24,6 +24,7 @@ interface Post {
   createdAt?: Timestamp;
   updatadAt?: Timestamp;
   category?: string;
+  postImage?: string;
   index?: number;
 }
 

@@ -15,6 +15,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import { deleteFile } from "../firestore";
 
 export async function createPost(newPostData: {
   uid: string;
@@ -41,6 +42,7 @@ export async function createPostWithIndex(newPostData: {
   content: string;
   areaNo: number;
   category?: string;
+  postImage?: string;
 }) {
   try {
     const postIndex = await runTransaction(db, async (transaction) => {
@@ -62,15 +64,28 @@ export async function createPostWithIndex(newPostData: {
       console.log(newPostData);
 
       const newPostRef = doc(postsRef);
-      transaction.set(newPostRef, {
-        uid: newPostData.uid,
-        title: newPostData.title,
-        content: newPostData.content,
-        category: newPostData.category ?? "all",
-        areaNo: newPostData.areaNo,
-        createdAt: new Date(),
-        index: newIndex,
-      });
+      if (newPostData?.postImage) {
+        transaction.set(newPostRef, {
+          uid: newPostData.uid,
+          title: newPostData.title,
+          content: newPostData.content,
+          category: newPostData.category ?? "all",
+          postImage: newPostData?.postImage,
+          areaNo: newPostData.areaNo,
+          createdAt: new Date(),
+          index: newIndex,
+        });
+      } else {
+        transaction.set(newPostRef, {
+          uid: newPostData.uid,
+          title: newPostData.title,
+          content: newPostData.content,
+          category: newPostData.category ?? "all",
+          areaNo: newPostData.areaNo,
+          createdAt: new Date(),
+          index: newIndex,
+        });
+      }
       return { id: newPostRef.id, index: newIndex };
     });
 
@@ -284,6 +299,10 @@ export async function getPostByIndex(index: number): Promise<Post> {
 export async function deletePost(postId: string) {
   try {
     const postRef = doc(db, "posts", postId);
+    const postData = await getPostById(postId);
+    if (postData?.postImage) {
+      deleteFile(postData?.postImage);
+    }
     await deleteDoc(postRef);
     console.log("Post successfully deleted!");
   } catch (error) {

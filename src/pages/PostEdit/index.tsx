@@ -17,10 +17,21 @@ interface PostValue {
   title: string;
   content: string;
   category: string;
+  areaNo: number;
+  index?: number;
   photoFile?: any;
-  profileImage?: string;
+  postImage?: string;
 }
-
+interface PostUpdateValue {
+  uid: string;
+  title: string;
+  content: string;
+  category: string;
+  areaNo: number;
+  index: number;
+  photoFile?: any;
+  postImage?: string;
+}
 function NewPost() {
   const { currentUser } = useAuth();
   const {
@@ -76,34 +87,28 @@ function NewPost() {
         uid: currentUser?.uid || "",
         title: postData.title,
         content: postData.content,
+        areaNo: 1,
         category: postData.category,
       };
       if (postData?.photoFile) {
-        const downloadURL = await uploadImgFile(postData.photoFile, ``);
-        updatedPostData.profileImage = downloadURL;
-      } else if (postData?.profileImage) {
-        updatedPostData.profileImage = postData?.profileImage;
+        const downloadURL = await uploadImgFile(
+          postData.photoFile,
+          `/posts/${currentUser?.uid}_${new Date()}`
+        );
+        updatedPostData.postImage = downloadURL;
+      } else if (postData?.postImage) {
+        updatedPostData.postImage = postData?.postImage;
       }
 
       const isFixPost = !!postIndex;
       if (isFixPost) {
-        await updateMutation.mutateAsync({
-          uid: currentUser?.uid || "",
-          index: postIndex,
-          title: postData.title,
-          content: postData.content,
-          areaNo: 1,
-          category: postData.category,
-        });
+        updatedPostData.index = postIndex;
+        await updateMutation.mutateAsync(updatedPostData as PostUpdateValue);
         navigate(`${PATH.postDetail}?no=${postIndex}`);
       } else {
-        const { id, index: newPostIndex } = await createMutation.mutateAsync({
-          uid: currentUser?.uid || "",
-          title: postData.title,
-          content: postData.content,
-          areaNo: 1,
-          category: postData.category,
-        });
+        const { index: newPostIndex } = await createMutation.mutateAsync(
+          updatedPostData
+        );
         navigate(`${PATH.postDetail}?no=${newPostIndex}`);
       }
     } catch (err) {
