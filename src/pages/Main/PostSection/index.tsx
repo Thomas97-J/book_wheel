@@ -1,15 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-
 import styled from "styled-components";
 import Fallback from "../../../components/mobile/Fallback";
 import PostCard from "./PostCard";
-import useGetAllPosts from "../../../hooks/posts/useGetAllPosts";
-import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPostsBatchBy10 } from "../../../apis/posts";
-import DropDownSelect from "../../../components/common/DropDownSelect";
 import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import _ from "lodash";
+import DropDownSelect from "../../../components/common/DropDownSelect";
 
 function PostSection() {
   const {
@@ -21,7 +15,7 @@ function PostSection() {
     status,
     category,
     setCategory,
-  } = useInfinitePosts("all");
+  } = useInfinitePosts("all", 1);
 
   const options = [
     { label: "도서", value: "book" },

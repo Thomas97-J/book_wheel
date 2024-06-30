@@ -175,30 +175,45 @@ export async function getUserPosts(userId: string) {
 export async function getPostsBatchBy10({
   pageParam = null,
   category = "all",
+  areaNo = 0,
 }: {
+  areaNo: number;
   pageParam?: any;
   category?: string;
 }) {
   try {
     const postsRef = collection(db, "posts");
-    let q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
+    let q = query(
+      postsRef,
+      orderBy("createdAt", "desc"),
+      where("areaNo", "==", areaNo),
+      limit(10)
+    );
+    console.log(pageParam, category, areaNo);
 
     if (!category || category == "all") {
       if (pageParam) {
         q = query(
           postsRef,
           orderBy("createdAt", "desc"),
+          where("areaNo", "==", areaNo),
           startAfter(pageParam),
           limit(10)
         );
       } else {
-        q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
+        q = query(
+          postsRef,
+          orderBy("createdAt", "desc"),
+          where("areaNo", "==", areaNo),
+          limit(10)
+        );
       }
     } else {
       if (pageParam) {
         q = query(
           postsRef,
           where("category", "==", category),
+          where("areaNo", "==", areaNo),
           orderBy("createdAt", "desc"),
           startAfter(pageParam),
           limit(10)
@@ -207,6 +222,7 @@ export async function getPostsBatchBy10({
         q = query(
           postsRef,
           where("category", "==", category),
+          where("areaNo", "==", areaNo),
           orderBy("createdAt", "desc"),
           limit(10)
         );
@@ -276,26 +292,34 @@ export async function deletePost(postId: string) {
   }
 }
 
-export async function getFollowCount(uid: string): Promise<{
-  followingCount: number;
-  followersCount: number;
-}> {
-  // from_userId가 uid인 문서의 수를 세어 팔로우하는 수를 구합니다.
-  const followingQuery = query(
-    collection(db, "follows"),
-    where("from_userId", "==", uid)
-  );
-  const followingSnapshot = await getDocs(followingQuery);
-  const followingCount = followingSnapshot.size;
+export async function updateAllPostsWithAreaNo() {
+  try {
+    // 모든 포스트 가져오기
+    const postsRef = collection(db, "posts");
+    const querySnapshot = await getDocs(postsRef);
 
-  // to_userId가 uid인 문서의 수를 세어 팔로우 받는 수를 구합니다.
-  const followersQuery = query(
-    collection(db, "follows"),
-    where("to_userId", "==", uid)
-  );
-  const followersSnapshot = await getDocs(followersQuery);
-  const followersCount = followersSnapshot.size;
+    // 가져온 각 포스트에 대해 업데이트 수행
+    const batchUpdates = querySnapshot.docs.map(async (docOld) => {
+      const postId = docOld.id;
+      const postData = docOld.data();
 
-  // 팔로우하는 수와 팔로우 받는 수를 반환합니다.
-  return { followingCount, followersCount };
+      // 기존 데이터에 areaNo 추가
+      const updatedData = {
+        ...postData,
+        areaNo: 1, // 원하는 areaNo 값 설정
+      };
+
+      // 해당 포스트 업데이트
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, updatedData);
+    });
+
+    // 모든 업데이트가 완료될 때까지 기다림
+    await Promise.all(batchUpdates);
+
+    console.log("All posts updated with areaNo successfully!");
+  } catch (error) {
+    console.error("Error updating posts with areaNo:", error);
+    throw error;
+  }
 }

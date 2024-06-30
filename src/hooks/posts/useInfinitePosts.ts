@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { getPostsBatchBy10 } from "../../apis/posts";
 
-function useInfinitePosts(initialCategory: string) {
+function useInfinitePosts(initialCategory: string, areaNo: number) {
   const [category, setCategory] = useState(initialCategory);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +27,7 @@ function useInfinitePosts(initialCategory: string) {
   }, [postDatas]);
 
   function handlePostBatchBy10(params: any) {
-    return getPostsBatchBy10({ ...params, category: category });
+    return getPostsBatchBy10({ ...params, category: category, areaNo: areaNo });
   }
 
   useEffect(() => {
