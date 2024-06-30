@@ -36,7 +36,7 @@ function PasswordChange() {
       await mutation.mutateAsync(data.new_password);
       navigate(-1);
     } catch (error: any) {
-      console.log("");
+      console.error(error);
     }
   }
 

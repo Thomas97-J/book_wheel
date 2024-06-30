@@ -15,9 +15,6 @@ function PostDetail() {
   const postIndex = parseInt(query.get("no") ?? "");
   const { postData, isLoading, error } = useGetPostByIndex(postIndex);
 
-  useEffect(() => {
-    console.log("포스트디테일", postData);
-  }, [postData]);
   const formattedDate = dayjs
     .unix(postData?.createdAt?.seconds ?? 0)
     .format("YYYY-MM-DD");

@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./context/AuthContext";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-// import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Main from "./pages/Main";
 import My from "./pages/My";
@@ -25,6 +24,9 @@ const Explore = React.lazy(() => import("./pages/Explore"));
 const PostEdit = React.lazy(() => import("./pages/PostEdit"));
 const PostDetail = React.lazy(() => import("./pages/PostDetail"));
 const Follow = React.lazy(() => import("./pages/Follow"));
+const Rolling = React.lazy(() => import("./pages/Rolling"));
+const Messages = React.lazy(() => import("./pages/Messages"));
+const Bookshelf = React.lazy(() => import("./pages/Bookshelf"));
 
 export const PATH = {
   main: "",
@@ -38,6 +40,9 @@ export const PATH = {
   explore: "/explore",
   postEdit: "/post/postEdit",
   postDetail: "/post/detail",
+  rolling: "/rolling",
+  messages: "/messages",
+  bookshelf: "/bookshelf",
   notFound: "*",
 };
 
@@ -77,6 +82,15 @@ function App() {
               <Route path={PATH.postDetail} element={<PostDetail />} />
               <Route path={PATH.profile} element={<Profile />} />
               <Route path={PATH.follow} element={<Follow />} />
+              <Route
+                path={PATH.rolling}
+                element={<ProtectRoute component={Rolling} />}
+              />
+              <Route
+                path={PATH.messages}
+                element={<ProtectRoute component={Messages} />}
+              />
+              <Route path={PATH.bookshelf} element={<Bookshelf />} />
               <Route path={PATH.notFound} element={<NotFound />} />
             </Routes>
             <BottomNav />

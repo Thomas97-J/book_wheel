@@ -7,8 +7,8 @@ function BottomNav() {
   return (
     <BottomNavWrapper>
       <Link to={PATH.main}>메인</Link>
-      <Link to={PATH.explore}>탐험</Link>
-      <Link to={PATH.main}>메인</Link>
+      <Link to={PATH.rolling}>롤링</Link>
+      <Link to={PATH.messages}>메시지</Link>
       <Link to={PATH.my}>마이</Link>
     </BottomNavWrapper>
   );

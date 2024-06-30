@@ -3,10 +3,14 @@ import ProfileAndInfo from "../../components/mobile/ProfileAndInfo";
 import MypageHeader from "../../components/mobile/headers/MypageHeader";
 import { useAuth } from "../../context/AuthContext";
 import PageWrapper from "../../assets/styles/PageWrapper";
+import { Link } from "react-router-dom";
+import { PATH } from "../../App";
+import useGetUserById from "../../hooks/users/useGetUserById";
 
 function My() {
   const { currentUser } = useAuth();
   const uid = currentUser?.uid ?? "";
+  const { userData, isLoading, error } = useGetUserById(uid);
 
   return (
     <MyWrapper>
@@ -14,7 +18,9 @@ function My() {
       <ProfileAndInfo uid={uid} />
       <DummySection>작성 글 목록</DummySection>
       <DummySection>관심 도서</DummySection>
-      <DummySection>내 서재</DummySection>
+      <DummySection>
+        <Link to={`${PATH.bookshelf}?user=${userData?.nickname}`}>내 서재</Link>
+      </DummySection>
     </MyWrapper>
   );
 }

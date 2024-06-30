@@ -59,7 +59,6 @@ export async function getUsersBatchBy10({
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(querySnapshot);
 
     const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 
@@ -174,13 +173,11 @@ export async function createFollow(params: {
 }) {
   try {
     const { from_userId, to_userId } = params;
-    console.log(from_userId, to_userId);
 
     const isFollowing = await checkIsFollowing(from_userId, to_userId);
     if (isFollowing) {
       throw Error("이미 팔로잉한 사용자입니다.");
     }
-    console.log("isFollowing", isFollowing);
 
     const docRef = await addDoc(collection(db, "follows"), {
       from_userId: from_userId,
@@ -221,6 +218,29 @@ export async function checkIsFollowing(
 
   return docSnap?.id || "";
 }
+export async function getFollowCount(uid: string): Promise<{
+  followingCount: number;
+  followersCount: number;
+}> {
+  // from_userId가 uid인 문서의 수를 세어 팔로우하는 수를 구합니다.
+  const followingQuery = query(
+    collection(db, "follows"),
+    where("from_userId", "==", uid)
+  );
+  const followingSnapshot = await getDocs(followingQuery);
+  const followingCount = followingSnapshot.size;
+
+  // to_userId가 uid인 문서의 수를 세어 팔로우 받는 수를 구합니다.
+  const followersQuery = query(
+    collection(db, "follows"),
+    where("to_userId", "==", uid)
+  );
+  const followersSnapshot = await getDocs(followersQuery);
+  const followersCount = followersSnapshot.size;
+
+  // 팔로우하는 수와 팔로우 받는 수를 반환합니다.
+  return { followingCount, followersCount };
+}
 
 export async function getUserFollowers(uid: string): Promise<UserData[]> {
   const followersQuery = query(
@@ -231,7 +251,6 @@ export async function getUserFollowers(uid: string): Promise<UserData[]> {
   const followerIds = followersSnapshot.docs.map(
     (doc) => doc.data().from_userId
   );
-  console.log(followerIds, followersSnapshot);
 
   const followersData: UserData[] = [];
   for (const followerId of followerIds) {
@@ -254,7 +273,6 @@ export async function getUserFollowing(uid: string): Promise<UserData[]> {
   const followingIds = followingSnapshot.docs.map(
     (doc) => doc.data().to_userId
   );
-  console.log(followingIds);
 
   const followingData: UserData[] = [];
   for (const followingId of followingIds) {

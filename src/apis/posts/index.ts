@@ -39,6 +39,7 @@ export async function createPostWithIndex(newPostData: {
   uid: string;
   title: string;
   content: string;
+  areaNo: number;
   category?: string;
 }) {
   try {
@@ -58,17 +59,19 @@ export async function createPostWithIndex(newPostData: {
         const latestPost = latestPostSnapshot.docs[0];
         newIndex = latestPost.data().index + 1;
       }
+      console.log(newPostData);
 
       const newPostRef = doc(postsRef);
       transaction.set(newPostRef, {
         uid: newPostData.uid,
         title: newPostData.title,
         content: newPostData.content,
-        category: newPostData.category,
+        category: newPostData.category ?? "all",
+        areaNo: newPostData.areaNo,
         createdAt: new Date(),
         index: newIndex,
       });
-      return newIndex;
+      return { id: newPostRef.id, index: newIndex };
     });
 
     return postIndex;
@@ -78,28 +81,29 @@ export async function createPostWithIndex(newPostData: {
   }
 }
 
-export async function updatePost(newPostData: {
-  uid: string;
-  postId: string;
-  title: string;
-  content: string;
-  category?: string;
-}) {
-  const postDoc = doc(db, "posts", newPostData.postId);
+// export async function updatePost(newPostData: {
+//   uid: string;
+//   postId: string;
+//   title: string;
+//   content: string;
+//   category?: string;
+// }) {
+//   const postDoc = doc(db, "posts", newPostData.postId);
 
-  await updateDoc(postDoc, {
-    uid: newPostData.uid,
-    title: newPostData.title,
-    content: newPostData.content,
-    updatedAt: new Date(),
-  });
-}
+//   await updateDoc(postDoc, {
+//     uid: newPostData.uid,
+//     title: newPostData.title,
+//     content: newPostData.content,
+//     updatedAt: new Date(),
+//   });
+// }
 
 export async function updatePostByIndex(newPostData: {
   uid: string;
   index: number;
   title: string;
   content: string;
+  areaNo: number;
   category?: string;
 }) {
   try {
@@ -119,34 +123,36 @@ export async function updatePostByIndex(newPostData: {
       title: newPostData.title,
       content: newPostData.content,
       category: newPostData.category,
+      areaNo: newPostData.areaNo,
       updatedAt: new Date(),
     });
+    return { id: postDoc.id, index: newPostData.index };
   } catch (error) {
     console.error("Error updating post by index: ", error);
     throw error;
   }
 }
 
-export async function getAllPosts(): Promise<Post[]> {
-  try {
-    const querySnapshot = await getDocs(collection(db, "posts"));
-    const posts: Post[] = querySnapshot.docs.map((doc): Post => {
-      const data = doc.data() as Post;
-      return {
-        id: doc.id,
-        title: data.title,
-        content: data.content,
-        index: data.index,
-        uid: data.uid,
-        createdAt: data.createdAt,
-      };
-    });
-    return posts;
-  } catch (error) {
-    console.error("Error fetching posts: ", error);
-    throw error;
-  }
-}
+// export async function getAllPosts(): Promise<Post[]> {
+//   try {
+//     const querySnapshot = await getDocs(collection(db, "posts"));
+//     const posts: Post[] = querySnapshot.docs.map((doc): Post => {
+//       const data = doc.data() as Post;
+//       return {
+//         id: doc.id,
+//         title: data.title,
+//         content: data.content,
+//         index: data.index,
+//         uid: data.uid,
+//         createdAt: data.createdAt,
+//       };
+//     });
+//     return posts;
+//   } catch (error) {
+//     console.error("Error fetching posts: ", error);
+//     throw error;
+//   }
+// }
 
 export async function getUserPosts(userId: string) {
   try {
@@ -176,7 +182,6 @@ export async function getPostsBatchBy10({
   try {
     const postsRef = collection(db, "posts");
     let q = query(postsRef, orderBy("createdAt", "desc"), limit(10));
-    console.log("getPostsBatchBy10", category);
 
     if (!category || category == "all") {
       if (pageParam) {
@@ -213,13 +218,12 @@ export async function getPostsBatchBy10({
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(posts);
 
     const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 
     return { posts, nextPage: lastVisible };
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
@@ -228,7 +232,6 @@ export async function getPostById(postId: string): Promise<Post> {
     const postDoc = doc(db, "posts", postId);
     const postSnapshot = await getDoc(postDoc);
     const data = postSnapshot.data();
-    console.log("getPostById", data);
 
     return data as Post;
   } catch (error) {

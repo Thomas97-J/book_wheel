@@ -4,7 +4,6 @@ import { PATH } from "../../../../App";
 import dayjs from "dayjs";
 
 function PostCard({ title, content, createdAt, index, id }: Post) {
-  console.log(createdAt);
   const formattedDate = dayjs
     .unix(createdAt?.seconds ?? 0)
     .format("YYYY-MM-DD");

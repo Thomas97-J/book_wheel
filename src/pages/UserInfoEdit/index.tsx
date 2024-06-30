@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import imageCompression from "browser-image-compression";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
 import imgPaths from "../../assets/images/image_path";
 import useGetUserById from "../../hooks/users/useGetUserById";
 import useUpdateUserData from "../../hooks/users/useUpdateUserData";
-import useUploadFile from "../../hooks/firestore/useUploadFile";
 import PageWrapper from "../../assets/styles/PageWrapper";
+import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
 
 interface FixUserInfoFormValue {
   nickname: string;
   bio: string;
   photoFile?: any;
+  profileImage?: string;
 }
 
 function UserInfoEdit() {
@@ -31,13 +31,16 @@ function UserInfoEdit() {
   const [imgPath, setImgPath] = useState<string | undefined | null>("");
   const imgRef = useRef<HTMLInputElement | null>(null);
   const { userData, isLoading, error } = useGetUserById(uid);
-
-  const uploadMutation = useUploadFile(uid);
+  const { uploadImgFile, isUploading } = useUploadImgFile({
+    maxSizeMB: 0.2,
+    maxWidthOrHeight: 256,
+  });
   const userInfoUpataeMutation = useUpdateUserData(uid);
 
   useEffect(() => {
     if (userData?.profileImage) {
       setImgPath(userData?.profileImage);
+      setValue("profileImage", userData.profileImage);
     }
     if (userData) {
       setValue("nickname", userData.nickname);
@@ -45,47 +48,28 @@ function UserInfoEdit() {
     }
   }, [userData, setValue]);
 
-  async function uplodeImgFile(imgFile: FileObject) {
-    const options = {
-      maxSizeMB: 0.2,
-      maxWidthOrHeight: 256,
-      useWebWorker: true,
-      fileType: "image/jpeg",
-    };
-    const compressedFile = await imageCompression(imgFile, options); //이미지 파일 압축
-
-    const downloadURL = await uploadMutation.mutateAsync({
-      file: compressedFile,
-      path: `${uid}/profile/profileImg`,
-    });
-    console.log("이미지네임", compressedFile.name);
-
-    return downloadURL;
-  }
-
   async function sendFixInfo(profileData: FixUserInfoFormValue) {
     setUpdating(true);
-
     try {
+      const updatedProfileData: FixUserInfoFormValue = {
+        nickname: profileData.nickname,
+        bio: profileData.bio,
+      };
       if (profileData?.photoFile) {
-        if (userData?.profileImage) {
-          console.log(userData?.profileImage);
-        }
-        const downloadURL = await uplodeImgFile(profileData.photoFile);
-        console.log(downloadURL);
-        const dataWithProfile = {
-          ...profileData,
-          profileImage: downloadURL,
-        };
-        await userInfoUpataeMutation.mutateAsync({
-          uid,
-          data: dataWithProfile,
-        });
-      } else {
-        await userInfoUpataeMutation.mutateAsync({ uid, data: profileData });
+        const downloadURL = await uploadImgFile(
+          profileData.photoFile,
+          `/users/${uid}/profile/profileImg`
+        );
+        updatedProfileData.profileImage = downloadURL;
+      } else if (profileData?.profileImage) {
+        updatedProfileData.profileImage = profileData?.profileImage;
       }
+      await userInfoUpataeMutation.mutateAsync({
+        uid,
+        data: updatedProfileData,
+      });
     } catch (error: any) {
-      console.log(error);
+      console.error("Failed to update user info:", error);
     } finally {
       setUpdating(false);
     }

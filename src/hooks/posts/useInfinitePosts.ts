@@ -22,7 +22,6 @@ function useInfinitePosts(initialCategory: string) {
 
   useEffect(() => {
     if (postDatas) {
-      console.log("get 허용");
       setIsLoading(true);
     }
   }, [postDatas]);

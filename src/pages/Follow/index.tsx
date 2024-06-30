@@ -80,7 +80,6 @@ function Follow() {
             >
               {followingData?.length ? (
                 followingData?.map((user: UserData) => {
-                  console.log(user.id);
                   return <UserCard key={user.id} userInfo={user} />;
                 })
               ) : (
