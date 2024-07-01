@@ -1,9 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import useCreateFollow from "../../hooks/users/useCreateFollow";
 import { useAuth } from "../../context/AuthContext";
-import useCheckIsFollowing from "../../hooks/users/useCheckIsFollowing";
-import useDeleteFollow from "../../hooks/users/useDeleteFollow";
 import ProfileAndInfo from "../../components/mobile/ProfileAndInfo";
 import useGetUidByNickname from "../../hooks/users/useGetUidByNickname";
 import PageWrapper from "../../assets/styles/PageWrapper";

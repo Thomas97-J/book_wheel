@@ -12,7 +12,7 @@ function FollowBtn({
   targetUid: string;
 }) {
   const { followingId } = useCheckIsFollowing(currentUid, targetUid);
-  const followMutation = useCreateFollow();
+  const followMutation = useCreateFollow(currentUid, targetUid);
   const unFollowMutation = useDeleteFollow(currentUid, targetUid);
 
   return (
