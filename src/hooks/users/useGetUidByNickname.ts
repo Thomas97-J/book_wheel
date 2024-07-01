@@ -7,5 +7,5 @@ export default function useGetUidByNickname(nickname: string) {
     queryFn: () => getUidByNickname(nickname),
     enabled: !!nickname,
   });
-  return { targetUid: data };
+  return { targetUid: data, isLoading: !!data };
 }

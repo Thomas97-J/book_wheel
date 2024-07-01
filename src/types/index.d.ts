@@ -34,3 +34,17 @@ interface FollowData {
   nickname: string;
   bio?: string;
 }
+
+interface Book {
+  id?: string;
+  index: number;
+  areaNo: number;
+  uid: string;
+  title: string;
+  author: string;
+  genres?: string[];
+  content: string;
+  photoUrl?: string;
+  createdAt: Timestamp;
+  updatadAt?: Timestamp;
+}

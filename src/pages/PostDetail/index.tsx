@@ -35,6 +35,8 @@ function PostDetail() {
         <img src={postData?.postImage} alt="게시글 이미지" />
       )}
       <h2>{postData?.title}</h2>
+      <div>{postData?.author}</div>
+
       <div>{postData?.content}</div>
     </PostDetailWrapper>
   );

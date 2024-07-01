@@ -1,33 +1,34 @@
 import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { getPostsBatchBy10 } from "../../apis/posts";
+import { getBooksBatchBy10 } from "../../apis/books";
 
-function useInfinitePosts(initialCategory: string, areaNo: number) {
-  const [category, setCategory] = useState(initialCategory);
+function useInfiniteBooks(initialFilter: any, areaNo: number) {
+  const [filter, setFilter] = useState(initialFilter);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(true);
+
   const {
-    data: postDatas,
+    data: bookData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["posts", category],
-    queryFn: handlePostBatchBy10,
+    queryKey: ["books", filter],
+    queryFn: handleBooksBatchBy10,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
   });
 
   useEffect(() => {
-    if (postDatas) {
+    if (bookData) {
       setIsLoading(false);
     }
-  }, [postDatas]);
+  }, [bookData]);
 
-  function handlePostBatchBy10(params: any) {
-    return getPostsBatchBy10({ ...params, category: category, areaNo: areaNo });
+  function handleBooksBatchBy10(params: any) {
+    return getBooksBatchBy10({ ...params, filter: filter, areaNo: areaNo });
   }
 
   useEffect(() => {
@@ -39,14 +40,14 @@ function useInfinitePosts(initialCategory: string, areaNo: number) {
 
   return {
     ref,
-    postDatas,
+    bookData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     status,
-    category,
-    setCategory,
+    filter,
+    setFilter,
   };
 }
 
-export default useInfinitePosts;
+export default useInfiniteBooks;
