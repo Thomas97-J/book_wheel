@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createFollow } from "../../apis/users";
+import { createFollow } from "../../apis/follow";
 
 export default function useCreateFollow(
   from_userId: string,

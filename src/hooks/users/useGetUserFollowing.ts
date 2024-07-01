@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserFollowing } from "../../apis/users";
+import { getUserFollowing } from "../../apis/follow";
 
 export function useGetUserFollowing(uid: string) {
   const { data, isLoading, error } = useQuery<UserData[]>({

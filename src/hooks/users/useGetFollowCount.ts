@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getFollowCount } from "../../apis/users";
+import { getFollowCount } from "../../apis/follow";
 
 export default function useGetFollowCount(uid: string) {
   const { data, isLoading, isError, error } = useQuery({

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteFollow } from "../../apis/users";
+import { deleteFollow } from "../../apis/follow";
 
 export default function useDeleteFollow(
   from_userId: string,

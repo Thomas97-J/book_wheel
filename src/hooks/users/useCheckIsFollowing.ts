@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { checkIsFollowing } from "../../apis/users";
+import { checkIsFollowing } from "../../apis/follow";
 
 export default function useCheckIsFollowing(
   from_userId: string,
