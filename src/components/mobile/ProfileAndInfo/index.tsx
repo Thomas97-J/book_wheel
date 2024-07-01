@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
 import imgPaths from "../../../assets/images/image_path";
 import useGetUserById from "../../../hooks/users/useGetUserById";
-import useGetFollowCount from "../../../hooks/users/useGetFollowCount";
+import useGetFollowCount from "../../../hooks/follow/useGetFollowCount";
 
 function ProfileAndInfo({ uid }: { uid: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);

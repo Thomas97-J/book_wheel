@@ -3,9 +3,9 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useGetUserFollowers } from "../../hooks/users/useGetUserFollowers";
+import { useGetUserFollowers } from "../../hooks/follow/useGetUserFollowers";
 import { useAuth } from "../../context/AuthContext";
-import { useGetUserFollowing } from "../../hooks/users/useGetUserFollowing";
+import { useGetUserFollowing } from "../../hooks/follow/useGetUserFollowing";
 import UserCard from "../../components/mobile/UserCard";
 
 function Follow() {

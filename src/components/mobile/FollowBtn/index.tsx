@@ -1,6 +1,6 @@
-import useCheckIsFollowing from "../../../hooks/users/useCheckIsFollowing";
-import useCreateFollow from "../../../hooks/users/useCreateFollow";
-import useDeleteFollow from "../../../hooks/users/useDeleteFollow";
+import useCheckIsFollowing from "../../../hooks/follow/useCheckIsFollowing";
+import useCreateFollow from "../../../hooks/follow/useCreateFollow";
+import useDeleteFollow from "../../../hooks/follow/useDeleteFollow";
 
 import styled from "styled-components";
 
