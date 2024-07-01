@@ -11,6 +11,7 @@ import DropDownSelect from "../../components/common/DropDownSelect";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import PostEditHeader from "../../components/mobile/headers/PostEditHeader";
 import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
+import useImageUpload from "../../hooks/common/useImageUpload";
 
 interface PostValue {
   uid: string;
@@ -44,16 +45,16 @@ function NewPost() {
     mode: "onBlur",
   });
   const [query, setQuery] = useSearchParams();
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { uploadImgFile, isUploading } = useUploadImgFile({
-    maxSizeMB: 0.2,
-    maxWidthOrHeight: 256,
+    maxSizeMB: 1,
+    maxWidthOrHeight: 512,
   });
   const postIndex = parseInt(query.get("no") ?? "");
   const { postData, isLoading, error } = useGetPostByIndex(postIndex);
   const createMutation = useCreatePostWithIndex();
   const updateMutation = useUpdatePostByIndex();
-  const imgRef = useRef<HTMLInputElement | null>(null);
+  const { imagePreview, setImagePreview, imgRef, saveImgFile } =
+    useImageUpload(setValue);
 
   const navigate = useNavigate();
   const options = [
@@ -72,11 +73,14 @@ function NewPost() {
         alert("잘못된 접근입니다.");
         navigate(-1);
       }
-      if (postData?.content) {
-        setValue("content", postData?.content);
+      setValue("title", postData.title);
+
+      if (postData?.postImage) {
+        setValue("postImage", postData.postImage);
+        setImagePreview(postData.postImage);
       }
-      if (postData?.title) {
-        setValue("title", postData?.title);
+      if (postData?.content) {
+        setValue("content", postData.content);
       }
     }
   }, [postData, currentUser, navigate, postIndex, setValue]);
@@ -113,22 +117,6 @@ function NewPost() {
       }
     } catch (err) {
       console.log("err", err);
-    }
-  }
-
-  function saveImgFile() {
-    if (
-      imgRef.current &&
-      imgRef.current.files &&
-      imgRef.current.files.length > 0
-    ) {
-      const file = imgRef?.current.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setImagePreview(reader.result as string);
-      };
-      setValue("photoFile", file); // Update react-hook-form value
     }
   }
 

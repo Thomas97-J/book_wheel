@@ -7,6 +7,7 @@ import useGetUserById from "../../hooks/users/useGetUserById";
 import useUpdateUserData from "../../hooks/users/useUpdateUserData";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
+import useImageUpload from "../../hooks/common/useImageUpload";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -28,19 +29,19 @@ function UserInfoEdit() {
   const { currentUser } = useAuth();
   const uid = currentUser?.uid ?? "";
   const [updating, setUpdating] = useState(false);
-  const [imgPath, setImgPath] = useState<string | undefined | null>("");
-  const imgRef = useRef<HTMLInputElement | null>(null);
   const { userData, isLoading, error } = useGetUserById(uid);
   const { uploadImgFile, isUploading } = useUploadImgFile({
     maxSizeMB: 0.2,
     maxWidthOrHeight: 256,
   });
   const userInfoUpataeMutation = useUpdateUserData(uid);
+  const { imagePreview, setImagePreview, imgRef, saveImgFile } =
+    useImageUpload(setValue);
 
   useEffect(() => {
     if (userData?.profileImage) {
-      setImgPath(userData?.profileImage);
       setValue("profileImage", userData.profileImage);
+      setImagePreview(userData.profileImage);
     }
     if (userData) {
       setValue("nickname", userData.nickname);
@@ -75,26 +76,10 @@ function UserInfoEdit() {
     }
   }
 
-  function saveImgFile() {
-    if (
-      imgRef.current &&
-      imgRef.current.files &&
-      imgRef.current.files.length > 0
-    ) {
-      const file = imgRef?.current.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setImgPath(reader.result as string);
-      };
-      setValue("photoFile", file); // Update react-hook-form value
-    }
-  }
-
   return (
     <UserInfoEditWrapper>
       <ProFile
-        src={imgPath ? imgPath : imgPaths.defaultProfileImage}
+        src={imagePreview ?? imgPaths.defaultProfileImage}
         alt="이미지 업로드"
       />
       <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>

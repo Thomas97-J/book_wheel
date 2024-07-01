@@ -18,6 +18,11 @@ function PostDetail() {
   const formattedDate = dayjs
     .unix(postData?.createdAt?.seconds ?? 0)
     .format("YYYY-MM-DD");
+
+  useEffect(() => {
+    console.log(postData?.postImage);
+  }, [postData]);
+
   if (isLoading) {
     return <Fallback />;
   }
@@ -26,6 +31,9 @@ function PostDetail() {
       <PostHeader user={currentUser} postData={postData} />
       <UserInfo uid={postData?.uid || ""} />
       <div>{formattedDate}</div>
+      {postData?.postImage && (
+        <img src={postData?.postImage} alt="게시글 이미지" />
+      )}
       <h2>{postData?.title}</h2>
       <div>{postData?.content}</div>
     </PostDetailWrapper>

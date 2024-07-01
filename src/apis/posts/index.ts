@@ -119,6 +119,7 @@ export async function updatePostByIndex(newPostData: {
   title: string;
   content: string;
   areaNo: number;
+  postImage?: string;
   category?: string;
 }) {
   try {
@@ -132,13 +133,18 @@ export async function updatePostByIndex(newPostData: {
     }
     //찾아진 첫 인덱스
     const postDoc = querySnapshot.docs[0].ref;
+    //기존 이미지 삭제
+    if (querySnapshot.docs[0].data()?.postImage) {
+      deleteFile(querySnapshot.docs[0].data()?.postImage);
+    }
 
     await updateDoc(postDoc, {
       uid: newPostData.uid,
       title: newPostData.title,
       content: newPostData.content,
-      category: newPostData.category,
+      category: newPostData.category ?? "all",
       areaNo: newPostData.areaNo,
+      postImage: newPostData?.postImage,
       updatedAt: new Date(),
     });
     return { id: postDoc.id, index: newPostData.index };
