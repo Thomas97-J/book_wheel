@@ -102,13 +102,18 @@ export async function getUserFollowers(nickname: string): Promise<UserData[]> {
     (doc) => doc.data().from_userId
   );
 
-  const followersData: UserData[] = [];
-  for (const followerId of followerIds) {
-    const userDoc = await getDoc(doc(db, "users", followerId));
-    if (userDoc.exists()) {
-      followersData.push({ id: userDoc.id, ...userDoc.data() } as UserData);
-    }
-  }
+  const userQuery = query(
+    collection(db, "users"),
+    where("__name__", "in", followerIds),
+    limit(10)
+  );
+  const userSnapshot = await getDocs(userQuery);
+  const followersData = userSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  console.log("getUserFollowers", followersData);
 
   return followersData;
 }
@@ -126,13 +131,25 @@ export async function getUserFollowing(nickname: string): Promise<UserData[]> {
     (doc) => doc.data().to_userId
   );
 
-  const followingData: UserData[] = [];
-  for (const followingId of followingIds) {
-    const userDoc = await getDoc(doc(db, "users", followingId));
-    if (userDoc.exists()) {
-      followingData.push({ id: userDoc.id, ...userDoc.data() } as UserData);
-    }
-  }
+  const userQuery = query(
+    collection(db, "users"),
+    where("__name__", "in", followingIds),
+    limit(10)
+  );
+  const userSnapshot = await getDocs(userQuery);
+  const followingData = userSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  // const followingData: UserData[] = [];
+  // for (const followingId of followingIds) {
+  //   const userDoc = await getDoc(doc(db, "users", followingId));
+  //   if (userDoc.exists()) {
+  //     followingData.push({ id: userDoc.id, ...userDoc.data() } as UserData);
+  //   }
+  // }
+  console.log("getUserFollowing", followingData);
 
   return followingData;
 }

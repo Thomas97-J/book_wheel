@@ -12,7 +12,8 @@ function Follow() {
   const [activeTab, setActiveTab] = useState("followers");
   const userNickname = query.get("user") || "";
   const { followerData } = useGetUserFollowers(userNickname);
-  const { followingData } = useGetUserFollowing(userNickname);
+  const { followingData, isLoading: isFollowingLoading } =
+    useGetUserFollowing(userNickname);
 
   const tabs = [
     { name: "팔로워", key: "followers" },
@@ -75,7 +76,9 @@ function Follow() {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              {followingData?.length ? (
+              {isFollowingLoading ? (
+                <>로딩중입니다.</>
+              ) : followingData?.length ? (
                 followingData?.map((user: UserData) => {
                   return <UserCard key={user.id} userInfo={user} />;
                 })
