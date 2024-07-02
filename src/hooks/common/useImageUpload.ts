@@ -16,7 +16,7 @@ function useImageUpload(setValue: any) {
       reader.onload = () => {
         setImagePreview(reader.result as string);
       };
-      setValue("photoFile", file); // Update react-hook-form value
+      setValue("photoFile", file);
     }
   };
 

@@ -68,6 +68,7 @@ const PostSectionWrapper = styled.div`
 `;
 const StickyMenu = styled.div`
   position: sticky;
+  z-index: 100;
   background: #fff;
   top: 60px;
   height: 50px;

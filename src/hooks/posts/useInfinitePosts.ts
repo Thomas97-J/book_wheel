@@ -35,7 +35,7 @@ function useInfinitePosts(initialCategory: string, areaNo: number) {
       fetchNextPage();
       setIsLoading(true);
     }
-  }, [inView, hasNextPage, fetchNextPage]);
+  }, [inView, hasNextPage]);
 
   return {
     ref,

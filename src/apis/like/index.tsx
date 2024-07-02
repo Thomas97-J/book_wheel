@@ -23,7 +23,9 @@ export async function createPostLike(params: {
     const { userId, postId } = params;
 
     // Check if the like already exists
-    const isLiked = await checkPostIsLiked(userId, postId);
+    const isLiked = await getPostLikeId(userId, postId);
+    console.log("isLiked", isLiked);
+
     if (isLiked) {
       throw Error("이미 좋아요를 누른 게시물입니다.");
     }
@@ -51,10 +53,11 @@ export async function deletePostLike(likeId: string): Promise<void> {
     throw error;
   }
 }
-export async function checkPostIsLiked(
+
+export async function getPostLikeId(
   userId: string,
   postId: string
-): Promise<boolean> {
+): Promise<string | null> {
   const likeQuery = query(
     collection(db, "like_posts"),
     where("userId", "==", userId),
@@ -62,7 +65,10 @@ export async function checkPostIsLiked(
   );
 
   const querySnapshot = await getDocs(likeQuery);
-  return !querySnapshot.empty;
+  const docSnap = querySnapshot.docs[0];
+  console.log("getPostLikeId", docSnap?.id);
+
+  return docSnap?.id || "";
 }
 
 export async function getLikedPostsByUser(userId: string): Promise<Post[]> {

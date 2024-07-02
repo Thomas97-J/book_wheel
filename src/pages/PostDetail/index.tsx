@@ -8,6 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import dayjs from "dayjs";
+import LikeBtn from "../../components/mobile/LikeBtn";
 
 function PostDetail() {
   const { currentUser } = useAuth();
@@ -36,7 +37,7 @@ function PostDetail() {
       )}
       <h2>{postData?.title}</h2>
       <div>{postData?.content}</div>
-      <button onClick={() => {}}>like</button>
+      <LikeBtn userId={currentUser?.uid ?? ""} postId={postData?.id ?? ""} />
     </PostDetailWrapper>
   );
 }
