@@ -19,6 +19,7 @@ const BottomNavWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   position: fixed;
+  z-index: 1000;
   bottom: 0;
   background-color: white;
   box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.1);

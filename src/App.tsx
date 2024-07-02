@@ -29,6 +29,8 @@ const Messages = React.lazy(() => import("./pages/Messages"));
 const Bookshelf = React.lazy(() => import("./pages/Bookshelf"));
 const BookEdit = React.lazy(() => import("./pages/Bookshelf/BookEdit"));
 const BookDetail = React.lazy(() => import("./pages/Bookshelf/BookDetail"));
+const LikePosts = React.lazy(() => import("./pages/My/LikePosts"));
+
 export const PATH = {
   main: "",
   signIn: "/signin",
@@ -36,6 +38,7 @@ export const PATH = {
   my: "/my",
   infoFix: "/my/edit",
   passwordChange: "/my/change_password",
+  likedPost: "/my/likedPost",
   profile: "/profile",
   follow: "/profile/follow",
   explore: "/explore",
@@ -67,6 +70,10 @@ function App() {
                 element={<UnProtectRoute component={Signup} />}
               />
               <Route path={PATH.my} element={<ProtectRoute component={My} />} />
+              <Route
+                path={PATH.likedPost}
+                element={<ProtectRoute component={LikePosts} />}
+              />
               <Route
                 path={PATH.infoFix}
                 element={<ProtectRoute component={InfoFixSection} />}
@@ -102,6 +109,7 @@ function App() {
                 path={PATH.bookDetail}
                 element={<ProtectRoute component={BookDetail} />}
               />
+
               <Route path={PATH.bookshelf} element={<Bookshelf />} />
               <Route path={PATH.notFound} element={<NotFound />} />
             </Routes>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Fallback from "../../../components/mobile/Fallback";
-import PostCard from "./PostCard";
+import PostCard from "../../../components/mobile/PostCard";
 import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import _ from "lodash";
 import DropDownSelect from "../../../components/common/DropDownSelect";

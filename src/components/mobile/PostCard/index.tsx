@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { PATH } from "../../../../App";
+import { PATH } from "../../../App";
 import dayjs from "dayjs";
-import LikeBtn from "../../../../components/mobile/LikeBtn";
-import { useAuth } from "../../../../context/AuthContext";
+import LikeBtn from "../LikeBtn";
+import { useAuth } from "../../../context/AuthContext";
 
 function PostCard({ title, content, createdAt, index, id }: Post) {
   const { currentUser } = useAuth();

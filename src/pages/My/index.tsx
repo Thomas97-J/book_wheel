@@ -18,6 +18,7 @@ function My() {
       <ProfileAndInfo uid={uid} />
       <DummySection>작성 글 목록</DummySection>
       <DummySection>관심 도서</DummySection>
+      <Link to={`${PATH.likedPost}`}>관심 글</Link>
       <DummySection>
         <Link to={`${PATH.bookshelf}?user=${userData?.nickname}`}>내 서재</Link>
       </DummySection>

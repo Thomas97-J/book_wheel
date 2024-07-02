@@ -9,13 +9,14 @@ import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import dayjs from "dayjs";
 import LikeBtn from "../../components/mobile/LikeBtn";
+import useGetReceivedLikesCount from "../../hooks/like/useGetReceivedLikesCount";
 
 function PostDetail() {
   const { currentUser } = useAuth();
   const [query, setQuery] = useSearchParams();
   const postIndex = parseInt(query.get("no") ?? "");
   const { postData, isLoading, error } = useGetPostByIndex(postIndex);
-
+  const { receivedLikesCount } = useGetReceivedLikesCount(postData?.id ?? "");
   const formattedDate = dayjs
     .unix(postData?.createdAt?.seconds ?? 0)
     .format("YYYY-MM-DD");
@@ -24,6 +25,9 @@ function PostDetail() {
     console.log(postData?.postImage);
   }, [postData]);
 
+  useEffect(() => {
+    console.log("receivedLikesCount", receivedLikesCount);
+  }, [receivedLikesCount]);
   if (isLoading) {
     return <Fallback />;
   }
@@ -37,6 +41,7 @@ function PostDetail() {
       )}
       <h2>{postData?.title}</h2>
       <div>{postData?.content}</div>
+      <div>like: {receivedLikesCount}</div>
       <LikeBtn userId={currentUser?.uid ?? ""} postId={postData?.id ?? ""} />
     </PostDetailWrapper>
   );

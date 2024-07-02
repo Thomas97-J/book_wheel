@@ -71,24 +71,54 @@ export async function getPostLikeId(
   return docSnap?.id || "";
 }
 
-export async function getLikedPostsByUser(userId: string): Promise<Post[]> {
-  const likedPostsQuery = query(
+export async function getLikedPostsBatchBy10({
+  pageParam = null,
+  userId,
+}: {
+  pageParam?: any;
+  userId: string;
+}) {
+  let likedPostsQuery = query(
     collection(db, "like_posts"),
-    where("userId", "==", userId)
+    where("userId", "==", userId),
+    limit(10)
   );
+
+  if (pageParam) {
+    likedPostsQuery = query(likedPostsQuery, startAfter(pageParam));
+  }
 
   const likedPostsSnapshot = await getDocs(likedPostsQuery);
   const postIds = likedPostsSnapshot.docs.map((doc) => doc.data().postId);
 
-  const likedPostsData: Post[] = [];
-  for (const postId of postIds) {
-    const postDoc = await getDoc(doc(db, "posts", postId));
-    if (postDoc.exists()) {
-      likedPostsData.push({ id: postDoc.id, ...postDoc.data() } as Post);
-    }
-  }
+  const postQuery = query(
+    collection(db, "posts"),
+    where("__name__", "in", postIds),
+    limit(10)
+  );
+  const postSnapshot = await getDocs(postQuery);
+  const likedPostsData = postSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 
-  return likedPostsData;
+  console.log("likedPostsData", likedPostsData);
+
+  const lastVisible =
+    likedPostsSnapshot.docs[likedPostsSnapshot.docs.length - 1];
+
+  return { likedPostsData, nextPage: lastVisible };
+}
+
+export async function getReceivedLikesCount(postId: string): Promise<number> {
+  const receivedLikesQuery = query(
+    collection(db, "like_posts"),
+    where("postId", "==", postId)
+  );
+  const receivedLikesSnapshot = await getDocs(receivedLikesQuery);
+  const receivedLikesCount = receivedLikesSnapshot.size;
+
+  return receivedLikesCount;
 }
 
 export async function getUsersWhoLikedPost(

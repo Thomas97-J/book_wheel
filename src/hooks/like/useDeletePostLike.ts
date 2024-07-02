@@ -6,26 +6,61 @@ export default function useDeletePostLike(userId: string, postId: string) {
   const likeMutation = useMutation({
     mutationFn: deletePostLike,
     onMutate: async (likeId) => {
-      const queryKey = ["post_likes", userId, postId];
+      const postLikesQueryKey = ["post_likes", userId, postId];
+      const receivedLikesQueryKey = ["received_likes_count", postId];
 
-      await queryClient.cancelQueries({ queryKey: queryKey });
-      const previousLikeStatus = queryClient.getQueryData(queryKey);
-      queryClient.setQueryData(queryKey, false);
-      return { previousLikeStatus, queryKey };
+      await queryClient.cancelQueries({ queryKey: postLikesQueryKey });
+      await queryClient.cancelQueries({ queryKey: receivedLikesQueryKey });
+
+      const previousLikeStatus = queryClient.getQueryData(postLikesQueryKey);
+      const previousLikesCount = queryClient.getQueryData(
+        receivedLikesQueryKey
+      );
+
+      queryClient.setQueryData(postLikesQueryKey, false);
+      queryClient.setQueryData(
+        receivedLikesQueryKey,
+        (old: number) => (old ?? 0) - 1
+      );
+
+      return {
+        previousLikeStatus,
+        previousLikesCount,
+        postLikesQueryKey,
+        receivedLikesQueryKey,
+      };
     },
     onError: (err, likeId, context) => {
       if (context?.previousLikeStatus) {
-        queryClient.setQueryData(context.queryKey, context.previousLikeStatus);
+        queryClient.setQueryData(
+          context.postLikesQueryKey,
+          context.previousLikeStatus
+        );
+      }
+      if (context?.previousLikesCount) {
+        queryClient.setQueryData(
+          context.receivedLikesQueryKey,
+          context.previousLikesCount
+        );
       }
     },
     onSuccess: () => {
-      const queryKey = ["post_likes", userId, postId];
-      queryClient.invalidateQueries({ queryKey: queryKey });
+      queryClient.invalidateQueries({
+        queryKey: ["post_likes", userId, postId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["received_likes_count", postId],
+      });
     },
     onSettled: () => {
-      const queryKey = ["post_likes", userId, postId];
-      queryClient.invalidateQueries({ queryKey: queryKey });
+      queryClient.invalidateQueries({
+        queryKey: ["post_likes", userId, postId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["received_likes_count", postId],
+      });
     },
   });
+
   return likeMutation;
 }
