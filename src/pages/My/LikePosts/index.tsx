@@ -8,6 +8,7 @@ import PostCard from "../../../components/mobile/PostCard";
 function LikePosts() {
   const { currentUser } = useAuth();
   const {
+    ref,
     likedPostsDatas,
     fetchNextPage,
     hasNextPage,
@@ -21,7 +22,6 @@ function LikePosts() {
 
   return (
     <LikePostsWrapper>
-      {" "}
       {likedPostsDatas?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
           {page?.likedPostsData.map((post: any) => (
@@ -37,6 +37,7 @@ function LikePosts() {
           ))}
         </div>
       ))}
+      <div ref={ref}></div>
     </LikePostsWrapper>
   );
 }
