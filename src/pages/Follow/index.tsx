@@ -4,18 +4,17 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGetUserFollowers } from "../../hooks/follow/useGetUserFollowers";
-import { useAuth } from "../../context/AuthContext";
 import { useGetUserFollowing } from "../../hooks/follow/useGetUserFollowing";
 import UserCard from "../../components/mobile/UserCard";
+import useGetUidByNickname from "../../hooks/users/useGetUidByNickname";
 
 function Follow() {
   const [query, setQuery] = useSearchParams();
   const [activeTab, setActiveTab] = useState("followers");
   const userNickname = query.get("user") || "";
-  const { currentUser } = useAuth();
-  const uid = currentUser?.uid ?? "";
-  const { followerData } = useGetUserFollowers(uid);
-  const { followingData } = useGetUserFollowing(uid);
+  const { targetUid } = useGetUidByNickname(userNickname);
+  const { followerData } = useGetUserFollowers(targetUid);
+  const { followingData } = useGetUserFollowing(targetUid);
 
   const tabs = [
     { name: "팔로워", key: "followers" },

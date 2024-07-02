@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 const Header = styled.header`
   height: 60px;
-  border-bottom: solid 1px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -12,6 +11,7 @@ const Header = styled.header`
   left: 0;
   background-color: #fff;
   z-index: 1000;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export default Header;

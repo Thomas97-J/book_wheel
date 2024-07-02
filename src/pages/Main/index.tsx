@@ -5,13 +5,18 @@ import styled from "styled-components";
 import { PATH } from "../../App";
 import PostSection from "./PostSection";
 import PageWrapper from "../../assets/styles/PageWrapper";
+import { useInView } from "react-intersection-observer";
 
 function Main() {
+  const { ref: topRef, inView: needBottomLine } = useInView({
+    threshold: 1,
+  });
+
   return (
     <MainWrapper>
-      <Mainheaders />
+      <Mainheaders needBottomLine={needBottomLine} />
       <Banner>배너 색션</Banner>
-      <PostSection />
+      <PostSection topRef={topRef} needBottomLine={needBottomLine} />
       <NewPostButton to={PATH.postEdit}>새 글 쓰기</NewPostButton>
     </MainWrapper>
   );
@@ -43,6 +48,8 @@ const NewPostButton = styled(Link)`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const MainWrapper = styled(PageWrapper)``;
+const MainWrapper = styled(PageWrapper)`
+  padding: 60px 0;
+`;
 
 export default Main;

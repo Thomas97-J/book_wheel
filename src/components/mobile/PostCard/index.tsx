@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../../App";
-import dayjs from "dayjs";
 import LikeBtn from "../LikeBtn";
 import { useAuth } from "../../../context/AuthContext";
+import { Timestamp } from "firebase/firestore";
+import formatRelativeTime from "../../../utils/formatRelativeTime";
 
 function PostCard({ title, content, createdAt, index, id }: Post) {
   const { currentUser } = useAuth();
-  const formattedDate = dayjs
-    .unix(createdAt?.seconds ?? 0)
-    .format("YYYY-MM-DD");
+  const formattedDate = formatRelativeTime(createdAt as Timestamp);
+
   return (
     <PostCardWrapper>
       <GoToDetail to={`${PATH.postDetail}?no=${index}`}>
@@ -31,20 +31,23 @@ const PostCardWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
-  margin: 10px;
+  border-bottom: 1px solid #ccc;
   padding: 10px;
-
+  margin: 0 10px;
   transition: all 0.3s ease;
 `;
 
 const Title = styled.h2`
   margin: 0 0 8px 0;
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const Content = styled.div`
-  font-size: 14px;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
 `;
 
 const Date = styled.div`

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useAuth } from "../../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
 import imgPaths from "../../../assets/images/image_path";
@@ -20,14 +19,14 @@ function ProfileAndInfo({ uid }: { uid: string }) {
           alt="profile"
         />
         <FollowLink
-          to={`${PATH.follow}?type=followers&user=${userData?.nickname}`}
-        >
-          팔로우 {followData?.followingCount}
-        </FollowLink>
-        <FollowLink
           to={`${PATH.follow}?type=following&user=${userData?.nickname}`}
         >
-          팔로잉 {followData?.followersCount}
+          팔로잉 {followData?.followingCount}
+        </FollowLink>
+        <FollowLink
+          to={`${PATH.follow}?type=followers&user=${userData?.nickname}`}
+        >
+          팔로워 {followData?.followersCount}
         </FollowLink>
       </TopSection>
       <div>

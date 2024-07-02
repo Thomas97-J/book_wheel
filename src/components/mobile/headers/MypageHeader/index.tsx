@@ -4,6 +4,7 @@ import { PATH } from "../../../../App";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../../assets/styles/Header";
 import { useAuth } from "../../../../context/AuthContext";
+import ThreeDot from "../../../common/ThreeDotIcon";
 
 function MypageHeader() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ function MypageHeader() {
     <MypageHeaderWrapper>
       <DropDown
         options={dropDownOptions}
-        buttonInner={"드롭다운"}
+        buttonInner={<ThreeDot />}
         isRightSide={true}
       />
     </MypageHeaderWrapper>

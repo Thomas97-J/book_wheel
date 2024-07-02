@@ -4,8 +4,16 @@ import PostCard from "../../../components/mobile/PostCard";
 import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import _ from "lodash";
 import DropDownSelect from "../../../components/common/DropDownSelect";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
-function PostSection() {
+function PostSection({
+  topRef,
+  needBottomLine,
+}: {
+  topRef: any;
+  needBottomLine: boolean;
+}) {
   const {
     ref,
     postDatas,
@@ -16,6 +24,7 @@ function PostSection() {
     category,
     setCategory,
   } = useInfinitePosts("all", 1);
+  const [scrolled, setScrolled] = useState(false);
 
   const options = [
     { label: "도서", value: "book" },
@@ -34,7 +43,8 @@ function PostSection() {
 
   return (
     <PostSectionWrapper>
-      <StickyMenu>
+      <StickyRef ref={topRef}></StickyRef>
+      <StickyMenu $scrolled={!needBottomLine}>
         <DropDownSelect
           options={options}
           onSelect={handleSelect}
@@ -60,17 +70,26 @@ function PostSection() {
     </PostSectionWrapper>
   );
 }
+
+const StickyRef = styled.div`
+  position: absolute;
+  top: -60px;
+`;
+
 const PostSectionWrapper = styled.div`
   min-height: 70vh;
   width: 100%;
-  border: solid 1px;
   position: relative;
 `;
-const StickyMenu = styled.div`
+const StickyMenu = styled.div<{ $scrolled: boolean }>`
   position: sticky;
   z-index: 100;
   background: #fff;
   top: 60px;
   height: 50px;
+  width: 100vw;
+
+  ${(props) =>
+    props.$scrolled ? "box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1)" : ""}
 `;
 export default PostSection;
