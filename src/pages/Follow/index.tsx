@@ -6,15 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGetUserFollowers } from "../../hooks/follow/useGetUserFollowers";
 import { useGetUserFollowing } from "../../hooks/follow/useGetUserFollowing";
 import UserCard from "../../components/mobile/UserCard";
-import useGetUidByNickname from "../../hooks/users/useGetUidByNickname";
 
 function Follow() {
   const [query, setQuery] = useSearchParams();
   const [activeTab, setActiveTab] = useState("followers");
   const userNickname = query.get("user") || "";
-  const { targetUid } = useGetUidByNickname(userNickname);
-  const { followerData } = useGetUserFollowers(targetUid);
-  const { followingData } = useGetUserFollowing(targetUid);
+  const { followerData } = useGetUserFollowers(userNickname);
+  const { followingData } = useGetUserFollowing(userNickname);
 
   const tabs = [
     { name: "팔로워", key: "followers" },

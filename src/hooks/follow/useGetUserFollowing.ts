@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserFollowing } from "../../apis/follow";
 
-export function useGetUserFollowing(uid: string) {
+export function useGetUserFollowing(nickname: string) {
   const { data, isLoading, error } = useQuery<UserData[]>({
-    queryKey: ["userFollowing", uid],
-    queryFn: () => getUserFollowing(uid),
+    queryKey: ["userFollowing", nickname],
+    queryFn: () => getUserFollowing(nickname),
   });
   return { followingData: data, isLoading, error };
 }

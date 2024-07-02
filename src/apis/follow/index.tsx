@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { getAuth } from "firebase/auth";
+import { getUidByNickname } from "../users";
 
 export async function createFollow(params: {
   from_userId: string;
@@ -90,7 +91,8 @@ export async function getFollowCount(uid: string): Promise<{
   return { followingCount, followersCount };
 }
 
-export async function getUserFollowers(uid: string): Promise<UserData[]> {
+export async function getUserFollowers(nickname: string): Promise<UserData[]> {
+  const uid = await getUidByNickname(nickname);
   const followersQuery = query(
     collection(db, "follows"),
     where("to_userId", "==", uid)
@@ -112,7 +114,9 @@ export async function getUserFollowers(uid: string): Promise<UserData[]> {
 }
 
 // 특정 사용자의 팔로잉 목록을 가져오는 함수
-export async function getUserFollowing(uid: string): Promise<UserData[]> {
+export async function getUserFollowing(nickname: string): Promise<UserData[]> {
+  const uid = await getUidByNickname(nickname);
+
   const followingQuery = query(
     collection(db, "follows"),
     where("from_userId", "==", uid)
