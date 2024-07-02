@@ -92,9 +92,7 @@ function Follow() {
     </FollowWrapper>
   );
 }
-const FollowWrapper = styled(PageWrapper)`
-  /* Add your styles here */
-`;
+const FollowWrapper = styled(PageWrapper)``;
 
 const TabBar = styled.div`
   display: flex;
@@ -123,7 +121,6 @@ const Content = styled.div`
 `;
 
 const TabContent = styled(motion.div)`
-  position: absolute;
   width: 100%;
   top: 0;
   left: 0;

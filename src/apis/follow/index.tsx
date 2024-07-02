@@ -104,8 +104,7 @@ export async function getUserFollowers(nickname: string): Promise<UserData[]> {
 
   const userQuery = query(
     collection(db, "users"),
-    where("__name__", "in", followerIds),
-    limit(10)
+    where("__name__", "in", followerIds)
   );
   const userSnapshot = await getDocs(userQuery);
   const followersData = userSnapshot.docs.map((doc) => ({
@@ -133,8 +132,7 @@ export async function getUserFollowing(nickname: string): Promise<UserData[]> {
 
   const userQuery = query(
     collection(db, "users"),
-    where("__name__", "in", followingIds),
-    limit(10)
+    where("__name__", "in", followingIds)
   );
   const userSnapshot = await getDocs(userQuery);
   const followingData = userSnapshot.docs.map((doc) => ({
