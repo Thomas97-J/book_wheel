@@ -14,7 +14,7 @@ function Profile() {
 
   return (
     <ProfileWrapper>
-      <ProfileAndInfo uid={targetUid || ""} />
+      <ProfileAndInfo uid={targetUid || ""} nickname={nickname} />
       <FollowBtnWrapper>
         <FollowBtn
           currentUid={currentUser?.uid ?? ""}

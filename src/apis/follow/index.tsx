@@ -3,17 +3,11 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
-  limit,
   query,
-  setDoc,
-  startAfter,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import { getAuth } from "firebase/auth";
 import { getUidByNickname } from "../users";
 
 export async function createFollow(params: {
@@ -23,7 +17,7 @@ export async function createFollow(params: {
   try {
     const { from_userId, to_userId } = params;
 
-    const isFollowing = await checkIsFollowing(from_userId, to_userId);
+    const isFollowing = await getFollowId(from_userId, to_userId);
     if (isFollowing) {
       throw Error("이미 팔로잉한 사용자입니다.");
     }
@@ -50,7 +44,7 @@ export async function deleteFollow(followId: string) {
   }
 }
 
-export async function checkIsFollowing(
+export async function getFollowId(
   from_userId: string,
   to_userId: string
 ): Promise<string> {
@@ -139,15 +133,6 @@ export async function getUserFollowing(nickname: string): Promise<UserData[]> {
     id: doc.id,
     ...doc.data(),
   }));
-
-  // const followingData: UserData[] = [];
-  // for (const followingId of followingIds) {
-  //   const userDoc = await getDoc(doc(db, "users", followingId));
-  //   if (userDoc.exists()) {
-  //     followingData.push({ id: userDoc.id, ...userDoc.data() } as UserData);
-  //   }
-  // }
-  console.log("getUserFollowing", followingData);
 
   return followingData;
 }

@@ -1,4 +1,4 @@
-import useCheckIsFollowing from "../../../hooks/follow/useCheckIsFollowing";
+import useGetFollowId from "../../../hooks/follow/useGetFollowId";
 import useCreateFollow from "../../../hooks/follow/useCreateFollow";
 import useDeleteFollow from "../../../hooks/follow/useDeleteFollow";
 
@@ -11,7 +11,7 @@ function FollowBtn({
   currentUid: string;
   targetUid: string;
 }) {
-  const { followingId } = useCheckIsFollowing(currentUid, targetUid);
+  const { followingId } = useGetFollowId(currentUid, targetUid);
   const followMutation = useCreateFollow(currentUid, targetUid);
   const unFollowMutation = useDeleteFollow(currentUid, targetUid);
 

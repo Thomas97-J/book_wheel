@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { deleteFile } from "../firestore";
+import { getUidByNickname } from "../users";
 
 export async function createPost(newPostData: {
   uid: string;
@@ -175,17 +176,38 @@ export async function updatePostByIndex(newPostData: {
 //   }
 // }
 
-export async function getUserPosts(userId: string) {
+export async function getUserPostsByNickname(
+  nickname: string
+): Promise<Post[]> {
   try {
-    const postsQuery = query(
-      collection(db, "posts"),
-      where("uid", "==", userId)
-    );
+    const uid = await getUidByNickname(nickname);
+
+    const postsQuery = query(collection(db, "posts"), where("uid", "==", uid));
     const querySnapshot = await getDocs(postsQuery);
-    const posts = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const posts = querySnapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as Post)
+    );
+    return posts;
+  } catch (error) {
+    console.error("Error fetching user posts: ", error);
+    throw error;
+  }
+}
+export async function getUserPosts(uid: string): Promise<Post[]> {
+  try {
+    const postsQuery = query(collection(db, "posts"), where("uid", "==", uid));
+    const querySnapshot = await getDocs(postsQuery);
+    const posts = querySnapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as Post)
+    );
     return posts;
   } catch (error) {
     console.error("Error fetching user posts: ", error);
@@ -197,10 +219,12 @@ export async function getPostsBatchBy10({
   pageParam = null,
   category = "all",
   areaNo = 0,
+  nickname = "",
 }: {
   areaNo: number;
   pageParam?: any;
   category?: string;
+  nickname?: string;
 }) {
   try {
     const postsRef = collection(db, "posts");
@@ -211,45 +235,16 @@ export async function getPostsBatchBy10({
       limit(10)
     );
     console.log(pageParam, category, areaNo);
-
-    if (!category || category == "all") {
-      if (pageParam) {
-        q = query(
-          postsRef,
-          orderBy("createdAt", "desc"),
-          where("areaNo", "==", areaNo),
-          startAfter(pageParam),
-          limit(10)
-        );
-      } else {
-        q = query(
-          postsRef,
-          orderBy("createdAt", "desc"),
-          where("areaNo", "==", areaNo),
-          limit(10)
-        );
-      }
-    } else {
-      if (pageParam) {
-        q = query(
-          postsRef,
-          where("category", "==", category),
-          where("areaNo", "==", areaNo),
-          orderBy("createdAt", "desc"),
-          startAfter(pageParam),
-          limit(10)
-        );
-      } else {
-        q = query(
-          postsRef,
-          where("category", "==", category),
-          where("areaNo", "==", areaNo),
-          orderBy("createdAt", "desc"),
-          limit(10)
-        );
-      }
+    if (category !== "all") {
+      q = query(q, where("category", "==", category));
     }
-
+    if (pageParam) {
+      q = query(q, startAfter(pageParam));
+    }
+    if (nickname) {
+      const uid = await getUidByNickname(nickname);
+      q = query(q, where("uid", "==", uid));
+    }
     const querySnapshot = await getDocs(q);
     const posts = querySnapshot.docs.map((doc) => ({
       id: doc.id,

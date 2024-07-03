@@ -11,7 +11,8 @@ function Follow() {
   const [query, setQuery] = useSearchParams();
   const [activeTab, setActiveTab] = useState("followers");
   const userNickname = query.get("user") || "";
-  const { followerData } = useGetUserFollowers(userNickname);
+  const { followerData, isLoading: isFollowerLoading } =
+    useGetUserFollowers(userNickname);
   const { followingData, isLoading: isFollowingLoading } =
     useGetUserFollowing(userNickname);
 
@@ -62,7 +63,9 @@ function Follow() {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              {followerData?.length ? (
+              {isFollowerLoading ? (
+                <>로딩중입니다.</>
+              ) : followerData?.length ? (
                 followerData?.map((user: UserData) => (
                   <UserCard key={user.id} userInfo={user} />
                 ))

@@ -30,6 +30,7 @@ const Bookshelf = React.lazy(() => import("./pages/Bookshelf"));
 const BookEdit = React.lazy(() => import("./pages/Bookshelf/BookEdit"));
 const BookDetail = React.lazy(() => import("./pages/Bookshelf/BookDetail"));
 const LikePosts = React.lazy(() => import("./pages/My/LikePosts"));
+const UserPosts = React.lazy(() => import("./pages/Profile/UserPost"));
 
 export const PATH = {
   main: "",
@@ -41,6 +42,7 @@ export const PATH = {
   likedPost: "/my/likedPost",
   profile: "/profile",
   follow: "/profile/follow",
+  userPost: "/profile/userPost",
   explore: "/explore",
   postEdit: "/post/postEdit",
   postDetail: "/post/detail",
@@ -92,6 +94,10 @@ function App() {
               />
               <Route path={PATH.postDetail} element={<PostDetail />} />
               <Route path={PATH.profile} element={<Profile />} />
+              <Route
+                path={PATH.userPost}
+                element={<ProtectRoute component={UserPosts} />}
+              />
               <Route path={PATH.follow} element={<Follow />} />
               <Route
                 path={PATH.rolling}
@@ -109,7 +115,6 @@ function App() {
                 path={PATH.bookDetail}
                 element={<ProtectRoute component={BookDetail} />}
               />
-
               <Route path={PATH.bookshelf} element={<Bookshelf />} />
               <Route path={PATH.notFound} element={<NotFound />} />
             </Routes>

@@ -15,7 +15,7 @@ function My() {
   return (
     <MyWrapper>
       <MypageHeader />
-      <ProfileAndInfo uid={uid} />
+      <ProfileAndInfo uid={uid} nickname={userData?.nickname} />
       <DummySection>작성 글 목록</DummySection>
       <DummySection>관심 도서</DummySection>
       <Link to={`${PATH.likedPost}`}>관심 글</Link>

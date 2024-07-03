@@ -3,7 +3,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { getPostsBatchBy10 } from "../../apis/posts";
 
-function useInfinitePosts(initialCategory: string, areaNo: number) {
+function useInfinitePosts(
+  initialCategory: string,
+  areaNo: number,
+  nickname?: string
+) {
   const [category, setCategory] = useState(initialCategory);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +18,7 @@ function useInfinitePosts(initialCategory: string, areaNo: number) {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["posts", category],
+    queryKey: ["posts", category, areaNo, nickname],
     queryFn: handlePostBatchBy10,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
@@ -27,7 +31,12 @@ function useInfinitePosts(initialCategory: string, areaNo: number) {
   }, [postDatas]);
 
   function handlePostBatchBy10(params: any) {
-    return getPostsBatchBy10({ ...params, category: category, areaNo: areaNo });
+    return getPostsBatchBy10({
+      ...params,
+      category: category,
+      areaNo: areaNo,
+      nickname: nickname,
+    });
   }
 
   useEffect(() => {

@@ -4,10 +4,12 @@ import { PATH } from "../../../App";
 import imgPaths from "../../../assets/images/image_path";
 import useGetUserById from "../../../hooks/users/useGetUserById";
 import useGetFollowCount from "../../../hooks/follow/useGetFollowCount";
+import useGetUserPostsByNickname from "../../../hooks/posts/useGetUserPostsByNickname";
 
-function ProfileAndInfo({ uid }: { uid: string }) {
+function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
   const { followData } = useGetFollowCount(uid);
+  const { postDatas } = useGetUserPostsByNickname(nickname);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -18,16 +20,15 @@ function ProfileAndInfo({ uid }: { uid: string }) {
           src={userData?.profileImage || imgPaths.defaultProfileImage}
           alt="profile"
         />
-        <FollowLink
-          to={`${PATH.follow}?type=following&user=${userData?.nickname}`}
-        >
+        <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
           팔로잉 {followData?.followingCount}
-        </FollowLink>
-        <FollowLink
-          to={`${PATH.follow}?type=followers&user=${userData?.nickname}`}
-        >
+        </UserInfoLink>
+        <UserInfoLink to={`${PATH.follow}?type=followers&user=${nickname}`}>
           팔로워 {followData?.followersCount}
-        </FollowLink>
+        </UserInfoLink>
+        <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
+          작성글 {postDatas?.length}
+        </UserInfoLink>
       </TopSection>
       <div>
         <NameAndBio>
@@ -47,11 +48,15 @@ const ProFile = styled.img`
   width: 100px;
   height: 100px;
 `;
-const FollowLink = styled(Link)`
+const UserInfoLink = styled(Link)`
   text-decoration: none;
   color: #000;
   padding: 4px;
   height: 30px;
+  cursor: pointer;
+  &:hover {
+    color: #0056b3;
+  }
 `;
 const NameAndBio = styled.div`
   display: flex;
