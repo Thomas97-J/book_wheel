@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import Fallback from "../../components/mobile/Fallback";
 import UserInfo from "./UserInfo";
@@ -7,9 +8,9 @@ import PostHeader from "../../components/mobile/headers/PostHeader";
 import { useAuth } from "../../context/AuthContext";
 import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
 import PageWrapper from "../../assets/styles/PageWrapper";
-import dayjs from "dayjs";
 import LikeBtn from "../../components/mobile/LikeBtn";
 import useGetReceivedLikesCount from "../../hooks/like/useGetReceivedLikesCount";
+import CommentSection from "./CommentSection";
 
 function PostDetail() {
   const { currentUser } = useAuth();
@@ -43,6 +44,7 @@ function PostDetail() {
       <div>{postData?.content}</div>
       <div>like: {receivedLikesCount}</div>
       <LikeBtn userId={currentUser?.uid ?? ""} postId={postData?.id ?? ""} />
+      {postData?.id && <CommentSection postId={postData.id} />}
     </PostDetailWrapper>
   );
 }

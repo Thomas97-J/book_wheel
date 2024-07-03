@@ -31,20 +31,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   } = useQuery({ queryKey: ["auth"], queryFn: fetchUser });
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async () => {
-      return await signOut(auth);
-    },
+    mutationFn: () => signOut(auth),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });
     },
   });
 
-  async function logout() {
-    await mutation.mutateAsync();
-  }
-
   return (
-    <AuthContext.Provider value={{ currentUser, isLoading, logout }}>
+    <AuthContext.Provider
+      value={{ currentUser, isLoading, logout: mutation.mutateAsync }}
+    >
       {children}
     </AuthContext.Provider>
   );

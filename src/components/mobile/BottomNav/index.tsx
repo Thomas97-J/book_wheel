@@ -57,6 +57,7 @@ function BottomNav() {
 }
 const BottomNavWrapper = styled.div`
   width: 100vw;
+  height: 50px;
   padding: 10px;
   display: flex;
   justify-content: space-around;
