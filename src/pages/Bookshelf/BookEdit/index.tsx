@@ -74,7 +74,7 @@ function BookEdit() {
       if (data.photoFile) {
         const downloadURL = await uploadImgFile(
           data.photoFile,
-          `/books/${currentUser?.uid}_${new Date()}`
+          `/${currentUser?.uid}/books/${new Date()}`
         );
         updatedBookData.photoUrl = downloadURL;
       }

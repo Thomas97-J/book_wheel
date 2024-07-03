@@ -59,7 +59,7 @@ function UserInfoEdit() {
       if (profileData?.photoFile) {
         const downloadURL = await uploadImgFile(
           profileData.photoFile,
-          `/users/${uid}/profile/profileImg`
+          `/${currentUser?.uid}/profile/profileImg`
         );
         updatedProfileData.profileImage = downloadURL;
       } else if (profileData?.profileImage) {

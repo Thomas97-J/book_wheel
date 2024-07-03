@@ -83,7 +83,7 @@ function NewPost() {
         setValue("content", postData.content);
       }
     }
-  }, [postData, currentUser, navigate, postIndex, setValue]);
+  }, [postData, postIndex]);
 
   async function onPostSubmit(postData: PostValue) {
     try {
@@ -97,7 +97,7 @@ function NewPost() {
       if (postData?.photoFile) {
         const downloadURL = await uploadImgFile(
           postData.photoFile,
-          `/posts/${currentUser?.uid}_${new Date()}`
+          `/${currentUser?.uid}/posts/${new Date()}`
         );
         updatedPostData.postImage = downloadURL;
       } else if (postData?.postImage) {
