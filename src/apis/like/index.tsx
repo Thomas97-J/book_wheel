@@ -43,6 +43,34 @@ export async function createPostLike(params: {
   }
 }
 
+export async function createCommentLike(params: {
+  userId: string;
+  commentId: string;
+}): Promise<void> {
+  try {
+    const { userId, commentId } = params;
+
+    // Check if the like already exists
+    const isLiked = await getCommentLikeId(userId, commentId);
+    console.log("isLiked", isLiked);
+
+    if (isLiked) {
+      throw Error("이미 좋아요를 누른 댓글입니다.");
+    }
+
+    // Add new like entry
+    await addDoc(collection(db, "like_comments"), {
+      userId: userId,
+      commentId: commentId,
+      createdAt: new Date(),
+    });
+    console.log("Comment Like successfully added!");
+  } catch (error) {
+    console.error("Error adding Comment like:", error);
+    throw error;
+  }
+}
+
 export async function deletePostLike(likeId: string): Promise<void> {
   try {
     const likeRef = doc(db, "like_posts", likeId);
@@ -50,6 +78,17 @@ export async function deletePostLike(likeId: string): Promise<void> {
     console.log("Post Like successfully deleted!");
   } catch (error) {
     console.error("Error deleting post like:", error);
+    throw error;
+  }
+}
+
+export async function deleteCommentLike(likeId: string): Promise<void> {
+  try {
+    const likeRef = doc(db, "like_comments", likeId);
+    await deleteDoc(likeRef);
+    console.log("Comment Like successfully deleted!");
+  } catch (error) {
+    console.error("Error deleting Comment like:", error);
     throw error;
   }
 }
@@ -70,7 +109,21 @@ export async function getPostLikeId(
 
   return docSnap?.id || "";
 }
+export async function getCommentLikeId(
+  userId: string,
+  commentId: string
+): Promise<string | null> {
+  const likeQuery = query(
+    collection(db, "like_comments"),
+    where("userId", "==", userId),
+    where("commentId", "==", commentId)
+  );
 
+  const querySnapshot = await getDocs(likeQuery);
+  const docSnap = querySnapshot.docs[0];
+
+  return docSnap?.id || "";
+}
 export async function getLikedPostsBatchBy10({
   pageParam = null,
   userId,

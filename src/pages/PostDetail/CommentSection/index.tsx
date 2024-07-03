@@ -4,7 +4,7 @@ import { useAuth } from "../../../context/AuthContext";
 import useCreateComment from "../../../hooks/comments/useCreateComment";
 import useInfiniteComments from "../../../hooks/comments/useInfiniteComments";
 import CommentCard from "../../../components/mobile/CommentCard";
-import { useDeleteComment } from "../../../hooks/comments/useDeleteComment";
+import { useEffect } from "react";
 interface CommentValue {
   content: string;
 }
@@ -22,6 +22,10 @@ function CommentSection({ postId }: { postId: string }) {
     isFetchingNextPage,
     status,
   } = useInfiniteComments(postId);
+  const isEmptyComment = commentData?.pages[0].comments.length;
+  useEffect(() => {
+    console.log("commentData", commentData);
+  }, []);
 
   async function onCommentSubmit(commentData: CommentValue) {
     if (currentUser?.uid) {
@@ -37,14 +41,17 @@ function CommentSection({ postId }: { postId: string }) {
   }
   return (
     <CommentSectionWrapper>
-      댓글 섹션{" "}
-      {commentData?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page.comments.map((comment) => (
-            <CommentCard key={comment.id} comment={comment} />
-          ))}
-        </div>
-      ))}
+      {isEmptyComment ? (
+        commentData?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page.comments.map((comment) => (
+              <CommentCard key={comment.id} comment={comment} />
+            ))}
+          </div>
+        ))
+      ) : (
+        <>아직 댓글이 없습니다.</>
+      )}
       <div ref={ref}></div>
       <CommentForm onSubmit={handleSubmit(onCommentSubmit)}>
         <input
@@ -59,7 +66,7 @@ function CommentSection({ postId }: { postId: string }) {
 }
 const CommentSectionWrapper = styled.div`
   padding-bottom: 50px;
-  /* Add your styles here */
+  border-top: 1px solid #ccc;
 `;
 const CommentForm = styled.form`
   display: flex;
