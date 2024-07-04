@@ -4,14 +4,22 @@ import { useAuth } from "../../../context/AuthContext";
 import useCreateComment from "../../../hooks/comments/useCreateComment";
 import useInfiniteComments from "../../../hooks/comments/useInfiniteComments";
 import CommentCard from "../../../components/mobile/CommentCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ReplyModal from "./ReplyModal";
+import useAddReplyToComment from "../../../hooks/comments/useAddReplyToComment";
 interface CommentValue {
   content: string;
+  "": string;
+}
+interface ReplyTarget {
+  comment: any;
+  userData: any;
 }
 function CommentSection({ postId }: { postId: string }) {
-  const { register, handleSubmit, setError, setValue } = useForm<CommentValue>({
-    mode: "onBlur",
-  });
+  const { register, handleSubmit, setError, setFocus, setValue } =
+    useForm<CommentValue>({
+      mode: "onBlur",
+    });
   const { currentUser } = useAuth();
   const createMutation = useCreateComment(postId);
   const {
@@ -22,6 +30,13 @@ function CommentSection({ postId }: { postId: string }) {
     isFetchingNextPage,
     status,
   } = useInfiniteComments(postId);
+  const [replyPopupOpen, setReplyPopupOpen] = useState(false);
+  const [replyTarget, setReplyTarget] = useState<ReplyTarget>({
+    comment: null,
+    userData: null,
+  });
+  const replyMutation = useAddReplyToComment(replyTarget?.comment?.id, postId);
+
   const isEmptyComment = commentData?.pages[0].comments.length;
   useEffect(() => {
     console.log("commentData", commentData);
@@ -29,14 +44,36 @@ function CommentSection({ postId }: { postId: string }) {
 
   async function onCommentSubmit(commentData: CommentValue) {
     if (currentUser?.uid) {
-      console.log("commentData", commentData);
+      if (replyPopupOpen) {
+        console.log("replyData", commentData);
 
-      await createMutation.mutateAsync({
-        postId: postId,
-        uid: currentUser?.uid,
-        content: commentData.content,
-      });
-      setValue("content", "");
+        await replyMutation.mutateAsync({
+          commentId: replyTarget?.comment.id,
+          replyData: { content: commentData.content, userId: currentUser.uid },
+        });
+        setReplyPopupOpen(false);
+        setReplyTarget({ comment: null, userData: null });
+        setValue("content", "");
+      } else {
+        console.log("commentData", commentData);
+
+        await createMutation.mutateAsync({
+          postId: postId,
+          uid: currentUser?.uid,
+          content: commentData.content,
+        });
+        setValue("content", "");
+      }
+    }
+  }
+
+  function handleReplyPopupOpen(bool: boolean, content?: any) {
+    setReplyPopupOpen(bool);
+    setReplyTarget(content);
+    if (bool) {
+      setFocus("content");
+    } else {
+      setFocus("");
     }
   }
   return (
@@ -45,7 +82,11 @@ function CommentSection({ postId }: { postId: string }) {
         commentData?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page.comments.map((comment) => (
-              <CommentCard key={comment.id} comment={comment} />
+              <CommentCard
+                key={comment.id}
+                comment={comment}
+                handleReplyPopupOpen={handleReplyPopupOpen}
+              />
             ))}
           </div>
         ))
@@ -53,11 +94,19 @@ function CommentSection({ postId }: { postId: string }) {
         <>아직 댓글이 없습니다.</>
       )}
       <div ref={ref}></div>
+      {replyPopupOpen && (
+        <ReplyModal
+          replyTarget={replyTarget}
+          handleReplyPopupOpen={handleReplyPopupOpen}
+        />
+      )}
       <CommentForm onSubmit={handleSubmit(onCommentSubmit)}>
         <input
           {...register("content", { required: true })}
           type="text"
-          placeholder="댓글을 입력해주세요."
+          placeholder={
+            replyPopupOpen ? "답글을 입력해주세요." : "댓글을 입력해주세요."
+          }
         />
         <button>저장</button>
       </CommentForm>
@@ -73,7 +122,7 @@ const CommentForm = styled.form`
   position: fixed;
   z-index: 1001;
   left: 0;
-  bottom: 50px;
+  bottom: 49px;
   width: 100vw;
   height: 50px;
   padding: 4px 10px;

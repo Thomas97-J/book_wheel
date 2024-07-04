@@ -12,6 +12,7 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import PostEditHeader from "../../components/mobile/headers/PostEditHeader";
 import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
 import useImageUpload from "../../hooks/common/useImageUpload";
+import { v4 as uuidv4 } from "uuid";
 
 interface PostValue {
   uid: string;
@@ -97,7 +98,7 @@ function NewPost() {
       if (postData?.photoFile) {
         const downloadURL = await uploadImgFile(
           postData.photoFile,
-          `/${currentUser?.uid}/posts/${new Date()}`
+          `/posts/${currentUser?.uid}/${uuidv4()}`
         );
         updatedPostData.postImage = downloadURL;
       } else if (postData?.postImage) {

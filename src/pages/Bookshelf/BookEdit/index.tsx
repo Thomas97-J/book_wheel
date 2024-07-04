@@ -11,6 +11,7 @@ import useCreateBookWithIndex from "../../../hooks/books/useCreateBookWithIndex"
 import useUpdateBookByIndex from "../../../hooks/books/useUpdateBookByIndex";
 import useGetBookByIndex from "../../../hooks/books/useGetBookByIndex";
 import { PATH } from "../../../App";
+import { v4 as uuidv4 } from "uuid";
 
 interface BookForm extends Book {
   photoFile: any;
@@ -74,7 +75,7 @@ function BookEdit() {
       if (data.photoFile) {
         const downloadURL = await uploadImgFile(
           data.photoFile,
-          `/${currentUser?.uid}/books/${new Date()}`
+          `/books/${currentUser?.uid}/${uuidv4()}`
         );
         updatedBookData.photoUrl = downloadURL;
       }

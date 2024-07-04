@@ -1,0 +1,103 @@
+import styled from "styled-components";
+import { PATH } from "../../../../App";
+import { Link } from "react-router-dom";
+import LikeBtnComment from "../../../../components/mobile/LikeBtnComment";
+import formatRelativeTime from "../../../../utils/formatRelativeTime";
+import { useAuth } from "../../../../context/AuthContext";
+import ReplyCard from "../../../../components/mobile/CommentCard/ReplyCard";
+
+const ReplyModalWrapper = styled.div`
+  /* Add your styles here */
+`;
+interface Comment {
+  id: string;
+  postId: string;
+  uid: string;
+  content: string;
+  createdAt: Timestamp;
+  replies: any; // 리플이 있는 경우 배열로 포함
+}
+
+function ReplyModal({
+  replyTarget,
+  handleReplyPopupOpen,
+}: {
+  replyTarget: { comment: Comment; userData: UserData };
+  handleReplyPopupOpen: (bool: boolean) => void;
+}) {
+  const { currentUser } = useAuth();
+  const formattedDate = formatRelativeTime(
+    replyTarget.comment.createdAt as Timestamp
+  );
+  console.log("replyTarget", replyTarget);
+
+  return (
+    <div>
+      <ModalOverlay
+        onClick={() => {
+          handleReplyPopupOpen(false);
+        }}
+      ></ModalOverlay>
+      <ModalContent>
+        <InfoSection>
+          <ProfileLink
+            to={`${PATH.profile}?user=${replyTarget?.userData?.nickname}`}
+          >
+            {replyTarget?.userData?.nickname}
+          </ProfileLink>
+          <span>{formattedDate}</span>
+          <LikeBtnComment
+            userId={currentUser?.uid ?? ""}
+            commentId={replyTarget?.comment?.id}
+          />
+        </InfoSection>
+        <span>{replyTarget?.comment?.content}</span>
+        {replyTarget.comment.replies?.map((reply: any) => (
+          <ReplyCard
+            id={reply?.id}
+            key={reply?.id}
+            content={reply.content}
+            commentId={replyTarget.comment?.id}
+            createdAt={reply.createdAt}
+            postId={replyTarget.comment.postId}
+            userId={reply.userId}
+          />
+        ))}
+      </ModalContent>
+    </div>
+  );
+}
+const InfoSection = styled.div``;
+
+const ProfileLink = styled(Link)`
+  text-decoration: none;
+  color: #414141;
+  margin-right: 6px;
+`;
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 100;
+`;
+const ModalContent = styled.div`
+  background: white;
+  padding: 20px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  min-height: 200px;
+  position: fixed;
+  bottom: 90px;
+  left: 0px;
+  z-index: 101;
+`;
+
+export default ReplyModal;

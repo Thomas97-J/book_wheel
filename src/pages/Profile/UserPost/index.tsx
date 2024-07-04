@@ -3,6 +3,7 @@ import PageWrapper from "../../../assets/styles/PageWrapper";
 import { useSearchParams } from "react-router-dom";
 import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import PostCard from "../../../components/mobile/PostCard";
+import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
 
 function UserPost() {
   const [query, setQuery] = useSearchParams();
@@ -19,6 +20,7 @@ function UserPost() {
   } = useInfinitePosts("all", 1, nickname);
   return (
     <UserPostWrapper>
+      <DefaultHeader />
       {postDatas?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
           {page?.posts.map((post: any) => (

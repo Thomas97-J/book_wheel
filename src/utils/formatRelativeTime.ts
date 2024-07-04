@@ -2,6 +2,9 @@ import dayjs from "dayjs";
 
 export default function formatRelativeTime(createdAt: Timestamp) {
   const createdUnix = createdAt?.seconds ?? 0;
+  if (createdUnix === 0) {
+    return "";
+  }
   const createdDate = dayjs.unix(createdUnix);
 
   // 현재 시간
@@ -15,6 +18,9 @@ export default function formatRelativeTime(createdAt: Timestamp) {
   // 시간 차이 계산
   const diffInMinutes = now.diff(createdDate, "minute");
   const diffInHours = now.diff(createdDate, "hour");
+  if (diffInMinutes < 1) {
+    return `방금 전`;
+  }
 
   // 1시간 이내이면 분 단위로 표기
   if (diffInMinutes < 60) {

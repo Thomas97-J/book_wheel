@@ -7,6 +7,7 @@ import useGetAllUsers from "../../hooks/users/useGetAllUsers";
 import useGetUsersByNickname from "../../hooks/users/useGetUsersByNickname";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import useGetUsersBatchBy10 from "../../hooks/users/useGetUsersBatchBy10";
+import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 
 interface Search {
   type: string;
@@ -56,6 +57,7 @@ function Explore() {
 
   return (
     <ExploreWrapper>
+      <DefaultHeader />
       <form onSubmit={handleSubmit(onSearch)}>
         <SearchInput
           {...register("keyword", { required: true })}

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "../../apis/comments";
+import { v4 as uuidv4 } from "uuid";
 
 export default function useCreateComment(postId: string) {
   const queryClient = useQueryClient();
@@ -19,11 +20,12 @@ export default function useCreateComment(postId: string) {
           if (!old) return { pages: [{ comments: [] }], pageParams: [] };
           const firstPage = old.pages[0];
           const optimisticComment = {
-            id: "",
+            id: uuidv4(),
             postId,
             uid: newComment.uid,
             content: newComment.content,
-            createdAt: new Date().toISOString(),
+            replies: [],
+            createdAt: new Date(),
           };
 
           return {

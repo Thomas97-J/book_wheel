@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.45.1",
     "@tanstack/react-query-devtools": "^5.45.1",
+    "@types/uuid": "^10.0.0",
     "browser-image-compression": "^2.0.2",
     "dayjs": "^1.11.11",
     "firebase": "^10.12.2",
@@ -22,7 +23,8 @@
     "react-hook-form": "^7.52.0",
     "react-intersection-observer": "^9.10.3",
     "react-spinners": "^0.13.8",
-    "sanitize.css": "^13.0.0"
+    "sanitize.css": "^13.0.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.5",

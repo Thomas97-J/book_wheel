@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGetUserFollowers } from "../../hooks/follow/useGetUserFollowers";
 import { useGetUserFollowing } from "../../hooks/follow/useGetUserFollowing";
 import UserCard from "../../components/mobile/UserCard";
+import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 
 function Follow() {
   const [query, setQuery] = useSearchParams();
@@ -44,6 +45,7 @@ function Follow() {
 
   return (
     <FollowWrapper>
+      <DefaultHeader />
       <TabBar>
         {tabs.map((tab) => (
           <Tab
