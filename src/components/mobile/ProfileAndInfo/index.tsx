@@ -5,11 +5,13 @@ import imgPaths from "../../../assets/images/image_path";
 import useGetUserById from "../../../hooks/users/useGetUserById";
 import useGetFollowCount from "../../../hooks/follow/useGetFollowCount";
 import useGetUserPostsByNickname from "../../../hooks/posts/useGetUserPostsByNickname";
+import useGetBooksCountByUid from "../../../hooks/books/useGetBooksCountByUid";
 
 function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
   const { followData } = useGetFollowCount(uid);
   const { postDatas } = useGetUserPostsByNickname(nickname);
+  const { bookcount } = useGetBooksCountByUid(uid);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -20,15 +22,24 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
           src={userData?.profileImage || imgPaths.defaultProfileImage}
           alt="profile"
         />
-        <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
-          팔로잉 {followData?.followingCount}
-        </UserInfoLink>
-        <UserInfoLink to={`${PATH.follow}?type=followers&user=${nickname}`}>
-          팔로워 {followData?.followersCount}
-        </UserInfoLink>
-        <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
-          작성글 {postDatas?.length}
-        </UserInfoLink>
+        <div>
+          <div>
+            <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
+              팔로잉 {followData?.followingCount}
+            </UserInfoLink>
+            <UserInfoLink to={`${PATH.follow}?type=followers&user=${nickname}`}>
+              팔로워 {followData?.followersCount}
+            </UserInfoLink>
+          </div>
+          <div>
+            <UserInfoLink to={`${PATH.bookshelf}?user=${nickname}`}>
+              내 서재 {bookcount}
+            </UserInfoLink>
+            <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
+              작성글 {postDatas?.length}
+            </UserInfoLink>
+          </div>
+        </div>
       </TopSection>
       <div>
         <NameAndBio>

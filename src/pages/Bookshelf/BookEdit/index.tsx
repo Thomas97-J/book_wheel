@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -12,6 +12,7 @@ import useUpdateBookByIndex from "../../../hooks/books/useUpdateBookByIndex";
 import useGetBookByIndex from "../../../hooks/books/useGetBookByIndex";
 import { PATH } from "../../../App";
 import { v4 as uuidv4 } from "uuid";
+import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
 
 interface BookForm extends Book {
   photoFile: any;
@@ -28,6 +29,8 @@ function BookEdit() {
     mode: "onBlur",
   });
   const [query, setQuery] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const bookIndex = parseInt(query.get("no") ?? "");
   const { bookData, isLoading } = useGetBookByIndex(bookIndex);
   const createMutation = useCreateBookWithIndex();
@@ -39,11 +42,16 @@ function BookEdit() {
     maxWidthOrHeight: 512,
   });
   const navigate = useNavigate();
+
   const options = [
-    { label: "Fiction", value: "fiction" },
-    { label: "Non-fiction", value: "non-fiction" },
-    { label: "Sci-fi", value: "sci-fi" },
-    { label: "Fantasy", value: "fantasy" },
+    { label: "소설", value: "novel" },
+    { label: "시/에세이", value: "poetry_essay" },
+    { label: "인문", value: "humanities" },
+    { label: "교재", value: "textbook" },
+    { label: "만화", value: "comic" },
+    { label: "자기개발", value: "self_development" },
+    { label: "어린이", value: "children" },
+    { label: "취미", value: "hobby" },
   ];
 
   useEffect(() => {
@@ -52,26 +60,35 @@ function BookEdit() {
       setValue("author", bookData.author);
       setValue("genres", bookData.genres);
       setValue("content", bookData.content);
+      setValue("category", bookData.category);
+      setSelectedCategory(
+        options.find((option) => option.value === bookData?.category)?.label ??
+          ""
+      );
+
       if (bookData.photoUrl) {
         setImagePreview(bookData.photoUrl);
       }
     }
-  }, [bookData, setValue]);
+  }, [bookData]);
 
-  const handleSelect = (option) => {
-    setValue("genres", option.value);
+  const handleSelect = (option: { label: string; value: string }) => {
+    setValue("category", option.value);
+    setSelectedCategory(option.label);
   };
 
   async function onSubmit(data: BookForm) {
     try {
       const updatedBookData = {
         uid: currentUser?.uid ?? "",
+        category: data.category,
         title: data.title,
         author: data.author,
-        genres: data.genres,
         content: data.content,
         areaNo: 1,
       } as Book;
+      console.log("updatedBookData", updatedBookData);
+
       if (data.photoFile) {
         const downloadURL = await uploadImgFile(
           data.photoFile,
@@ -81,6 +98,8 @@ function BookEdit() {
       }
 
       const isFixBook = !!bookIndex;
+      console.log("updatedBookData", updatedBookData);
+
       if (isFixBook) {
         updatedBookData.index = bookIndex;
         await updateMutation.mutateAsync(updatedBookData);
@@ -96,31 +115,23 @@ function BookEdit() {
     }
   }
 
+  useEffect(() => {
+    console.log("imagePreview", imagePreview);
+  }, [imagePreview]);
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
   return (
     <BookEditWrapper>
+      <DefaultHeader />
       <BookForm onSubmit={handleSubmit(onSubmit)}>
         <DropDownSelect
           options={options}
           onSelect={handleSelect}
-          placeholder="Select Genre"
+          placeholder="카테고리를 선택하세요"
+          defaultLabel={selectedCategory}
         />
         {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
-        <Title
-          {...register("title", { required: "Title is required" })}
-          type="text"
-          placeholder="Enter book title"
-        />
-        {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
-        <Author
-          {...register("author", { required: "Author is required" })}
-          type="text"
-          placeholder="Enter book author"
-        />
-        {errors.author && <ErrorMessage>{errors.author.message}</ErrorMessage>}
         <input
           type="file"
           accept="image/*"
@@ -128,11 +139,24 @@ function BookEdit() {
           onChange={saveImgFile}
           ref={imgRef}
         />
+        <Title
+          {...register("title", { required: "Title is required" })}
+          type="text"
+          placeholder="도서 제목을 입력하세요."
+        />
+        {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+        <Author
+          {...register("author", { required: "Author is required" })}
+          type="text"
+          placeholder="지은이를 입력하세요."
+        />
+        {errors.author && <ErrorMessage>{errors.author.message}</ErrorMessage>}
+
         <ContentArea
           {...register("content")}
-          placeholder="Enter book content"
+          placeholder="도서에 대한 설명을 자유롭게 적어주세요."
         ></ContentArea>
-        <SubmitButton type="submit">Save</SubmitButton>
+        <SubmitButton type="submit">저장</SubmitButton>
       </BookForm>
     </BookEditWrapper>
   );

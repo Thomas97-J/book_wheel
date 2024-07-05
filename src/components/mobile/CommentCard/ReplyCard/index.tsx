@@ -60,11 +60,14 @@ const ProfileLink = styled(Link)`
 `;
 const DeleteBtn = styled.button`
   position: absolute;
-  right: 10px;
+  right: 0px;
+  top: 4px;
 `;
 const ReplyCardWrapper = styled.div`
-  /* Add your styles here */
+  border-top: 1px solid #ccc;
+  padding-top: 4px;
   padding-left: 20px;
+  position: relative;
 `;
 const InfoSection = styled.div``;
 

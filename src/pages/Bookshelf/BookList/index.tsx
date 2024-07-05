@@ -31,9 +31,15 @@ function BookList() {
     console.log(targetUid);
   }, [targetUid]);
   const options = [
-    { label: "도서", value: "book" },
-    { label: "취미", value: "hobby" },
     { label: "전체", value: "all" },
+    { label: "소설", value: "novel" },
+    { label: "시/에세이", value: "poetry_essay" },
+    { label: "인문", value: "humanities" },
+    { label: "교재", value: "textbook" },
+    { label: "만화", value: "comic" },
+    { label: "자기개발", value: "self_development" },
+    { label: "어린이", value: "children" },
+    { label: "취미", value: "hobby" },
   ];
 
   const handleSelect = (option: any) => {

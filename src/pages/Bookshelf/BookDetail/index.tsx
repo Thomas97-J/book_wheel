@@ -4,6 +4,7 @@ import Fallback from "../../../components/mobile/Fallback";
 import styled from "styled-components";
 import BookHeader from "../../../components/mobile/headers/BookHeader";
 import { useAuth } from "../../../context/AuthContext";
+import PageWrapper from "../../../assets/styles/PageWrapper";
 
 function BookDetail() {
   const { currentUser } = useAuth();
@@ -24,7 +25,7 @@ function BookDetail() {
     </BookDetailWrapper>
   );
 }
-const BookDetailWrapper = styled.div`
+const BookDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
 `;
 

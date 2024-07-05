@@ -10,9 +10,15 @@ interface DropDownProps {
   options: Option[];
   onSelect: (option: Option) => void;
   placeholder: string;
+  defaultLabel?: string;
 }
 
-function DropDownSelect({ options, onSelect, placeholder }: DropDownProps) {
+function DropDownSelect({
+  options,
+  onSelect,
+  placeholder,
+  defaultLabel,
+}: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
   const dropDownRef = useRef<HTMLDivElement>(null);
@@ -41,7 +47,7 @@ function DropDownSelect({ options, onSelect, placeholder }: DropDownProps) {
   return (
     <DropDownWrapper ref={dropDownRef}>
       <DropDownHeader onClick={() => setIsOpen(!isOpen)}>
-        {selected ? selected.label : placeholder}
+        {defaultLabel ? defaultLabel : selected ? selected.label : placeholder}
       </DropDownHeader>
       {isOpen && (
         <DropDownList>

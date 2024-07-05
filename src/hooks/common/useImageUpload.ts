@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import Resizer from "react-image-file-resizer";
 
 function useImageUpload(setValue: any) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -11,12 +12,20 @@ function useImageUpload(setValue: any) {
       imgRef.current.files.length > 0
     ) {
       const file = imgRef.current.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setImagePreview(reader.result as string);
-      };
-      setValue("photoFile", file);
+
+      Resizer.imageFileResizer(
+        file,
+        512,
+        512,
+        "JPEG",
+        70,
+        0,
+        (uri) => {
+          setImagePreview(uri as string);
+          setValue("photoFile", uri);
+        },
+        "base64"
+      );
     }
   };
 

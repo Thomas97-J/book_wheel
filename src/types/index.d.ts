@@ -42,6 +42,7 @@ interface Book {
   uid: string;
   title: string;
   author: string;
+  category: string;
   genres?: string[];
   content: string;
   photoUrl?: string;

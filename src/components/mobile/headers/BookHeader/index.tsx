@@ -14,7 +14,7 @@ function BookHeader({ user, bookData }) {
       clickFunction: async () => {
         console.log("삭제 클릭");
         await deleteMutation.mutateAsync(bookData.id);
-        navigate(-1);
+        navigate(`${PATH.bookshelf}`);
       },
     },
     {
