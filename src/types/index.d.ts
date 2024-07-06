@@ -43,6 +43,7 @@ interface Book {
   title: string;
   author: string;
   category: string;
+  publisher: string;
   genres?: string[];
   content: string;
   photoUrl?: string;

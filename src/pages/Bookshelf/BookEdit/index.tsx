@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -24,6 +24,8 @@ function BookEdit() {
     register,
     handleSubmit,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<BookForm>({
     mode: "onBlur",
@@ -35,8 +37,10 @@ function BookEdit() {
   const { bookData, isLoading } = useGetBookByIndex(bookIndex);
   const createMutation = useCreateBookWithIndex();
   const updateMutation = useUpdateBookByIndex();
-  const { imagePreview, setImagePreview, imgRef, saveImgFile } =
+  const { imagePreview, setImagePreview, isImageLoading, imgRef, saveImgFile } =
     useImageUpload(setValue);
+  const imgPreviewRef = useRef<HTMLImageElement | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { uploadImgFile, isUploading } = useUploadImgFile({
     maxSizeMB: 1,
     maxWidthOrHeight: 512,
@@ -75,6 +79,7 @@ function BookEdit() {
   const handleSelect = (option: { label: string; value: string }) => {
     setValue("category", option.value);
     setSelectedCategory(option.label);
+    clearErrors("category");
   };
 
   async function onSubmit(data: BookForm) {
@@ -87,8 +92,10 @@ function BookEdit() {
         content: data.content,
         areaNo: 1,
       } as Book;
-      console.log("updatedBookData", updatedBookData);
-
+      if (!data.category) {
+        setError("category", { message: "카테고리를 선택하세요." });
+        return;
+      }
       if (data.photoFile) {
         const downloadURL = await uploadImgFile(
           data.photoFile,
@@ -98,7 +105,6 @@ function BookEdit() {
       }
 
       const isFixBook = !!bookIndex;
-      console.log("updatedBookData", updatedBookData);
 
       if (isFixBook) {
         updatedBookData.index = bookIndex;
@@ -131,7 +137,21 @@ function BookEdit() {
           placeholder="카테고리를 선택하세요"
           defaultLabel={selectedCategory}
         />
-        {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
+        {errors.category && (
+          <ErrorMessage>{errors.category.message}</ErrorMessage>
+        )}
+
+        {isImageLoading ? (
+          <div>Loading...</div>
+        ) : (
+          imagePreview && (
+            <ImagePreview
+              src={imagePreview}
+              ref={imgPreviewRef}
+              alt="Preview"
+            />
+          )
+        )}
         <input
           type="file"
           accept="image/*"
@@ -151,6 +171,14 @@ function BookEdit() {
           placeholder="지은이를 입력하세요."
         />
         {errors.author && <ErrorMessage>{errors.author.message}</ErrorMessage>}
+        <Publisher
+          {...register("publisher", { required: "publisher is required" })}
+          type="text"
+          placeholder="출판사를 입력하세요."
+        />
+        {errors.publisher && (
+          <ErrorMessage>{errors.publisher.message}</ErrorMessage>
+        )}
 
         <ContentArea
           {...register("content")}
@@ -167,6 +195,7 @@ const BookEditWrapper = styled(PageWrapper)``;
 const BookForm = styled.form`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const Title = styled.input`
@@ -192,11 +221,24 @@ const Author = styled.input`
     border-color: #007bff;
   }
 `;
+const Publisher = styled.input`
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+`;
 
 const ImagePreview = styled.img`
   width: 100%;
   max-height: 200px;
-  object-fit: cover;
+  height: 100%;
+
+  object-fit: contain;
   margin-bottom: 10px;
 `;
 

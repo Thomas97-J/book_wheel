@@ -24,7 +24,14 @@ export async function getBooksBatchBy10({
 }: {
   areaNo: number;
   pageParam?: any;
-  filter?: { uid?: string; title?: string; author?: string; genres?: string[] };
+  filter?: {
+    uid?: string;
+    title?: string;
+    category?: string;
+    author?: string;
+    genres?: string[];
+    keyword?: string;
+  };
 }) {
   try {
     const booksRef = collection(db, "books");
@@ -32,11 +39,12 @@ export async function getBooksBatchBy10({
       booksRef,
       orderBy("createdAt", "desc"),
       where("areaNo", "==", areaNo),
-      where("uid", "==", filter.uid ?? ""),
       // where("isPublic", "==", true),
       limit(10)
     );
-
+    if (filter.uid) {
+      q = query(q, where("uid", "==", filter.uid));
+    }
     if (filter.title) {
       q = query(q, where("title", "==", filter.title));
     }
@@ -46,7 +54,18 @@ export async function getBooksBatchBy10({
     if (filter.genres && filter.genres.length > 0) {
       q = query(q, where("genres", "array-contains-any", filter.genres));
     }
-
+    if (filter.category && filter.category !== "all") {
+      q = query(q, where("category", "==", filter.category));
+    }
+    if (filter.keyword) {
+      q = query(
+        q,
+        where("title", ">=", filter.keyword),
+        where("title", "<=", filter.keyword + "\uf8ff")
+      );
+      // q = query(q, where("author", "array-contains", filter.keyword));
+      // q = query(q, where("publisher", "array-contains", filter.keyword));
+    }
     if (pageParam) {
       q = query(q, startAfter(pageParam));
     }

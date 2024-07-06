@@ -7,6 +7,7 @@ import {
   getDocs,
   limit,
   query,
+  serverTimestamp,
   setDoc,
   startAfter,
   updateDoc,
@@ -34,7 +35,7 @@ export async function createPostLike(params: {
     await addDoc(collection(db, "like_posts"), {
       userId: userId,
       postId: postId,
-      createdAt: new Date(),
+      createdAt: serverTimestamp(),
     });
     console.log("Post Like successfully added!");
   } catch (error) {
@@ -62,11 +63,38 @@ export async function createCommentLike(params: {
     await addDoc(collection(db, "like_comments"), {
       userId: userId,
       commentId: commentId,
-      createdAt: new Date(),
+      createdAt: serverTimestamp(),
     });
     console.log("Comment Like successfully added!");
   } catch (error) {
     console.error("Error adding Comment like:", error);
+    throw error;
+  }
+}
+export async function createBookLike(params: {
+  userId: string;
+  bookId: string;
+}): Promise<void> {
+  try {
+    const { userId, bookId } = params;
+
+    // Check if the like already exists
+    const isLiked = await getBookLikeId(userId, bookId);
+    console.log("isLiked", isLiked);
+
+    if (isLiked) {
+      throw Error("이미 좋아요를 누른 도서입니다.");
+    }
+
+    // Add new like entry
+    await addDoc(collection(db, "like_books"), {
+      userId: userId,
+      bookId: bookId,
+      createdAt: serverTimestamp(),
+    });
+    console.log("Book Like successfully added!");
+  } catch (error) {
+    console.error("Error adding books like:", error);
     throw error;
   }
 }
@@ -93,6 +121,16 @@ export async function deleteCommentLike(likeId: string): Promise<void> {
   }
 }
 
+export async function deleteBookLike(likeId: string): Promise<void> {
+  try {
+    const likeRef = doc(db, "like_books", likeId);
+    await deleteDoc(likeRef);
+    console.log("Book Like successfully deleted!");
+  } catch (error) {
+    console.error("Error deleting book like:", error);
+    throw error;
+  }
+}
 export async function getPostLikeId(
   userId: string,
   postId: string
@@ -124,6 +162,23 @@ export async function getCommentLikeId(
 
   return docSnap?.id || "";
 }
+
+export async function getBookLikeId(
+  userId: string,
+  bookId: string
+): Promise<string | null> {
+  const likeQuery = query(
+    collection(db, "like_books"),
+    where("userId", "==", userId),
+    where("bookId", "==", bookId)
+  );
+
+  const querySnapshot = await getDocs(likeQuery);
+  const docSnap = querySnapshot.docs[0];
+
+  return docSnap?.id || "";
+}
+
 export async function getLikedPostsBatchBy10({
   pageParam = null,
   userId,

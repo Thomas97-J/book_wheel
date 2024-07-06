@@ -1,87 +1,104 @@
-import { useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import UserCard from "../../components/mobile/UserCard";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
-import useGetAllUsers from "../../hooks/users/useGetAllUsers";
-import useGetUsersByNickname from "../../hooks/users/useGetUsersByNickname";
+import { useSearchParams } from "react-router-dom";
+import UserExplore from "./UserExplore";
+import PostExplore from "./PostExplore";
+import BookExplore from "./BookExplore";
 import PageWrapper from "../../assets/styles/PageWrapper";
-import useGetUsersBatchBy10 from "../../hooks/users/useGetUsersBatchBy10";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 
-interface Search {
-  type: string;
-  keyword: string;
-}
-
-enum SearchType {
-  User = "USER",
-  Book = "BOOK",
-}
 function Explore() {
-  const {
-    ref,
-    users,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    nickname,
-    setNickname,
-  } = useGetUsersBatchBy10("");
-
-  const searchMutation = useGetUsersByNickname();
-  const { register, handleSubmit } = useForm<Search>({ mode: "onChange" });
+  const [query, setQuery] = useSearchParams();
+  const [activeTab, setActiveTab] = useState("users");
 
   useEffect(() => {
-    console.log("explore", users);
-  }, [users]);
-
-  const debouncedSearch = useMemo(
-    () =>
-      _.debounce(async (keyword: string) => {
-        setNickname(keyword);
-      }, 500),
-    [searchMutation]
-  );
-
-  async function onSearch(data: Search) {
-    try {
-      if (data.type === SearchType.User) {
-        await debouncedSearch(data.keyword);
-      }
-    } catch (e) {
-      console.error(e);
+    const type = query.get("type");
+    if (type === "posts" || type === "books") {
+      setActiveTab(type);
+    } else {
+      setActiveTab("users");
     }
-  }
+  }, [query]);
+
+  const handleTabClick = (tabKey: string) => {
+    setActiveTab(tabKey);
+    setQuery({ type: tabKey });
+  };
 
   return (
     <ExploreWrapper>
       <DefaultHeader />
-      <form onSubmit={handleSubmit(onSearch)}>
-        <SearchInput
-          {...register("keyword", { required: true })}
-          onChange={(e) => {
-            onSearch({ type: SearchType.User, keyword: e.target.value });
-          }}
-          placeholder="검색어를 입력하세요."
-          type="text"
-        />
-      </form>
-      {users?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.users.map((user: any) => (
-            <UserCard key={user.id} userInfo={user} />
-          ))}
-        </div>
-      ))}
-      <div ref={ref}></div>
+      <TabBar>
+        <Tab
+          $isActive={activeTab === "users"}
+          onClick={() => handleTabClick("users")}
+        >
+          사용자
+        </Tab>
+        <Tab
+          $isActive={activeTab === "posts"}
+          onClick={() => handleTabClick("posts")}
+        >
+          포스트
+        </Tab>
+        <Tab
+          $isActive={activeTab === "books"}
+          onClick={() => handleTabClick("books")}
+        >
+          도서
+        </Tab>
+      </TabBar>
+      <Content>
+        {activeTab === "users" && <UserExplore />}
+        {activeTab === "posts" && <PostExplore />}
+        {activeTab === "books" && <BookExplore />}
+      </Content>
     </ExploreWrapper>
   );
 }
-const ExploreWrapper = styled(PageWrapper)``;
+
+const ExploreWrapper = styled(PageWrapper)`
+  padding-top: 160px;
+  position: relative;
+`;
+
+const TabBar = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 60px;
+  background: #fff;
+  z-index: 100;
+`;
+
+const Tab = styled.button<{ $isActive: boolean }>`
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  border-bottom: ${(props) => (props.$isActive ? "2px solid black" : "none")};
+  background: #fff;
+
+  &:hover {
+    color: gray;
+  }
+`;
+
+const Content = styled.div`
+  position: relative;
+  min-height: 200px; /* or any suitable value */
+`;
+
 const SearchInput = styled.input`
   height: 40px;
   width: 100%;
 `;
+
 export default Explore;

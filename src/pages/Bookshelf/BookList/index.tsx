@@ -30,6 +30,7 @@ function BookList() {
     }
     console.log(targetUid);
   }, [targetUid]);
+
   const options = [
     { label: "전체", value: "all" },
     { label: "소설", value: "novel" },
@@ -44,6 +45,9 @@ function BookList() {
 
   const handleSelect = (option: any) => {
     console.log("Selected option:", option);
+    setFilter(() => {
+      return { ...filter, category: option.value };
+    });
   };
 
   // if (isLoading) {

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import BookHeader from "../../../components/mobile/headers/BookHeader";
 import { useAuth } from "../../../context/AuthContext";
 import PageWrapper from "../../../assets/styles/PageWrapper";
+import LikeBtnBook from "../../../components/mobile/LikeBtnBook";
 
 function BookDetail() {
   const { currentUser } = useAuth();
@@ -22,6 +23,10 @@ function BookDetail() {
       <h2>{bookData?.title}</h2>
       <div>{bookData?.author}</div>
       <div>{bookData?.content}</div>
+      <LikeBtnBook
+        bookId={bookData?.id ?? ""}
+        userId={currentUser?.uid ?? ""}
+      />
     </BookDetailWrapper>
   );
 }

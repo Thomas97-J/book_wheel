@@ -170,7 +170,7 @@ const Title = styled.input`
 const ImagePreview = styled.img`
   width: 100%;
   max-height: 200px;
-  object-fit: cover;
+  object-fit: contain;
   margin-bottom: 10px;
 `;
 
