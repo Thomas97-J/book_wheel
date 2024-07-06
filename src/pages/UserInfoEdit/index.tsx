@@ -7,7 +7,7 @@ import useGetUserById from "../../hooks/users/useGetUserById";
 import useUpdateUserData from "../../hooks/users/useUpdateUserData";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
-import useImageUpload from "../../hooks/common/useImageUpload";
+import ImgCrop from "../../components/common/ImgCrop";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -22,6 +22,7 @@ function UserInfoEdit() {
     handleSubmit,
     setError,
     setValue,
+    trigger,
     formState: { errors, isValid },
   } = useForm<FixUserInfoFormValue>({
     mode: "onBlur",
@@ -35,17 +36,18 @@ function UserInfoEdit() {
     maxWidthOrHeight: 256,
   });
   const userInfoUpataeMutation = useUpdateUserData(uid);
-  const { imagePreview, setImagePreview, imgRef, saveImgFile } =
-    useImageUpload(setValue);
+
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (userData?.profileImage) {
       setValue("profileImage", userData.profileImage);
-      setImagePreview(userData.profileImage);
+      setCroppedImage(userData.profileImage);
     }
     if (userData) {
       setValue("nickname", userData.nickname);
       setValue("bio", userData.bio);
+      trigger();
     }
   }, [userData, setValue]);
 
@@ -75,21 +77,22 @@ function UserInfoEdit() {
       setUpdating(false);
     }
   }
+  function saveCroppedImage(blob: Blob | null, url: string | null) {
+    setCroppedImage(url);
+    setValue("photoFile", blob);
+  }
+  useEffect(() => {
+    console.log("isValid", isValid, errors);
+  }, [isValid, errors]);
 
   return (
     <UserInfoEditWrapper>
       <ProFile
-        src={imagePreview ?? imgPaths.defaultProfileImage}
+        src={croppedImage ?? imgPaths.defaultProfileImage}
         alt="이미지 업로드"
       />
+      <ImgCrop saveCroppedImage={saveCroppedImage} />
       <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
-        <input
-          type="file"
-          accept="image/*"
-          {...register("photoFile")}
-          onChange={saveImgFile}
-          ref={imgRef}
-        />
         <input
           type="text"
           placeholder="사용자명을 입력하세요."
@@ -111,6 +114,7 @@ function UserInfoEdit() {
 const ProFile = styled.img`
   width: 100px;
   height: 100px;
+  border-radius: 50%;
 `;
 const FixUserForm = styled.form`
   display: flex;

@@ -54,10 +54,13 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
 }
 const TopSection = styled.div`
   display: flex;
+  padding: 10px 0;
 `;
 const ProFile = styled.img`
   width: 100px;
   height: 100px;
+  border-radius: 50%;
+  margin-right: 10px;
 `;
 const UserInfoLink = styled(Link)`
   text-decoration: none;

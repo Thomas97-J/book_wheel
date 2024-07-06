@@ -3,7 +3,6 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import useRollingBooks from "../../hooks/books/useRollingBooks";
 import React, { useEffect, useRef } from "react";
 import BookShorts from "./BookShorts";
-import { useInView } from "react-intersection-observer";
 
 function Rolling() {
   const {
@@ -54,6 +53,7 @@ const BookShortsWrapper = styled.div`
 `;
 
 const RollingWrapper = styled(PageWrapper)`
+  padding: 0;
   display: flex;
   flex-direction: column;
   scroll-snap-type: y mandatory;

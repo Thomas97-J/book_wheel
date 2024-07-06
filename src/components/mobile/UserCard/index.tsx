@@ -43,6 +43,7 @@ const Nickname = styled.div`
 const ProFile = styled.img`
   width: 60px;
   height: 60px;
+  border-radius: 50%;
 `;
 const FollowBtnWrapper = styled.div`
   position: absolute;

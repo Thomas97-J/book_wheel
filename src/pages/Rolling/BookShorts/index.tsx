@@ -18,16 +18,16 @@ function BookShorts({ book }: { book: Book }) {
 
 const BookShortsWapper = styled(Link)`
   display: flex;
+  flex-direction: column;
   border: 1px solid #ccc;
-  border-radius: 8px;
   overflow: hidden;
   margin-bottom: 16px;
   height: calc(100vh - 50px); /* 바텀 바의 높이를 제외한 전체 화면 높이 */
 `;
 
 const ThumbnailImage = styled.img`
-  width: 100px;
-  height: 120px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 
