@@ -240,3 +240,53 @@ export async function deleteBook(bookId: string) {
     throw error;
   }
 }
+
+export async function getMaxBookIndex() {
+  try {
+    const booksRef = collection(db, "books");
+    const q = query(booksRef, orderBy("index", "desc"), limit(1));
+
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const maxIndexBook = querySnapshot.docs[0].data();
+      return maxIndexBook.index;
+    } else {
+      console.log("No books found.");
+      return null;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+interface GetBooksResponse {
+  books: any[];
+  nextPageToken: any;
+}
+
+export async function getBooksBatchBy3(
+  pageToken?: any
+): Promise<GetBooksResponse> {
+  try {
+    const booksRef = collection(db, "books");
+    let q = query(booksRef, orderBy("author"), limit(3));
+
+    if (pageToken) {
+      q = query(q, startAfter(pageToken));
+    }
+
+    const querySnapshot = await getDocs(q);
+
+    const books = querySnapshot.docs.map((doc) => doc.data());
+    const nextPageToken =
+      querySnapshot.docs.length === 3
+        ? querySnapshot.docs[querySnapshot.docs.length - 1]
+        : null;
+
+    return { books, nextPageToken };
+  } catch (err) {
+    console.error(err);
+    return { books: [], nextPageToken: null };
+  }
+}
