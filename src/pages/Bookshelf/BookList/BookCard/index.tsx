@@ -8,7 +8,9 @@ function BookCard({ book }: { book: Book }) {
       {book.photoUrl && <ThumbnailImage src={book.photoUrl} alt={book.title} />}
       <CardContent>
         <Title>{book.title}</Title>
-        <Author>{book.author}</Author>
+        <Author>
+          {book.author} / {book.publisher}
+        </Author>
         {/* <Genres>{book.genres.join(", ")}</Genres> */}
         <Content>{book.content}</Content>
       </CardContent>
@@ -18,29 +20,33 @@ function BookCard({ book }: { book: Book }) {
 
 const BookCardWapper = styled(Link)`
   display: flex;
-  border: 1px solid #ccc;
-  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 16px;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  margin: 0 10px;
+  text-decoration: none;
 `;
 
 const ThumbnailImage = styled.img`
-  width: 100px;
-  height: 120px;
+  min-width: 80px;
+  height: 100px;
+  margin-right: 10px;
   object-fit: cover;
 `;
 
 const CardContent = styled.div`
-  padding: 4px 16px;
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.h2`
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 8px 0;
 `;
 
 const Author = styled.p`
-  font-size: 16px;
+  font-size: 12px;
   color: #555;
   margin: 0 0 8px 0;
 `;
@@ -52,8 +58,16 @@ const Genres = styled.p`
 `;
 
 const Content = styled.p`
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
   font-size: 14px;
-  color: #333;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; // 원하는 라인수
+  -webkit-box-orient: vertical;
+  margin: 0;
 `;
 
 export default BookCard;

@@ -136,3 +136,18 @@ export async function deleteComment(commentId: string): Promise<void> {
     throw error;
   }
 }
+
+export async function getCommentCount(postId: string): Promise<number> {
+  try {
+    const commentsQuery = query(
+      collection(db, "comments"),
+      where("postId", "==", postId)
+    );
+    const querySnapshot = await getDocs(commentsQuery);
+    const commentCount = querySnapshot.size;
+    return commentCount;
+  } catch (error) {
+    console.error("Error fetching comment count: ", error);
+    throw error;
+  }
+}

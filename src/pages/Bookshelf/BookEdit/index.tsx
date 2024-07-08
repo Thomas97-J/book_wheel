@@ -92,6 +92,7 @@ function BookEdit() {
         category: data.category,
         title: data.title,
         author: data.author,
+        publisher: data.publisher,
         content: data.content,
         areaNo: 1,
       } as Book;

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../App";
 import useDeletePost from "../../../../hooks/posts/useDeletePost";
 import Header from "../../../../assets/styles/Header";
+import ThreeDot from "../../../common/ThreeDotIcon";
 
 function PostHeader({ user, postData }) {
   const deleteMutation = useDeletePost();
@@ -45,7 +46,11 @@ function PostHeader({ user, postData }) {
         </svg>
       </button>
       {user?.uid === postData.uid ? (
-        <DropDown options={dropDownOptions} buttonInner={"드롭다운"} />
+        <DropDown
+          options={dropDownOptions}
+          buttonInner={<ThreeDot />}
+          isRightSide={true}
+        />
       ) : (
         ""
       )}

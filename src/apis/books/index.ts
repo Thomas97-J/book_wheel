@@ -143,6 +143,7 @@ interface NewBookData {
   category: string;
   genres?: string[];
   content: string;
+  publisher: string;
   areaNo: number;
   photoUrl?: string;
 }
@@ -176,6 +177,7 @@ export async function createBookWithIndex(
         genres: newBookData.genres ?? [],
         content: newBookData.content,
         category: newBookData.category,
+        publisher: newBookData.publisher,
         photoUrl: newBookData.photoUrl,
         areaNo: newBookData.areaNo,
         createdAt: new Date(),
@@ -207,6 +209,7 @@ export async function updateBookByIndex(bookData: Book): Promise<void> {
     author: bookData.author,
     genres: bookData.genres ?? [],
     content: bookData.content,
+    publisher: bookData.publisher,
     category: bookData.category,
     areaNo: bookData.areaNo,
     updatedAt: serverTimestamp(),
@@ -278,7 +281,13 @@ export async function getBooksBatchBy3(
 
     const querySnapshot = await getDocs(q);
 
-    const books = querySnapshot.docs.map((doc) => doc.data());
+    const books = querySnapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as Book)
+    );
     const nextPageToken =
       querySnapshot.docs.length === 3
         ? querySnapshot.docs[querySnapshot.docs.length - 1]

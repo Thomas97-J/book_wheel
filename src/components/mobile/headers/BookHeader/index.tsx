@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../App";
 import useDeleteBook from "../../../../hooks/books/useDeleteBook";
 import Header from "../../../../assets/styles/Header";
+import ThreeDot from "../../../common/ThreeDotIcon";
 
 function BookHeader({ user, bookData }) {
   const deleteMutation = useDeleteBook();
@@ -28,8 +29,28 @@ function BookHeader({ user, bookData }) {
 
   return (
     <BookHeaderWrapper>
+      <button
+        type="button"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          viewBox="0 0 24 24"
+          fill="rgba(0, 0, 0, 1)"
+        >
+          <path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path>
+        </svg>
+      </button>
       {user?.uid === bookData.uid ? (
-        <DropDown options={dropDownOptions} buttonInner={"드롭다운"} />
+        <DropDown
+          options={dropDownOptions}
+          buttonInner={<ThreeDot />}
+          isRightSide={true}
+        />
       ) : (
         ""
       )}
@@ -39,12 +60,7 @@ function BookHeader({ user, bookData }) {
 
 const BookHeaderWrapper = styled(Header)`
   button {
-    width: 100px;
-    margin: 10px;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: none;
   }
 `;
 

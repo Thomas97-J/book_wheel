@@ -5,6 +5,7 @@ import ProfileAndInfo from "../../components/mobile/ProfileAndInfo";
 import useGetUidByNickname from "../../hooks/users/useGetUidByNickname";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import FollowBtn from "../../components/mobile/FollowBtn";
+import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 
 function Profile() {
   const { currentUser } = useAuth();
@@ -14,6 +15,7 @@ function Profile() {
 
   return (
     <ProfileWrapper>
+      <DefaultHeader />
       <ProfileAndInfo uid={targetUid || ""} nickname={nickname} />
       <FollowBtnWrapper>
         <FollowBtn

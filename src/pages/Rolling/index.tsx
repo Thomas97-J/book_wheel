@@ -20,18 +20,14 @@ function Rolling() {
 
   useEffect(() => {
     const scrollTarget = sessionStorage.getItem(`scrollTarget-/rolling`);
-
     if (scrollTarget) {
-      console.log("scrollTarget", scrollTarget);
-
       let elem = document.getElementById(scrollTarget);
-      console.log("elem", elem);
-
       if (elem) {
         elem.scrollIntoView({});
       }
     }
   }, [location]);
+
   return (
     <RollingWrapper>
       {bookData?.pages.map((page, pageIndex) => (
@@ -51,26 +47,19 @@ function Rolling() {
 function BookShortsWithInView({ book }: { book: any }) {
   const { inView, ref, entry } = useInView({ threshold: 0.8 });
   const location = useLocation();
-
+  const bookCardId = `book-${book.index}`;
   useEffect(() => {
     if (inView) {
       console.log("entry", entry, book);
       sessionStorage.setItem(
         `scrollTarget-${location.pathname}`,
-        String(book.index)
+        String(bookCardId)
       );
     }
   }, [inView]);
-  // useEffect(() => {
-  //   return () => {
-  //     sessionStorage.setItem(
-  //       `scrollPosition-${location.pathname}`,
-  //       String(entry)
-  //     );
-  //   };
-  // }, []);
+
   return (
-    <BookShortsWrapper ref={ref} id={book.index}>
+    <BookShortsWrapper ref={ref} id={bookCardId}>
       <BookShorts book={book} />
     </BookShortsWrapper>
   );

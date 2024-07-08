@@ -1,34 +1,28 @@
-import React from "react";
-
 import styled from "styled-components";
-import { useAuth } from "../../../../context/AuthContext";
 import { PATH } from "../../../../App";
-import { useNavigate } from "react-router-dom";
-import DropDown from "../../../common/DropDown";
 import Header from "../../../../assets/styles/Header";
 import { Link } from "react-router-dom";
+import DropDownSelect from "../../../common/DropDownSelect";
 
 function Mainheaders({ needBottomLine }: { needBottomLine: boolean }) {
-  const navigate = useNavigate();
   const dropDownOptions = [
     {
       label: "서울시 성북구",
-      clickFunction: () => {
-        console.log("지역1 클릭");
-      },
+      value: 1,
     },
     {
       label: "지역 추가",
-      clickFunction: () => {
-        console.log("지역2 클릭");
-      },
+      value: -1,
     },
   ];
+  const handleSelect = (option: { label: string; value: string }) => {};
   return (
     <MainheadersWrapper $scrolled={!needBottomLine}>
-      <DropDownBtnWrapper>
-        <DropDown options={dropDownOptions} buttonInner={"지역 선택"} />
-      </DropDownBtnWrapper>
+      <DropDownSelect
+        options={dropDownOptions}
+        onSelect={handleSelect}
+        placeholder={"서울시 성북구"}
+      />
       <SearchLink to={PATH.explore}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -47,10 +41,6 @@ const MainheadersWrapper = styled(Header)<{ $scrolled: boolean }>`
   justify-content: space-between;
   padding: 0 8px;
   ${(props) => (props.$scrolled ? "box-shadow: none" : "")};
-`;
-const DropDownBtnWrapper = styled.div`
-  border: 1px solid;
-  border-radius: 10px;
 `;
 const SearchLink = styled(Link)`
   text-decoration: none;
