@@ -24,3 +24,13 @@ body,
     display: none; /* for Chrome, Safari, and Opera */
   }
 }
+input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+}

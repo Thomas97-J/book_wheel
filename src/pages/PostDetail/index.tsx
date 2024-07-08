@@ -11,6 +11,7 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import LikeBtn from "../../components/mobile/LikeBtn";
 import useGetReceivedLikesCount from "../../hooks/like/useGetReceivedLikesCount";
 import CommentSection from "./CommentSection";
+import ProfileSimple from "../../components/mobile/ProfileSimple";
 
 function PostDetail() {
   const { currentUser } = useAuth();
@@ -35,7 +36,7 @@ function PostDetail() {
   return (
     <PostDetailWrapper>
       <PostHeader user={currentUser} postData={postData} />
-      <UserInfo uid={postData?.uid || ""} />
+      <ProfileSimple uid={postData?.uid || ""} />
       <div>{formattedDate}</div>
       {postData?.postImage && (
         <img src={postData?.postImage} alt="게시글 이미지" />

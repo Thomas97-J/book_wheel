@@ -20,7 +20,6 @@ const BookShortsWapper = styled(Link)`
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
-  overflow: hidden;
   margin-bottom: 16px;
   height: calc(100vh - 50px); /* 바텀 바의 높이를 제외한 전체 화면 높이 */
 `;

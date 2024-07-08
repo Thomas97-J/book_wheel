@@ -6,20 +6,24 @@ import BookHeader from "../../../components/mobile/headers/BookHeader";
 import { useAuth } from "../../../context/AuthContext";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import LikeBtnBook from "../../../components/mobile/LikeBtnBook";
+import ProfileSimple from "../../../components/mobile/ProfileSimple";
 
 function BookDetail() {
   const { currentUser } = useAuth();
-
   const [query, setQuery] = useSearchParams();
   const bookIndex = parseInt(query.get("no") ?? "");
   const { bookData, isLoading } = useGetBookByIndex(bookIndex);
+  const ownerId = bookData?.uid ?? "";
   if (isLoading) {
     return <Fallback />;
   }
   return (
     <BookDetailWrapper>
       <BookHeader user={currentUser} bookData={bookData} />
-      {bookData?.photoUrl && <img src={bookData?.photoUrl} alt="도서 이미지" />}
+      <ProfileSimple uid={ownerId} />
+      {bookData?.photoUrl && (
+        <BookImage src={bookData?.photoUrl} alt="도서 이미지" />
+      )}
       <h2>{bookData?.title}</h2>
       <div>{bookData?.author}</div>
       <div>{bookData?.content}</div>
@@ -33,5 +37,8 @@ function BookDetail() {
 const BookDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
 `;
-
+const BookImage = styled.img`
+  max-height: 400px;
+  object-fit: contain;
+`;
 export default BookDetail;

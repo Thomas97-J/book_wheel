@@ -148,7 +148,7 @@ function BookEdit() {
           <ImagePreview src={imagePreview} ref={imgPreviewRef} alt="Preview" />
         )}
         <ImgCropRectangle saveCroppedImage={saveCroppedImage}>
-          도서 이미지 추가
+          이미지 업로드
         </ImgCropRectangle>
 
         <Title

@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     mutationFn: () => signOut(auth),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      window.location.href = "/";
     },
   });
 
