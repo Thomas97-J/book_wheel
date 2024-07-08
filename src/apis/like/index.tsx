@@ -218,6 +218,45 @@ export async function getLikedPostsBatchBy10({
   return { likedPostsData, nextPage: lastVisible };
 }
 
+export async function getLikedBooksBatchBy10({
+  pageParam = null,
+  userId,
+}: {
+  pageParam?: any;
+  userId: string;
+}) {
+  let likedBooksQuery = query(
+    collection(db, "like_books"),
+    where("userId", "==", userId),
+    limit(10)
+  );
+
+  if (pageParam) {
+    likedBooksQuery = query(likedBooksQuery, startAfter(pageParam));
+  }
+
+  const likedBooksSnapshot = await getDocs(likedBooksQuery);
+  const bookIds = likedBooksSnapshot.docs.map((doc) => doc.data().bookId);
+
+  const bookQuery = query(
+    collection(db, "books"),
+    where("__name__", "in", bookIds),
+    limit(10)
+  );
+  const bookSnapshot = await getDocs(bookQuery);
+  const likedBooksData = bookSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  console.log("likedBooksData", likedBooksData);
+
+  const lastVisible =
+    likedBooksSnapshot.docs[likedBooksSnapshot.docs.length - 1];
+
+  return { likedBooksData, nextPage: lastVisible };
+}
+
 export async function getReceivedLikesCount(postId: string): Promise<number> {
   const receivedLikesQuery = query(
     collection(db, "like_posts"),

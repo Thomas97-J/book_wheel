@@ -4,6 +4,7 @@ import { useAuth } from "../../../context/AuthContext";
 import styled from "styled-components";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import PostCard from "../../../components/mobile/PostCard";
+import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
 
 function LikePosts() {
   const { currentUser } = useAuth();
@@ -22,6 +23,7 @@ function LikePosts() {
 
   return (
     <LikePostsWrapper>
+      <DefaultHeader />
       {likedPostsDatas?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
           {page?.likedPostsData.map((post: any) => (

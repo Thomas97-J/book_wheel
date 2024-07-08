@@ -30,7 +30,9 @@ function PostEditHeader() {
   );
 }
 const PostEditHeaderWrapper = styled(Header)`
-  /* Add your styles here */
+  button {
+    border: none;
+  }
 `;
 
 export default PostEditHeader;

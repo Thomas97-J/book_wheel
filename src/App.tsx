@@ -31,6 +31,8 @@ const Bookshelf = React.lazy(() => import("./pages/Bookshelf"));
 const BookEdit = React.lazy(() => import("./pages/Bookshelf/BookEdit"));
 const BookDetail = React.lazy(() => import("./pages/Bookshelf/BookDetail"));
 const LikePosts = React.lazy(() => import("./pages/My/LikePosts"));
+const LikeBooks = React.lazy(() => import("./pages/My/LikeBooks"));
+
 const UserPosts = React.lazy(() => import("./pages/Profile/UserPost"));
 
 export const PATH = {
@@ -41,6 +43,7 @@ export const PATH = {
   infoFix: "/my/edit",
   passwordChange: "/my/change_password",
   likedPost: "/my/likedPost",
+  likedBook: "/my/likedBook",
   profile: "/profile",
   follow: "/profile/follow",
   userPost: "/profile/userPost",
@@ -59,76 +62,75 @@ export const PATH = {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <Suspense fallback={<Fallback />}>
-          <AuthProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path={PATH.main} element={<Main />} />
-                <Route
-                  path={PATH.signIn}
-                  element={<UnProtectRoute component={Signin} />}
-                />
-                <Route
-                  path={PATH.signUp}
-                  element={<UnProtectRoute component={Signup} />}
-                />
-                <Route
-                  path={PATH.my}
-                  element={<ProtectRoute component={My} />}
-                />
-                <Route
-                  path={PATH.likedPost}
-                  element={<ProtectRoute component={LikePosts} />}
-                />
-                <Route
-                  path={PATH.infoFix}
-                  element={<ProtectRoute component={InfoFixSection} />}
-                />
-                <Route
-                  path={PATH.explore}
-                  element={<ProtectRoute component={Explore} />}
-                />
-                <Route
-                  path={PATH.passwordChange}
-                  element={<ProtectRoute component={PasswordChange} />}
-                />
-                <Route
-                  path={PATH.postEdit}
-                  element={<ProtectRoute component={PostEdit} />}
-                />
-                <Route path={PATH.postDetail} element={<PostDetail />} />
-                <Route path={PATH.profile} element={<Profile />} />
-                <Route
-                  path={PATH.userPost}
-                  element={<ProtectRoute component={UserPosts} />}
-                />
-                <Route path={PATH.follow} element={<Follow />} />
-                <Route
-                  path={PATH.rolling}
-                  element={<ProtectRoute component={Rolling} />}
-                />
-                <Route
-                  path={PATH.messages}
-                  element={<ProtectRoute component={Messages} />}
-                />
-                <Route
-                  path={PATH.bookEdit}
-                  element={<ProtectRoute component={BookEdit} />}
-                />
-                <Route
-                  path={PATH.bookDetail}
-                  element={<ProtectRoute component={BookDetail} />}
-                />
-                <Route path={PATH.bookshelf} element={<Bookshelf />} />
-                <Route path={PATH.notFound} element={<NotFound />} />
-              </Routes>
-              <BottomNav />
-            </BrowserRouter>
-          </AuthProvider>
-        </Suspense>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </ErrorBoundary>
+      <Suspense fallback={<Fallback />}>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path={PATH.main} element={<Main />} />
+              <Route
+                path={PATH.signIn}
+                element={<UnProtectRoute component={Signin} />}
+              />
+              <Route
+                path={PATH.signUp}
+                element={<UnProtectRoute component={Signup} />}
+              />
+              <Route path={PATH.my} element={<ProtectRoute component={My} />} />
+              <Route
+                path={PATH.likedPost}
+                element={<ProtectRoute component={LikePosts} />}
+              />
+              <Route
+                path={PATH.likedBook}
+                element={<ProtectRoute component={LikeBooks} />}
+              />
+              <Route
+                path={PATH.infoFix}
+                element={<ProtectRoute component={InfoFixSection} />}
+              />
+              <Route
+                path={PATH.explore}
+                element={<ProtectRoute component={Explore} />}
+              />
+              <Route
+                path={PATH.passwordChange}
+                element={<ProtectRoute component={PasswordChange} />}
+              />
+              <Route
+                path={PATH.postEdit}
+                element={<ProtectRoute component={PostEdit} />}
+              />
+              <Route path={PATH.postDetail} element={<PostDetail />} />
+              <Route path={PATH.profile} element={<Profile />} />
+              <Route
+                path={PATH.userPost}
+                element={<ProtectRoute component={UserPosts} />}
+              />
+              <Route path={PATH.follow} element={<Follow />} />
+              <Route
+                path={PATH.rolling}
+                element={<ProtectRoute component={Rolling} />}
+              />
+              <Route
+                path={PATH.messages}
+                element={<ProtectRoute component={Messages} />}
+              />
+              <Route
+                path={PATH.bookEdit}
+                element={<ProtectRoute component={BookEdit} />}
+              />
+              <Route
+                path={PATH.bookDetail}
+                element={<ProtectRoute component={BookDetail} />}
+              />
+              <Route path={PATH.bookshelf} element={<Bookshelf />} />
+              <Route path={PATH.notFound} element={<NotFound />} />
+            </Routes>
+            <BottomNav />
+          </BrowserRouter>
+        </AuthProvider>
+      </Suspense>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

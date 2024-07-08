@@ -15,18 +15,12 @@ function My() {
   return (
     <MyWrapper>
       <MypageHeader />
-      <ProfileAndInfo uid={uid} nickname={userData?.nickname} />
-      <DummySection>관심 도서</DummySection>
+      <ProfileAndInfo uid={uid} nickname={userData?.nickname} />{" "}
+      <Link to={`${PATH.likedBook}`}>관심 도서</Link>
       <Link to={`${PATH.likedPost}`}>관심 글</Link>
     </MyWrapper>
   );
 }
-
-const DummySection = styled.div`
-  height: 100px;
-  border: 1px solid black;
-  margin-bottom: 10px;
-`;
 
 const MyWrapper = styled(PageWrapper)``;
 export default My;

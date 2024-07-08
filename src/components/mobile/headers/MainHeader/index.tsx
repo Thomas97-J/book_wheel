@@ -12,13 +12,13 @@ function Mainheaders({ needBottomLine }: { needBottomLine: boolean }) {
   const navigate = useNavigate();
   const dropDownOptions = [
     {
-      label: "지역1",
+      label: "서울시 성북구",
       clickFunction: () => {
         console.log("지역1 클릭");
       },
     },
     {
-      label: "지역2",
+      label: "지역 추가",
       clickFunction: () => {
         console.log("지역2 클릭");
       },

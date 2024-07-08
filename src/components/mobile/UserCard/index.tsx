@@ -4,16 +4,14 @@ import imgPaths from "../../../assets/images/image_path";
 import { Link } from "react-router-dom";
 import FollowBtn from "../FollowBtn";
 import { useAuth } from "../../../context/AuthContext";
+import ProfileImage from "../../common/ProfileImage";
 
 function UserCard({ userInfo }: { userInfo: UserData }) {
   const { currentUser } = useAuth();
   return (
     <UserCardWrapper>
       <GoToProfile to={`/profile?user=${userInfo.nickname}`}>
-        <ProFile
-          src={userInfo?.profileImage || imgPaths.defaultProfileImage}
-          alt=""
-        />
+        <ProfileImage src={userInfo?.profileImage} />
         <Nickname>{userInfo.nickname}</Nickname>
       </GoToProfile>
       <FollowBtnWrapper>
@@ -40,11 +38,7 @@ const GoToProfile = styled(Link)`
 const Nickname = styled.div`
   margin-left: 10px;
 `;
-const ProFile = styled.img`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-`;
+
 const FollowBtnWrapper = styled.div`
   position: absolute;
   right: 10px;

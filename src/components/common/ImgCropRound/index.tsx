@@ -3,6 +3,7 @@ import Cropper from "react-easy-crop";
 import styled from "styled-components";
 import { getOrientation } from "get-orientation/browser";
 import { getCroppedImg, getRotatedImage } from "../../../utils/getCroppedImg";
+import FileUpload from "../FileUpload";
 
 const ORIENTATION_TO_ANGLE: { [key: string]: number } = {
   "3": 180,
@@ -10,7 +11,13 @@ const ORIENTATION_TO_ANGLE: { [key: string]: number } = {
   "8": -90,
 };
 
-function ImgCrop({ saveCroppedImage }) {
+function ImgCropRound({
+  saveCroppedImage,
+  children,
+}: {
+  saveCroppedImage: (blob: Blob | null, url: string | null) => void;
+  children: any;
+}) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState<number>(0);
@@ -78,7 +85,7 @@ function ImgCrop({ saveCroppedImage }) {
           </CropContainer>
           <Controls>
             <SliderContainer>
-              <Label>Rotation</Label>
+              <Label>회전</Label>
               <Slider
                 type="range"
                 min={0}
@@ -92,7 +99,7 @@ function ImgCrop({ saveCroppedImage }) {
           </Controls>
         </ImgCropWrapper>
       ) : (
-        <input type="file" onChange={onFileChange} accept="image/*" />
+        <FileUpload onFileChange={onFileChange}>{children}</FileUpload>
       )}
     </Container>
   );
@@ -115,6 +122,7 @@ const ImgCropWrapper = styled.div`
   height: 100vh;
   width: 100vw;
   background-color: #fff;
+  z-index: 1001;
 `;
 const Container = styled.div`
   display: flex;
@@ -126,7 +134,7 @@ const Container = styled.div`
 const CropContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 60%;
   background: #333;
   @media (min-width: 600px) {
     height: 400px;
@@ -134,7 +142,7 @@ const CropContainer = styled.div`
 `;
 
 const Controls = styled.div`
-  padding: 16px;
+  padding: 4px 16px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -161,13 +169,11 @@ const Label = styled.span`
 
 const Slider = styled.input`
   flex: 1;
-  padding: 22px 0;
+  padding: 16px 0;
   margin-left: 16px;
 `;
 
 const Button = styled.button`
-  flex-shrink: 0;
-  margin-left: 16px;
   padding: 8px 16px;
   background-color: #007bff;
   color: white;
@@ -176,4 +182,4 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export default ImgCrop;
+export default ImgCropRound;

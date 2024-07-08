@@ -6,5 +6,6 @@ const PageWrapper = styled.div`
   flex-direction: column;
   padding: 60px 10px 60px;
   position: relative;
+  max-width: 600px;
 `;
 export default PageWrapper;

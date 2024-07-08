@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
-import imgPaths from "../../assets/images/image_path";
 import useGetUserById from "../../hooks/users/useGetUserById";
 import useUpdateUserData from "../../hooks/users/useUpdateUserData";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
-import ImgCrop from "../../components/common/ImgCrop";
+import ImgCropRound from "../../components/common/ImgCropRound";
+import ProfileImage from "../../components/common/ProfileImage";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -37,12 +37,16 @@ function UserInfoEdit() {
   });
   const userInfoUpataeMutation = useUpdateUserData(uid);
 
-  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  function saveCroppedImage(blob: Blob | null, url: string | null) {
+    setImagePreview(url);
+    setValue("photoFile", blob);
+  }
 
   useEffect(() => {
     if (userData?.profileImage) {
       setValue("profileImage", userData.profileImage);
-      setCroppedImage(userData.profileImage);
+      setImagePreview(userData.profileImage);
     }
     if (userData) {
       setValue("nickname", userData.nickname);
@@ -77,21 +81,13 @@ function UserInfoEdit() {
       setUpdating(false);
     }
   }
-  function saveCroppedImage(blob: Blob | null, url: string | null) {
-    setCroppedImage(url);
-    setValue("photoFile", blob);
-  }
-  useEffect(() => {
-    console.log("isValid", isValid, errors);
-  }, [isValid, errors]);
 
   return (
     <UserInfoEditWrapper>
-      <ProFile
-        src={croppedImage ?? imgPaths.defaultProfileImage}
-        alt="이미지 업로드"
-      />
-      <ImgCrop saveCroppedImage={saveCroppedImage} />
+      <ProfileImage src={imagePreview} />
+      <ImgCropRound saveCroppedImage={saveCroppedImage}>
+        이미지 업로드
+      </ImgCropRound>
       <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
         <input
           type="text"
@@ -111,11 +107,6 @@ function UserInfoEdit() {
   );
 }
 
-const ProFile = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-`;
 const FixUserForm = styled.form`
   display: flex;
   flex-direction: column;

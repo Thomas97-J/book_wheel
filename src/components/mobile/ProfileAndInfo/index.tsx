@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
-import imgPaths from "../../../assets/images/image_path";
 import useGetUserById from "../../../hooks/users/useGetUserById";
 import useGetFollowCount from "../../../hooks/follow/useGetFollowCount";
 import useGetUserPostsByNickname from "../../../hooks/posts/useGetUserPostsByNickname";
 import useGetBooksCountByUid from "../../../hooks/books/useGetBooksCountByUid";
+import ProfileImage from "../../common/ProfileImage";
 
 function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
@@ -18,10 +18,7 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   return (
     <UserInfo>
       <TopSection>
-        <ProFile
-          src={userData?.profileImage || imgPaths.defaultProfileImage}
-          alt="profile"
-        />
+        <ProfileImage src={userData?.profileImage} />
         <div>
           <div>
             <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
@@ -56,12 +53,7 @@ const TopSection = styled.div`
   display: flex;
   padding: 10px 0;
 `;
-const ProFile = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
+
 const UserInfoLink = styled(Link)`
   text-decoration: none;
   color: #000;

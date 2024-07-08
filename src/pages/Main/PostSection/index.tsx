@@ -85,7 +85,7 @@ const StickyMenu = styled.div<{ $scrolled: boolean }>`
   position: sticky;
   z-index: 100;
   background: #fff;
-  top: 60px;
+  top: 50px;
   height: 50px;
   width: 100vw;
 

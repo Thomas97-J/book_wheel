@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DropDownSelect from "../../../components/common/DropDownSelect";
 import { useAuth } from "../../../context/AuthContext";
-import useImageUpload from "../../../hooks/common/useImageUpload";
 import { useUploadImgFile } from "../../../hooks/firestore/useUploadImgFile";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import useCreateBookWithIndex from "../../../hooks/books/useCreateBookWithIndex";
@@ -13,6 +12,7 @@ import useGetBookByIndex from "../../../hooks/books/useGetBookByIndex";
 import { PATH } from "../../../App";
 import { v4 as uuidv4 } from "uuid";
 import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
+import ImgCropRectangle from "../../../components/common/ImgCropRectangle";
 
 interface BookForm extends Book {
   photoFile: any;
@@ -37,16 +37,19 @@ function BookEdit() {
   const { bookData, isLoading } = useGetBookByIndex(bookIndex);
   const createMutation = useCreateBookWithIndex();
   const updateMutation = useUpdateBookByIndex();
-  const { imagePreview, setImagePreview, isImageLoading, imgRef, saveImgFile } =
-    useImageUpload(setValue);
+
   const imgPreviewRef = useRef<HTMLImageElement | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const { uploadImgFile, isUploading } = useUploadImgFile({
     maxSizeMB: 1,
     maxWidthOrHeight: 512,
   });
   const navigate = useNavigate();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  function saveCroppedImage(blob: Blob | null, url: string | null) {
+    setImagePreview(url);
+    setValue("photoFile", blob);
+  }
   const options = [
     { label: "소설", value: "novel" },
     { label: "시/에세이", value: "poetry_essay" },
@@ -141,24 +144,13 @@ function BookEdit() {
           <ErrorMessage>{errors.category.message}</ErrorMessage>
         )}
 
-        {isImageLoading ? (
-          <div>Loading...</div>
-        ) : (
-          imagePreview && (
-            <ImagePreview
-              src={imagePreview}
-              ref={imgPreviewRef}
-              alt="Preview"
-            />
-          )
+        {imagePreview && (
+          <ImagePreview src={imagePreview} ref={imgPreviewRef} alt="Preview" />
         )}
-        <input
-          type="file"
-          accept="image/*"
-          {...register("photoFile")}
-          onChange={saveImgFile}
-          ref={imgRef}
-        />
+        <ImgCropRectangle saveCroppedImage={saveCroppedImage}>
+          도서 이미지 추가
+        </ImgCropRectangle>
+
         <Title
           {...register("title", { required: "Title is required" })}
           type="text"

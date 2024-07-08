@@ -1,17 +1,14 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../App";
-import imgPaths from "../../../assets/images/image_path";
 import useGetUserById from "../../../hooks/users/useGetUserById";
+import ProfileImage from "../../../components/common/ProfileImage";
 
 function UserInfo({ uid }: { uid: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
   return (
     <UserInfoWrapper>
-      <ProFile
-        src={userData?.profileImage || imgPaths.defaultProfileImage}
-        alt="profile"
-      />
+      <ProfileImage src={userData?.profileImage} />
       <NameSection to={`${PATH.profile}?user=${userData?.nickname}`}>
         <NickName>{userData?.nickname}</NickName>
       </NameSection>
@@ -20,12 +17,6 @@ function UserInfo({ uid }: { uid: string }) {
 }
 const UserInfoWrapper = styled.div`
   display: flex;
-`;
-
-const ProFile = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
 `;
 
 const NameSection = styled(Link)`

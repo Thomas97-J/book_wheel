@@ -15,10 +15,7 @@ function Rolling() {
   } = useRollingBooks();
 
   useEffect(() => {
-    // 페이지가 마운트될 때 body에 스타일을 적용
     document.body.style.overflow = "hidden";
-
-    // 컴포넌트가 언마운트 될 때 body 스타일을 원래대로 복원
     return () => {
       document.body.style.overflow = "auto";
     };
