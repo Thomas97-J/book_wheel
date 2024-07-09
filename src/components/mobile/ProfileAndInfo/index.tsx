@@ -7,6 +7,7 @@ import useGetUserPostsByNickname from "../../../hooks/posts/useGetUserPostsByNic
 import useGetBooksCountByUid from "../../../hooks/books/useGetBooksCountByUid";
 import ProfileImage from "../../common/ProfileImage";
 import { useAuth } from "../../../context/AuthContext";
+import StartMessageBtn from "../StartMessageBtn";
 
 function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
@@ -43,6 +44,7 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
         <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
           작성글 {postDatas?.length}
         </UserInfoLink>
+        <StartMessageBtn targetUserId={uid} />
       </BottomSection>
     </UserInfo>
   );

@@ -234,7 +234,6 @@ export async function getPostsBatchBy10({
       where("areaNo", "==", areaNo),
       limit(10)
     );
-    console.log(pageParam, category, areaNo);
     if (category !== "all") {
       q = query(q, where("category", "==", category));
     }
@@ -252,6 +251,7 @@ export async function getPostsBatchBy10({
     }));
 
     const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    console.log(posts, lastVisible, querySnapshot.docs.length - 1);
 
     return { posts, nextPage: lastVisible };
   } catch (err) {

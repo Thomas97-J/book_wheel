@@ -27,6 +27,9 @@ const PostDetail = React.lazy(() => import("./pages/PostDetail"));
 const Follow = React.lazy(() => import("./pages/Follow"));
 const Rolling = React.lazy(() => import("./pages/Rolling"));
 const Messages = React.lazy(() => import("./pages/Messages"));
+const MessageDetail = React.lazy(
+  () => import("./pages/Messages/MessageDetail")
+);
 const Bookshelf = React.lazy(() => import("./pages/Bookshelf"));
 const BookEdit = React.lazy(() => import("./pages/Bookshelf/BookEdit"));
 const BookDetail = React.lazy(() => import("./pages/Bookshelf/BookDetail"));
@@ -52,6 +55,8 @@ export const PATH = {
   postDetail: "/post/detail",
   rolling: "/rolling",
   messages: "/messages",
+  messageDetail: "/messages/detail",
+
   bookshelf: "/bookshelf",
   bookEdit: "/bookshelf/bookEdit",
   bookDetail: "/bookshelf/detail",
@@ -114,6 +119,10 @@ function App() {
               <Route
                 path={PATH.messages}
                 element={<ProtectRoute component={Messages} />}
+              />
+              <Route
+                path={PATH.messageDetail}
+                element={<ProtectRoute component={MessageDetail} />}
               />
               <Route
                 path={PATH.bookEdit}

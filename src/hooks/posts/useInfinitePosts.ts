@@ -30,6 +30,12 @@ function useInfinitePosts(
     }
   }, [postDatas]);
 
+  useEffect(() => {
+    if (inView && hasNextPage && !isLoading) {
+      fetchNextPage();
+      setIsLoading(true);
+    }
+  }, [inView, hasNextPage]);
   function handlePostBatchBy10(params: any) {
     return getPostsBatchBy10({
       ...params,
@@ -38,13 +44,6 @@ function useInfinitePosts(
       nickname: nickname,
     });
   }
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isLoading) {
-      fetchNextPage();
-      setIsLoading(true);
-    }
-  }, [inView, hasNextPage]);
 
   return {
     ref,

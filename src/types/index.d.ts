@@ -50,3 +50,13 @@ interface Book {
   createdAt: Timestamp;
   updatadAt?: Timestamp;
 }
+
+interface Message {
+  id?: string;
+  chatId: string;
+  uid: string;
+  userName: string;
+  text: string;
+  createdAt?: Date;
+  replies?: Message[];
+}

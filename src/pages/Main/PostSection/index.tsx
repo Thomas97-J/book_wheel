@@ -4,8 +4,6 @@ import PostCard from "../../../components/mobile/PostCard";
 import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import _ from "lodash";
 import DropDownSelect from "../../../components/common/DropDownSelect";
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 
 function PostSection({
   topRef,
@@ -24,7 +22,6 @@ function PostSection({
     category,
     setCategory,
   } = useInfinitePosts("all", 1);
-  const [scrolled, setScrolled] = useState(false);
 
   const options = [
     { label: "도서", value: "book" },
