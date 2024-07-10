@@ -9,6 +9,8 @@ import { useAuth } from "../../../context/AuthContext";
 import MyMessage from "./MyMessage";
 import NotMyMessage from "./NotMyMessage";
 import { useForm } from "react-hook-form";
+import useGetChatUsers from "../../../hooks/message/useGetChatUsers";
+import useResetUnreadCount from "../../../hooks/message/useResetUnreadCount";
 
 interface MessageValue {
   message: string;
@@ -25,12 +27,15 @@ function MessageDetail() {
   } = useForm<MessageValue>({
     mode: "onBlur",
   });
+  const { currentUser } = useAuth();
   const chatId = query.get("chat") ?? "";
   const { data: messages, isLoading, isError } = useFetchMessages(chatId);
-  const addMessageMutation = useAddMessage(chatId);
-  const { currentUser } = useAuth();
+  const { users } = useGetChatUsers(chatId);
+  const receiverUserId =
+    users?.find((userId) => userId !== currentUser?.uid) ?? "";
+  const addMessageMutation = useAddMessage(chatId, receiverUserId);
   const bottomRef = useRef<HTMLDivElement | null>(null);
-
+  const resetCountMutaion = useResetUnreadCount(chatId, currentUser?.uid ?? "");
   async function handleSendMessage(data: MessageValue) {
     if (data.message.trim() === "") return;
     try {
@@ -45,11 +50,21 @@ function MessageDetail() {
       console.error("Error adding message:", error);
     }
   }
+
+  async function resetUnReadCount() {
+    await resetCountMutaion.mutateAsync();
+  }
   useEffect(() => {
     if (bottomRef?.current) {
       bottomRef?.current.scrollIntoView();
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (currentUser?.uid) {
+      resetUnReadCount();
+    }
+  }, [currentUser?.uid]);
 
   if (isLoading) {
     return <div>Loading...</div>;

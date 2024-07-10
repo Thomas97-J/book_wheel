@@ -1,21 +1,14 @@
 import styled from "styled-components";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
-import useFetchUserChatRooms from "../../hooks/message/useFetchUserChatRooms";
 import { useAuth } from "../../context/AuthContext";
 import ChatRoomCard from "./ChatRoomCard";
+import { useUserChatRooms } from "../../hooks/message/useUserChatRooms";
 
 function Messages() {
   const { currentUser } = useAuth();
-  const {
-    data: chatRooms,
-    isLoading,
-    error,
-  } = useFetchUserChatRooms(currentUser?.uid ?? "");
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
+  const userId = currentUser?.uid ?? "";
+  const { chatRooms, isLoading, error } = useUserChatRooms(userId);
   return (
     <MessagesWrapper>
       <DefaultHeader />

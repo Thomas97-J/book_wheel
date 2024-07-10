@@ -1,9 +1,17 @@
-import React from "react";
 import styled from "styled-components";
 import { PATH } from "../../../App";
 import { Link } from "react-router-dom";
+import useUnreadMessageCounts from "../../../hooks/message/useUnreadMessageCounts";
+import { useAuth } from "../../../context/AuthContext";
+import { useEffect } from "react";
 
 function BottomNav() {
+  const { currentUser } = useAuth();
+  const userId = currentUser?.uid ?? "";
+  const { unreadCounts, isLoading, error } = useUnreadMessageCounts(userId);
+  useEffect(() => {
+    console.log("unreadCounts", unreadCounts);
+  }, [unreadCounts]);
   return (
     <BottomNavWrapper>
       <Link to={PATH.main}>

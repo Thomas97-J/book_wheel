@@ -3,12 +3,14 @@ import {
   collection,
   doc,
   DocumentData,
+  FieldValue,
+  getDoc,
   getDocs,
+  increment,
   limit,
   onSnapshot,
   orderBy,
   query,
-  QueryDocumentSnapshot,
   QuerySnapshot,
   serverTimestamp,
   startAfter,
@@ -129,8 +131,13 @@ export async function getUserChatRooms(userId: string) {
     throw error;
   }
 }
+
 // Add a new message to a specific chat
-export async function addMessage(chatId: string, message: Message) {
+export async function addMessage(
+  chatId: string,
+  message: Message,
+  receiverUserId: string
+) {
   try {
     await addDoc(collection(db, "chats", chatId, "messages"), {
       ...message,
@@ -141,6 +148,7 @@ export async function addMessage(chatId: string, message: Message) {
     await updateDoc(chatDocRef, {
       lastMessage: { ...message, createdAt: serverTimestamp() },
       updatedAt: serverTimestamp(),
+      [`unreadCount.${receiverUserId}`]: increment(1),
     });
   } catch (error) {
     console.error("Error adding message: ", error);
@@ -173,18 +181,120 @@ export async function createChat(
 export async function checkExistingChat(userId1: string, userId2: string) {
   try {
     const chatsRef = collection(db, "chats");
-    const q = query(
-      chatsRef,
-      where("users", "array-contains-any", [userId1, userId2])
-    );
+    const q = query(chatsRef, where("users", "array-contains", userId1));
     const querySnapshot = await getDocs(q);
-    const docSnap = querySnapshot.docs[0];
 
-    return docSnap.id;
+    // 두 번째 유저가 포함된 문서만 필터링
+    const matchingChat = querySnapshot.docs.find((doc) => {
+      const users = doc.data().users;
+      return users.includes(userId2);
+    });
+
+    if (matchingChat) {
+      return matchingChat.id;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error("Error checking existing chat: ", error);
     throw error;
   }
+}
+
+export async function getChatUsers(chatId: string): Promise<string[]> {
+  try {
+    // chats collection에서 해당 chatId의 문서 참조 가져오기
+    const chatDocRef = doc(db, "chats", chatId);
+
+    // chatId에 해당하는 문서 가져오기
+    const chatDocSnap = await getDoc(chatDocRef);
+
+    // chatId에 해당하는 문서가 없는 경우
+    if (!chatDocSnap.exists()) {
+      throw new Error(`Chat room with ID ${chatId} not found`);
+    }
+
+    // chatId에 해당하는 문서의 users 필드 리턴
+    const chatData = chatDocSnap.data();
+    const users: string[] = chatData.users ?? [];
+
+    return users;
+  } catch (error) {
+    console.error("Error fetching chat users:", error);
+    throw error;
+  }
+}
+export function subscribeToUserChatRooms(
+  userId: string,
+  callback: (chats: any[]) => void
+) {
+  try {
+    const chatRoomsRef = collection(db, "chats");
+    const q = query(
+      chatRoomsRef,
+      where("users", "array-contains", userId),
+      orderBy("updatedAt", "desc")
+    );
+
+    return onSnapshot(q, async (querySnapshot) => {
+      console.log(
+        "subscribeToUserChatRooms querySnapshot",
+        querySnapshot,
+        userId
+      );
+
+      const chats = await Promise.all(
+        querySnapshot.docs.map(async (doc) => {
+          const chatData = doc.data();
+          const otherUsersIds = chatData.users.filter(
+            (user: string) => user !== userId
+          );
+
+          // Fetch other users' information
+          const otherUsersPromises = otherUsersIds.map((uid: string) =>
+            getUserById(uid)
+          );
+          const otherUsers = await Promise.all(otherUsersPromises);
+
+          return {
+            id: doc.id,
+            ...chatData,
+            otherUsers: otherUsers,
+          };
+        })
+      );
+
+      console.log("subscribeToUserChatRooms", chats);
+
+      callback(chats);
+    });
+  } catch (error) {
+    console.error("Error subscribing to chat rooms:", error);
+    throw error;
+  }
+}
+
+export function subscribeToUnreadMessageCounts(
+  userId: string,
+  callback: (unreadCounts: Record<string, number>) => void
+) {
+  const q = query(
+    collection(db, "chats"),
+    where("users", "array-contains", userId)
+  );
+
+  return onSnapshot(q, (querySnapshot) => {
+    const unreadCounts: Record<string, number> = {};
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const chatId = doc.id;
+      const unreadCount = data.unreadCount?.[userId] || 0;
+      unreadCounts[chatId] = unreadCount;
+    });
+
+    callback(unreadCounts);
+  });
 }
 
 export function subscribeToMessages(
@@ -204,4 +314,20 @@ export function subscribeToMessages(
 
     callback(messages);
   });
+}
+
+export async function resetUnreadCount(chatId: string, userId: string) {
+  try {
+    const chatDocRef = doc(db, "chats", chatId);
+    console.log(chatId, userId);
+
+    await updateDoc(chatDocRef, {
+      [`unreadCount.${userId}`]: 0,
+    });
+
+    console.log(`Unread count for ${userId} in chat ${chatId} reset to 0.`);
+  } catch (error) {
+    console.error("Error resetting unread count:", error);
+    throw error;
+  }
 }

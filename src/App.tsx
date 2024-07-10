@@ -1,12 +1,7 @@
 import "./App.css";
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "./context/AuthContext";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ThemeProvider } from "styled-components";
 
-import { theme } from "./assets/styles/styled";
 import Signup from "./pages/Signup";
 import Main from "./pages/Main";
 import My from "./pages/My";
@@ -19,9 +14,8 @@ import Profile from "./pages/Profile";
 import PasswordChange from "./pages/PasswordChange";
 import Fallback from "./components/mobile/Fallback";
 import ErrorBoundary from "./HOCs/ErrorBoundary";
-import GlobalStyle from "./assets/styles/GlobalStyle";
-
-const queryClient = new QueryClient();
+import { useAuth } from "./context/AuthContext";
+import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms";
 
 const Signin = React.lazy(() => import("./pages/Signin"));
 const Explore = React.lazy(() => import("./pages/Explore"));
@@ -84,88 +78,81 @@ function App() {
   //     );
   //   });
   // }
+
+  const { currentUser } = useAuth();
+  const userId = currentUser?.uid ?? "";
+  useSubscribeChatRooms(userId); //채팅 구독
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Suspense fallback={<Fallback />}>
-          <AuthProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path={PATH.main} element={<Main />} />
-                <Route
-                  path={PATH.signIn}
-                  element={<UnProtectRoute component={Signin} />}
-                />
-                <Route
-                  path={PATH.signUp}
-                  element={<UnProtectRoute component={Signup} />}
-                />
-                <Route
-                  path={PATH.my}
-                  element={<ProtectRoute component={My} />}
-                />
-                <Route
-                  path={PATH.likedPost}
-                  element={<ProtectRoute component={LikePosts} />}
-                />
-                <Route
-                  path={PATH.likedBook}
-                  element={<ProtectRoute component={LikeBooks} />}
-                />
-                <Route
-                  path={PATH.infoFix}
-                  element={<ProtectRoute component={InfoFixSection} />}
-                />
-                <Route
-                  path={PATH.explore}
-                  element={<ProtectRoute component={Explore} />}
-                />
-                <Route
-                  path={PATH.passwordChange}
-                  element={<ProtectRoute component={PasswordChange} />}
-                />
-                <Route
-                  path={PATH.postEdit}
-                  element={<ProtectRoute component={PostEdit} />}
-                />
-                <Route path={PATH.postDetail} element={<PostDetail />} />
-                <Route path={PATH.profile} element={<Profile />} />
-                <Route
-                  path={PATH.userPost}
-                  element={<ProtectRoute component={UserPosts} />}
-                />
-                <Route path={PATH.follow} element={<Follow />} />
-                <Route
-                  path={PATH.rolling}
-                  element={<ProtectRoute component={Rolling} />}
-                />
-                <Route
-                  path={PATH.messages}
-                  element={<ProtectRoute component={Messages} />}
-                />
-                <Route
-                  path={PATH.messageDetail}
-                  element={<ProtectRoute component={MessageDetail} />}
-                />
-                <Route
-                  path={PATH.bookEdit}
-                  element={<ProtectRoute component={BookEdit} />}
-                />
-                <Route
-                  path={PATH.bookDetail}
-                  element={<ProtectRoute component={BookDetail} />}
-                />
-                <Route path={PATH.bookshelf} element={<Bookshelf />} />
-                <Route path={PATH.notFound} element={<NotFound />} />
-              </Routes>
-              <BottomNav />
-            </BrowserRouter>
-          </AuthProvider>
-        </Suspense>{" "}
-      </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <Suspense fallback={<Fallback />}>
+      <BrowserRouter>
+        <Routes>
+          <Route path={PATH.main} element={<Main />} />
+          <Route
+            path={PATH.signIn}
+            element={<UnProtectRoute component={Signin} />}
+          />
+          <Route
+            path={PATH.signUp}
+            element={<UnProtectRoute component={Signup} />}
+          />
+          <Route path={PATH.my} element={<ProtectRoute component={My} />} />
+          <Route
+            path={PATH.likedPost}
+            element={<ProtectRoute component={LikePosts} />}
+          />
+          <Route
+            path={PATH.likedBook}
+            element={<ProtectRoute component={LikeBooks} />}
+          />
+          <Route
+            path={PATH.infoFix}
+            element={<ProtectRoute component={InfoFixSection} />}
+          />
+          <Route
+            path={PATH.explore}
+            element={<ProtectRoute component={Explore} />}
+          />
+          <Route
+            path={PATH.passwordChange}
+            element={<ProtectRoute component={PasswordChange} />}
+          />
+          <Route
+            path={PATH.postEdit}
+            element={<ProtectRoute component={PostEdit} />}
+          />
+          <Route path={PATH.postDetail} element={<PostDetail />} />
+          <Route path={PATH.profile} element={<Profile />} />
+          <Route
+            path={PATH.userPost}
+            element={<ProtectRoute component={UserPosts} />}
+          />
+          <Route path={PATH.follow} element={<Follow />} />
+          <Route
+            path={PATH.rolling}
+            element={<ProtectRoute component={Rolling} />}
+          />
+          <Route
+            path={PATH.messages}
+            element={<ProtectRoute component={Messages} />}
+          />
+          <Route
+            path={PATH.messageDetail}
+            element={<ProtectRoute component={MessageDetail} />}
+          />
+          <Route
+            path={PATH.bookEdit}
+            element={<ProtectRoute component={BookEdit} />}
+          />
+          <Route
+            path={PATH.bookDetail}
+            element={<ProtectRoute component={BookDetail} />}
+          />
+          <Route path={PATH.bookshelf} element={<Bookshelf />} />
+          <Route path={PATH.notFound} element={<NotFound />} />
+        </Routes>
+        <BottomNav />
+      </BrowserRouter>
+    </Suspense>
   );
 }
 

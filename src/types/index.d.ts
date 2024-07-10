@@ -58,5 +58,4 @@ interface Message {
   userName: string;
   text: string;
   createdAt?: Date;
-  replies?: Message[];
 }
