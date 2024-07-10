@@ -96,11 +96,6 @@ function Signup() {
         <input
           {...register("password_conform", {
             required: true,
-            minLength: {
-              value: 8,
-              message:
-                "비밀번호는 숫자, 영문 대,소문자, 특수문자를 포함한 8글자 이상이어야 합니다.",
-            },
           })}
           placeholder="비밀번호를 한번 더 입력해주세요"
           type="password"
@@ -149,6 +144,7 @@ const Logo = styled.img`
   width: 100px;
 `;
 const SignupWrapper = styled(PageWrapper)`
+  padding-top: 200px;
   align-items: center;
   justify-content: center;
   form {
@@ -158,28 +154,35 @@ const SignupWrapper = styled(PageWrapper)`
     align-items: center;
     label {
       width: 300px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
     input {
       width: 300px;
-      height: 30px;
-      margin-bottom: 10px;
+      height: 40px;
+      margin-bottom: 16px;
     }
   }
 `;
 
 const SignUpBtn = styled.button`
+  background: ${({ theme }) => theme.color.default_green};
+  color: #fff;
+  height: 40px;
+  border: none;
+  font-size: 16px;
+
   &:disabled {
-    border: 1px solid #bcbcbc;
-    color: #bcbcbc;
+    background: #bcbcbc;
   }
 `;
 
 const Warn = styled.p`
   width: 300px;
   color: red;
-  font-size: 0.8rem;
   font-weight: 700;
+  font-size: 0.8rem;
+
+  margin-bottom: 4px;
 `;
 
 export default Signup;

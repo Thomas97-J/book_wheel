@@ -44,7 +44,7 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
         <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
           작성글 {postDatas?.length}
         </UserInfoLink>
-        <StartMessageBtn targetUserId={uid} />
+        {!isCurrentUser && <StartMessageBtn targetUserId={uid} />}
       </BottomSection>
     </UserInfo>
   );

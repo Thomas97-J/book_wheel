@@ -6,5 +6,6 @@ export const theme: DefaultTheme = {
     sub: "#ff6e40",
     white: "#ffffff",
     font_gray: "#bcbcbc",
+    default_green: "rgb(26,79,4)",
   },
 };

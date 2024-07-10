@@ -8,6 +8,7 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
 import ImgCropRound from "../../components/common/ImgCropRound";
 import ProfileImage from "../../components/common/ProfileImage";
+import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -84,6 +85,7 @@ function UserInfoEdit() {
 
   return (
     <UserInfoEditWrapper>
+      <DefaultHeader />
       <ProfileImage src={imagePreview} />
       <ImgCropRound saveCroppedImage={saveCroppedImage}>
         이미지 업로드
