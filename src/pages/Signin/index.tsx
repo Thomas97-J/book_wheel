@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useSignIn from "../../hooks/auth/useSignIn";
 import useHandleGoogleLogin from "../../hooks/auth/useHandleGoogleLogin";
 import PageWrapper from "../../assets/styles/PageWrapper";
+import imgPaths from "../../assets/images/image_path";
 
 interface SigninFormValue {
   email: string;
@@ -52,7 +53,7 @@ function Signin() {
 
   return (
     <SigninWrapper>
-      <div>로고</div>
+      <Logo src={imgPaths.logoWithText} alt="로고" />
       <form onSubmit={handleSubmit(onSignIn)}>
         <label>이메일</label>
         <input
@@ -92,6 +93,10 @@ function Signin() {
   );
 }
 ``;
+
+const Logo = styled.img`
+  width: 100px;
+`;
 
 const SigninWrapper = styled(PageWrapper)`
   align-items: center;

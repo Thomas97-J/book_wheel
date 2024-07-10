@@ -26,7 +26,7 @@ export async function signUp(data: {
   email: string;
   password: string;
   password_conform: string;
-  tel: string;
+  tel?: string;
 }) {
   const userCredential = await createUserWithEmailAndPassword(
     auth,
@@ -38,7 +38,7 @@ export async function signUp(data: {
     displayName: data.nickname,
   });
   await setDoc(doc(db, "users", user.uid), {
-    tel: data.tel,
+    tel: data?.tel ?? "",
     nickname: data.nickname,
     createdAt: new Date(),
   });

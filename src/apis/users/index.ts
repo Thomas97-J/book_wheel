@@ -13,7 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 
 //get
 
@@ -151,18 +151,21 @@ export async function getUsersByNicknameBatchBy10({
 //update
 
 export async function updateUserData({
-  uid,
+  currentUser,
   data,
 }: {
-  uid: string;
+  currentUser: any;
   data: any;
 }) {
-  const userDoc = doc(db, "users", uid);
+  const userDoc = doc(db, "users", currentUser?.uid);
   await updateDoc(userDoc, {
     nickname: data?.nickname ?? "",
     bio: data?.bio ?? "",
     profileImage: data?.profileImage ?? "",
     updatedAt: new Date(),
+  });
+  await updateProfile(currentUser, {
+    displayName: data.nickname,
   });
 }
 

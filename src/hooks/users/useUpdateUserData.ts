@@ -1,17 +1,22 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserData } from "../../apis/users";
 
-export default function useUpdateUserData(uid: string) {
+export default function useUpdateUserData(currentUser) {
   const queryClient = useQueryClient();
 
   const userInfoUpdateMutation = useMutation({
     mutationFn: updateUserData,
     onMutate: async (updatedUser) => {
-      await queryClient.cancelQueries({ queryKey: ["users", uid] });
+      await queryClient.cancelQueries({
+        queryKey: ["users", currentUser?.uid],
+      });
 
-      const previousUser = queryClient.getQueryData(["users", uid]);
+      const previousUser = queryClient.getQueryData([
+        "users",
+        currentUser?.uid,
+      ]);
 
-      queryClient.setQueryData(["users", uid], (oldUser: any) => ({
+      queryClient.setQueryData(["users", currentUser?.uid], (oldUser: any) => ({
         ...oldUser,
         ...updatedUser,
       }));
@@ -20,14 +25,17 @@ export default function useUpdateUserData(uid: string) {
     },
     onError: (err, updatedUser, context) => {
       if (context?.previousUser) {
-        queryClient.setQueryData(["users", uid], context.previousUser);
+        queryClient.setQueryData(
+          ["users", currentUser?.uid],
+          context.previousUser
+        );
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users", currentUser?.uid] });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users", uid] });
+      queryClient.invalidateQueries({ queryKey: ["users", currentUser?.uid] });
     },
   });
 

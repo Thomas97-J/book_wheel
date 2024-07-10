@@ -35,7 +35,7 @@ function UserInfoEdit() {
     maxSizeMB: 0.2,
     maxWidthOrHeight: 256,
   });
-  const userInfoUpataeMutation = useUpdateUserData(uid);
+  const userInfoUpataeMutation = useUpdateUserData(currentUser);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   function saveCroppedImage(blob: Blob | null, url: string | null) {
@@ -72,7 +72,7 @@ function UserInfoEdit() {
         updatedProfileData.profileImage = profileData?.profileImage;
       }
       await userInfoUpataeMutation.mutateAsync({
-        uid,
+        currentUser,
         data: updatedProfileData,
       });
     } catch (error: any) {

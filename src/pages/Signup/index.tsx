@@ -4,13 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { checkNicknameExists } from "../../apis/auth";
 import useSignUp from "../../hooks/auth/useSignUp";
 import PageWrapper from "../../assets/styles/PageWrapper";
+import imgPaths from "../../assets/images/image_path";
+import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 
 interface SignupForm {
   nickname: string;
   email: string;
   password: string;
   password_conform: string;
-  tel: string;
+  tel?: string;
 }
 
 function Signup() {
@@ -55,6 +57,8 @@ function Signup() {
   }
   return (
     <SignupWrapper>
+      <DefaultHeader />
+      <Logo src={imgPaths.logoWithText} alt="로고" />
       <form onSubmit={handleSubmit(onSignup)}>
         <label>이메일</label>
         <input
@@ -121,8 +125,8 @@ function Signup() {
           }}
         />
         <Warn>{errors?.nickname?.message}</Warn>
-        <label>전화번호</label>
-        <input
+        {/* <label>전화번호</label> */}
+        {/* <input
           {...register("tel", {
             required: true,
             pattern: {
@@ -132,7 +136,7 @@ function Signup() {
           })}
           placeholder="전화번호를 입력해주세요"
           type="tel"
-        />
+        /> */}
         <Warn>{errors?.tel?.message}</Warn>
         <SignUpBtn type="submit" disabled={!isValid}>
           회원가입
@@ -141,7 +145,9 @@ function Signup() {
     </SignupWrapper>
   );
 }
-
+const Logo = styled.img`
+  width: 100px;
+`;
 const SignupWrapper = styled(PageWrapper)`
   align-items: center;
   justify-content: center;
