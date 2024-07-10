@@ -68,6 +68,22 @@ export const PATH = {
 };
 
 function App() {
+  //FCM 붙이려다 중단
+  // if ("serviceWorker" in navigator) {
+  //   window.addEventListener("load", function () {
+  //     navigator.serviceWorker.register("/firebase-messaging-sw.js").then(
+  //       function (registration) {
+  //         console.log(
+  //           "Service Worker registration successful with scope: ",
+  //           registration.scope
+  //         );
+  //       },
+  //       function (err) {
+  //         console.log("Service Worker registration failed: ", err);
+  //       }
+  //     );
+  //   });
+  // }
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
