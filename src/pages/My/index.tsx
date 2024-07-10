@@ -15,12 +15,16 @@ function My() {
   return (
     <MyWrapper>
       <MypageHeader />
-      <ProfileAndInfo uid={uid} nickname={userData?.nickname} />{" "}
-      <Link to={`${PATH.likedBook}`}>관심 도서</Link>
-      <Link to={`${PATH.likedPost}`}>관심 글</Link>
+      <ProfileAndInfo uid={uid} nickname={userData?.nickname} />
+      <MyLink to={`${PATH.likedBook}`}>관심 도서 보기</MyLink>
+      <MyLink to={`${PATH.likedPost}`}>관심 글 보기</MyLink>
     </MyWrapper>
   );
 }
-
+const MyLink = styled(Link)`
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 10px;
+`;
 const MyWrapper = styled(PageWrapper)``;
 export default My;

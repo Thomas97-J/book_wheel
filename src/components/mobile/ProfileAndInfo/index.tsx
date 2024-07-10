@@ -28,10 +28,10 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
           <Biography>{userData?.bio}</Biography>
           <span>
             <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
-              팔로잉 {followData?.followingCount}
+              팔로잉 {followData?.followingCount}명
             </UserInfoLink>
             <UserInfoLink to={`${PATH.follow}?type=followers&user=${nickname}`}>
-              팔로워 {followData?.followersCount}
+              팔로워 {followData?.followersCount}명
             </UserInfoLink>
           </span>
         </InfoSection>
@@ -39,10 +39,10 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
       <BottomSection>
         <UserInfoLink to={`${PATH.bookshelf}?user=${nickname}`}>
           {isCurrentUser ? "내 책장" : `${userData?.nickname}의 책장`}{" "}
-          {bookcount}
+          {bookcount}권
         </UserInfoLink>
         <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
-          작성글 {postDatas?.length}
+          작성글 {postDatas?.length}개
         </UserInfoLink>
         {!isCurrentUser && <StartMessageBtn targetUserId={uid} />}
       </BottomSection>
@@ -75,16 +75,16 @@ const UserInfoLink = styled(Link)`
   }
 `;
 
-const NickName = styled.span`
+const NickName = styled.strong`
   margin-right: 10px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `;
 const Biography = styled.div`
   font-size: 14px;
   color: #737373;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `;
 const UserInfo = styled.div`
   width: 100%;

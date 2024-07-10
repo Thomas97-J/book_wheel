@@ -119,6 +119,7 @@ const readFile = (file: File) => {
 const ImgCropWrapper = styled.div`
   position: fixed;
   top: 0;
+  left: 0;
   height: 100vh;
   width: 100vw;
   background-color: #fff;
@@ -175,7 +176,7 @@ const Slider = styled.input`
 
 const Button = styled.button`
   padding: 8px 16px;
-  background-color: #007bff;
+  background: ${({ theme }) => theme.color.default_green};
   color: white;
   border: none;
   border-radius: 4px;

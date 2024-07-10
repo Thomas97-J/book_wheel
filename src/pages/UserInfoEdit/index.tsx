@@ -86,10 +86,15 @@ function UserInfoEdit() {
   return (
     <UserInfoEditWrapper>
       <DefaultHeader />
-      <ProfileImage src={imagePreview} />
-      <ImgCropRound saveCroppedImage={saveCroppedImage}>
-        이미지 업로드
-      </ImgCropRound>
+      <TopSection>
+        <ProfileImage src={imagePreview} />
+        <CropWrapper>
+          <ImgCropRound saveCroppedImage={saveCroppedImage}>
+            이미지 수정
+          </ImgCropRound>
+        </CropWrapper>
+      </TopSection>
+
       <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
         <input
           type="text"
@@ -108,10 +113,27 @@ function UserInfoEdit() {
     </UserInfoEditWrapper>
   );
 }
+const TopSection = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+`;
 
+const CropWrapper = styled.div`
+  width: 200px;
+`;
 const FixUserForm = styled.form`
   display: flex;
   flex-direction: column;
+  input {
+    margin-bottom: 10px;
+  }
+  button {
+    background: ${({ theme }) => theme.color.default_green};
+    color: white;
+    font-size: 16px;
+    border: none;
+  }
 `;
 const UserInfoEditWrapper = styled(PageWrapper)``;
 export default UserInfoEdit;

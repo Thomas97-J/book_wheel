@@ -17,7 +17,7 @@ const FileUploadInput = styled.input`
 
 const FileUploadButton = styled.label`
   display: inline-block;
-  background-color: #4caf50;
+  background: ${({ theme }) => theme.color.default_green};
   color: white;
   padding: 10px 20px;
   font-size: 16px;
@@ -25,10 +25,6 @@ const FileUploadButton = styled.label`
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #45a049;
-  }
 `;
 
 function FileUpload({

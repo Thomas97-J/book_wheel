@@ -89,7 +89,7 @@ const DropDownHeader = styled.div`
 
 const DropDownList = styled.ul`
   position: absolute;
-  width: 100%;
+  width: auto;
   margin: 0;
   padding: 0;
   border: 1px solid #ccc;
