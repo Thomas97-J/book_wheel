@@ -11,9 +11,6 @@ import NotFound from "./pages/NotFound";
 import BottomNav from "./components/mobile/BottomNav";
 import Fallback from "./components/mobile/Fallback";
 
-import { useAuth } from "./context/AuthContext";
-import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms"; //여기서 구독할 필요 없지 않나?
-
 const My = React.lazy(() => import("./pages/My"));
 const Explore = React.lazy(() => import("./pages/Explore"));
 const PostEdit = React.lazy(() => import("./pages/Main/PostEdit"));
@@ -63,10 +60,6 @@ export const PATH = {
 };
 
 function App() {
-  const { currentUser } = useAuth();
-  const userId = currentUser?.uid ?? "";
-  useSubscribeChatRooms(userId); //채팅 구독
-
   return (
     <Suspense fallback={<Fallback />}>
       <BrowserRouter>
