@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export default function formatRelativeTime(createdAt: Timestamp) {
+export default function formatRelativeTime(createdAt: Timestamp | undefined) {
   const createdUnix = createdAt?.seconds ?? 0;
   if (createdUnix === 0) {
     return "";

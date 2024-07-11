@@ -19,7 +19,7 @@ import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms";
 
 const Signin = React.lazy(() => import("./pages/Signin"));
 const Explore = React.lazy(() => import("./pages/Explore"));
-const PostEdit = React.lazy(() => import("./pages/PostEdit"));
+const PostEdit = React.lazy(() => import("./pages/Main/PostEdit"));
 const PostDetail = React.lazy(() => import("./pages/PostDetail"));
 const Follow = React.lazy(() => import("./pages/Follow"));
 const Rolling = React.lazy(() => import("./pages/Rolling"));

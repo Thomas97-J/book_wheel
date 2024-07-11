@@ -87,7 +87,7 @@ function Signin() {
         <GoogleSigninBtn
           onClick={async () => {
             await googleSignInMutation.mutateAsync();
-            navigate(-1);
+            // navigate(-1);
           }}
         >
           <svg

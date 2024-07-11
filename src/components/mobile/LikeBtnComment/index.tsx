@@ -42,8 +42,8 @@ function LikeBtnComment({
       {likeId ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="rgba(0, 0, 0, 1)"
         >
@@ -52,8 +52,8 @@ function LikeBtnComment({
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="rgba(0, 0, 0, 1)"
         >
@@ -65,5 +65,9 @@ function LikeBtnComment({
 }
 const LikeBtnWrapper = styled.button`
   border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
 `;
 export default LikeBtnComment;

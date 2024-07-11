@@ -42,11 +42,11 @@ function ReauthenticateUser({
         type="password"
       />
       <Warn>{errors?.password?.message}</Warn>
-
-      <button>확인</button>
+      <SubmitBtn>확인</SubmitBtn>
     </ReauthenticateUserWrapper>
   );
 }
+
 const Warn = styled.p`
   width: 300px;
   color: red;
@@ -55,5 +55,16 @@ const Warn = styled.p`
 `;
 const ReauthenticateUserWrapper = styled.form`
   /* Add your styles here */
+`;
+const SubmitBtn = styled.button`
+  background: ${({ theme }) => theme.color.default_green};
+  color: #fff;
+  height: 40px;
+  border: none;
+  font-size: 16px;
+
+  &:disabled {
+    background: #bcbcbc;
+  }
 `;
 export default ReauthenticateUser;

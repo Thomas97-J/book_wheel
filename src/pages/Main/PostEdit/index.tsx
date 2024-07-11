@@ -2,17 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import { PATH } from "../../App";
-import useCreatePostWithIndex from "../../hooks/posts/useCreatePostWithIndex";
-import useUpdatePostByIndex from "../../hooks/posts/useUpdatePostByIndex";
-import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
-import DropDownSelect from "../../components/common/DropDownSelect";
-import PageWrapper from "../../assets/styles/PageWrapper";
-import PostEditHeader from "../../components/mobile/headers/PostEditHeader";
-import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
-import useImageUpload from "../../hooks/common/useImageUpload";
+import { useAuth } from "../../../context/AuthContext";
+import { PATH } from "../../../App";
+import useCreatePostWithIndex from "../../../hooks/posts/useCreatePostWithIndex";
+import useUpdatePostByIndex from "../../../hooks/posts/useUpdatePostByIndex";
+import useGetPostByIndex from "../../../hooks/posts/useGetPostByIndex";
+import DropDownSelect from "../../../components/common/DropDownSelect";
+import PageWrapper from "../../../assets/styles/PageWrapper";
+import PostEditHeader from "../../../components/mobile/headers/PostEditHeader";
+import { useUploadImgFile } from "../../../hooks/firestore/useUploadImgFile";
+import useImageUpload from "../../../hooks/common/useImageUpload";
 import { v4 as uuidv4 } from "uuid";
+import FileUpload from "../../../components/common/FileUpload";
 
 interface PostValue {
   uid: string;
@@ -130,8 +131,16 @@ function NewPost() {
           onSelect={handleSelect}
           placeholder="전체"
         />
+        <UploadLabel htmlFor="imageInput">파일 업로드</UploadLabel>
+        <FileInput
+          id="imageInput"
+          type="file"
+          accept="image/*"
+          {...register("photoFile")}
+          onChange={saveImgFile}
+          ref={imgRef}
+        />
         {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
-
         <Title
           {...register("title", {
             required: true,
@@ -143,24 +152,29 @@ function NewPost() {
           type="text"
           placeholder="제목을 입력하세요."
         />
-
-        <input
-          type="file"
-          accept="image/*"
-          {...register("photoFile")}
-          onChange={saveImgFile}
-          ref={imgRef}
-        />
-        <ContentArea {...register("content")}></ContentArea>
+        <ContentArea
+          {...register("content")}
+          placeholder="내용을 입력하세요."
+        ></ContentArea>
       </PostForm>
     </NewPostWrapper>
   );
 }
+const FileInput = styled.input`
+  display: none;
+`;
+
+const UploadLabel = styled.label`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+`;
 const Title = styled.input`
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-bottom: 10px;
   &:focus {
     outline: none;
     border-color: #007bff;
@@ -175,6 +189,8 @@ const ImagePreview = styled.img`
 `;
 
 const PostForm = styled.form`
+  position: relative;
+
   display: flex;
   flex-direction: column;
 `;

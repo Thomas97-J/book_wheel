@@ -48,6 +48,7 @@ const CardContent = styled.div`
 `;
 
 const Title = styled.h2`
+  font-weight: bold;
   font-size: 20px;
   margin: 0 0 8px 0;
 `;

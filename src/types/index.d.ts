@@ -57,5 +57,5 @@ interface Message {
   uid: string;
   userName: string;
   text: string;
-  createdAt?: Date;
+  createdAt?: Timestamp;
 }

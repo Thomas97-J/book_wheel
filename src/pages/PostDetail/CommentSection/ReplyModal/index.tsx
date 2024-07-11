@@ -5,6 +5,7 @@ import LikeBtnComment from "../../../../components/mobile/LikeBtnComment";
 import formatRelativeTime from "../../../../utils/formatRelativeTime";
 import { useAuth } from "../../../../context/AuthContext";
 import ReplyCard from "../../../../components/mobile/CommentCard/ReplyCard";
+import DateString from "../../../../components/common/DateString";
 
 const ReplyModalWrapper = styled.div`
   /* Add your styles here */
@@ -26,9 +27,7 @@ function ReplyModal({
   handleReplyPopupOpen: (bool: boolean) => void;
 }) {
   const { currentUser } = useAuth();
-  const formattedDate = formatRelativeTime(
-    replyTarget.comment.createdAt as Timestamp
-  );
+
   console.log("replyTarget", replyTarget);
 
   return (
@@ -45,13 +44,13 @@ function ReplyModal({
           >
             {replyTarget?.userData?.nickname}
           </ProfileLink>
-          <span>{formattedDate}</span>
+          <DateString date={replyTarget?.comment?.createdAt} />
           <LikeBtnComment
             userId={currentUser?.uid ?? ""}
             commentId={replyTarget?.comment?.id}
           />
         </InfoSection>
-        <span>{replyTarget?.comment?.content}</span>
+        <Content>{replyTarget?.comment?.content}</Content>
         {replyTarget.comment.replies?.map((reply: any) => (
           <ReplyCard
             id={reply?.id}
@@ -67,7 +66,11 @@ function ReplyModal({
     </div>
   );
 }
-const InfoSection = styled.div``;
+const InfoSection = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+`;
 
 const ProfileLink = styled(Link)`
   text-decoration: none;
@@ -99,5 +102,9 @@ const ModalContent = styled.div`
   left: 0px;
   z-index: 101;
 `;
-
+const Content = styled.span`
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 4px;
+`;
 export default ReplyModal;

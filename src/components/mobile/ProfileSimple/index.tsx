@@ -53,7 +53,12 @@ const NameSection = styled.div`
   justify-content: space-between;
   padding: 4px;
 `;
-const NickName = styled.span``;
+const NickName = styled.strong`
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+`;
 
 const UserInfo = styled.div`
   width: 100%;

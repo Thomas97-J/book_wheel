@@ -59,6 +59,7 @@ function PostSection({
               uid={post.uid}
               index={post.index}
               createdAt={post.createdAt}
+              postImage={post?.postImage}
             />
           ))}
         </div>

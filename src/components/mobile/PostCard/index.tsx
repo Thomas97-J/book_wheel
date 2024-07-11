@@ -1,22 +1,28 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../../App";
-import LikeBtn from "../LikeBtn";
-import { useAuth } from "../../../context/AuthContext";
-import { Timestamp } from "firebase/firestore";
-import formatRelativeTime from "../../../utils/formatRelativeTime";
 import useGetCommentCount from "../../../hooks/comments/useGetCommentCount";
-import imgPaths from "../../../assets/images/image_path";
+import DateString from "../../common/DateString";
 
-function PostCard({ title, content, createdAt, index, id }: Post) {
-  const { currentUser } = useAuth();
-  const formattedDate = formatRelativeTime(createdAt as Timestamp);
+function PostCard({ title, content, createdAt, index, id, postImage }: Post) {
   const { commentCount } = useGetCommentCount(id ?? "");
   return (
     <PostCardWrapper>
       <GoToDetail to={`${PATH.postDetail}?no=${index}`}>
-        <Title>
-          {title}{" "}
+        <TitleAndInfo>
+          <Title>{title}</Title>
+          {postImage && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="#rgb(26, 79, 4)"
+            >
+              <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 19V5h14l.002 14H5z"></path>
+              <path d="m10 14-1-1-3 4h12l-5-7z"></path>
+            </svg>
+          )}
           <Count>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -30,13 +36,10 @@ function PostCard({ title, content, createdAt, index, id }: Post) {
             </svg>
             {commentCount}
           </Count>
-        </Title>
+        </TitleAndInfo>
         <Content>{content}</Content>
-        <Date>{formattedDate}</Date>
+        <DateString date={createdAt} />
       </GoToDetail>
-      <BtnWrapper>
-        <LikeBtn userId={currentUser?.uid ?? ""} postId={id ?? ""} />
-      </BtnWrapper>
     </PostCardWrapper>
   );
 }
@@ -53,17 +56,37 @@ const PostCardWrapper = styled.div`
   margin: 0 10px;
   transition: all 0.3s ease;
 `;
-
-const Title = styled.h2`
+const TitleAndInfo = styled.span`
+  display: flex;
+  align-items: center;
   margin: 0 0 8px 0;
+`;
+const Title = styled.h2`
+  display: inline-block;
+  align-items: center;
   font-size: 16px;
+  margin-right: 4px;
+  max-width: 90%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 const Count = styled.span`
   font-size: 14px;
   font-weight: normal;
   color: #666;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  width: 40px;
+  white-space: nowrap;
+  text-align: center;
   svg {
+    margin-top: 2px;
     margin-right: 4px;
+    height: 18px;
+    width: 18px;
   }
 `;
 
@@ -72,16 +95,12 @@ const Content = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `;
 
 const Date = styled.div`
   font-size: 0.8rem;
   color: #666;
 `;
-const BtnWrapper = styled.div`
-  position: absolute;
-  right: 10px;
-  z-index: 10;
-`;
+
 export default PostCard;

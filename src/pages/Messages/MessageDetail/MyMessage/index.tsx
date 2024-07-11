@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import formatRelativeTime from "../../../../utils/formatRelativeTime";
 
 function MyMessage({ message }: { message: Message }) {
+  const formattedDate = formatRelativeTime(message?.createdAt as Timestamp);
   return (
     <MyMessageWrapper key={message.id}>
-      <Nickname>{message.userName}</Nickname>: <Content>{message.text}</Content>
+      <Date>{formattedDate}</Date>
+      <Content>{message.text}</Content>
     </MyMessageWrapper>
   );
 }
@@ -15,10 +18,17 @@ const Content = styled.span`
 `;
 const MyMessageWrapper = styled.div`
   width: 100%;
-  min-height: 30px;
-  display: flex;
-  margin-bottom: 4px;
+  min-height: 40px;
 
+  display: flex;
   justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 6px;
 `;
+const Date = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  margin-right: 10px;
+`;
+
 export default MyMessage;

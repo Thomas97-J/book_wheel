@@ -4,6 +4,7 @@ import { PATH } from "../../../App";
 import formatRelativeTime from "../../../utils/formatRelativeTime";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import RedDot from "../../../components/common/RedDot";
 
 function ChatRoomCard({ room }: { room: any }) {
   const { currentUser } = useAuth();
@@ -28,13 +29,15 @@ function ChatRoomCard({ room }: { room: any }) {
       <Info>
         <strong>{room.otherUsers[0].nickname}</strong>님 과의 대화
         <Time>{formattedDate}</Time>
-        {unReadCount ? `읽지 않은 메시지 : ${unReadCount}` : ""}
+        {unReadCount ? <RedDot>{unReadCount}</RedDot> : ""}
       </Info>
       <Content>{room?.lastMessage?.text}</Content>
     </ChatRoomCardWrapper>
   );
 }
+
 const ChatRoomCardWrapper = styled(Link)`
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 60px;
@@ -46,6 +49,7 @@ const ChatRoomCardWrapper = styled(Link)`
 `;
 
 const Info = styled.span`
+  position: relative;
   margin-bottom: 6px;
 `;
 const Content = styled.span`
@@ -53,6 +57,7 @@ const Content = styled.span`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 14px;
 `;
 const Time = styled.span`
   margin-left: 4px;

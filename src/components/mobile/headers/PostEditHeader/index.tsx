@@ -32,6 +32,7 @@ function PostEditHeader() {
 const PostEditHeaderWrapper = styled(Header)`
   button {
     border: none;
+    font-size: 16px;
   }
 `;
 
