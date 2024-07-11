@@ -2,25 +2,27 @@ import "./App.css";
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Signup from "./pages/Signup";
-import Main from "./pages/Main";
-import My from "./pages/My";
 import ProtectRoute from "./HOCs/ProtectRoute";
 import UnProtectRoute from "./HOCs/UnProtectRoute";
+import Signup from "./pages/Signup";
+import Signin from "./pages/Signin";
+import Main from "./pages/Main";
 import NotFound from "./pages/NotFound";
-import InfoFixSection from "./pages/UserInfoEdit";
 import BottomNav from "./components/mobile/BottomNav";
-import Profile from "./pages/Profile";
-import PasswordChange from "./pages/PasswordChange";
 import Fallback from "./components/mobile/Fallback";
-import { useAuth } from "./context/AuthContext";
-import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms";
 
-const Signin = React.lazy(() => import("./pages/Signin"));
+import { useAuth } from "./context/AuthContext";
+import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms"; //여기서 구독할 필요 없지 않나?
+
+const My = React.lazy(() => import("./pages/My"));
 const Explore = React.lazy(() => import("./pages/Explore"));
 const PostEdit = React.lazy(() => import("./pages/Main/PostEdit"));
 const PostDetail = React.lazy(() => import("./pages/PostDetail"));
+const Profile = React.lazy(() => import("./pages/Profile"));
+const PasswordChange = React.lazy(() => import("./pages/PasswordChange"));
+const UserInfoEdit = React.lazy(() => import("./pages/UserInfoEdit"));
 const Follow = React.lazy(() => import("./pages/Follow"));
+
 const Rolling = React.lazy(() => import("./pages/Rolling"));
 const Messages = React.lazy(() => import("./pages/Messages"));
 const MessageDetail = React.lazy(
@@ -105,7 +107,7 @@ function App() {
           />
           <Route
             path={PATH.infoFix}
-            element={<ProtectRoute component={InfoFixSection} />}
+            element={<ProtectRoute component={UserInfoEdit} />}
           />
           <Route
             path={PATH.explore}
