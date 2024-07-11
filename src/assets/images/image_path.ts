@@ -1,8 +1,8 @@
 const imgPaths = {
-  defaultProfileImage: "/src/assets/images/bx-user-circle.svg",
-  commentImage: "/src/assets/images/bx-message-rounded-minus.svg",
-  logo: "/src/assets/images/logo.svg",
-  logoWithText: "/src/assets/images/logo_with_text.svg",
+  defaultProfileImage: "/public/images/images/bx-user-circle.svg",
+  commentImage: "/public/images/bx-message-rounded-minus.svg",
+  logo: "/public/images/logo.svg",
+  logoWithText: "/public/images/logo_with_text.svg",
 };
 
 export default imgPaths;
