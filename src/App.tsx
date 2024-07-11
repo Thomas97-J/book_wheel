@@ -11,8 +11,8 @@ import NotFound from "./pages/NotFound";
 import BottomNav from "./components/mobile/BottomNav";
 import Fallback from "./components/mobile/Fallback";
 
-// import { useAuth } from "./context/AuthContext";
-// import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms"; //여기서 구독할 필요 없지 않나?
+import { useAuth } from "./context/AuthContext";
+import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms"; //여기서 구독할 필요 없지 않나?
 
 const My = React.lazy(() => import("./pages/My"));
 const Explore = React.lazy(() => import("./pages/Explore"));
@@ -63,22 +63,9 @@ export const PATH = {
 };
 
 function App() {
-  //FCM 붙이려다 중단
-  // if ("serviceWorker" in navigator) {
-  //   window.addEventListener("load", function () {
-  //     navigator.serviceWorker.register("/firebase-messaging-sw.js").then(
-  //       function (registration) {
-  //         console.log(
-  //           "Service Worker registration successful with scope: ",
-  //           registration.scope
-  //         );
-  //       },
-  //       function (err) {
-  //         console.log("Service Worker registration failed: ", err);
-  //       }
-  //     );
-  //   });
-  // }
+  const { currentUser } = useAuth();
+  const userId = currentUser?.uid ?? "";
+  useSubscribeChatRooms(userId); //채팅 구독
 
   return (
     <Suspense fallback={<Fallback />}>

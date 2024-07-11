@@ -19,7 +19,7 @@ function BottomNav() {
           0
         )
       );
-      console.log("unreadCounts");
+      console.log("unreadCounts change");
     }
   }, [unreadCounts]);
   return (

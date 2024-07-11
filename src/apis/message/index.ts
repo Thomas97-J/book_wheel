@@ -291,6 +291,7 @@ export function subscribeToUnreadMessageCounts(
       const unreadCount = data.unreadCount?.[userId] || 0;
       unreadCounts[chatId] = unreadCount;
     });
+    console.log("subscribeToUnreadMessageCounts", unreadCounts);
 
     callback(unreadCounts);
   });
