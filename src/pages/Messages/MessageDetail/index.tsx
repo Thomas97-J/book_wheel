@@ -36,6 +36,7 @@ function MessageDetail() {
   const addMessageMutation = useAddMessage(chatId, receiverUserId);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const resetCountMutaion = useResetUnreadCount(chatId, currentUser?.uid ?? "");
+
   async function handleSendMessage(data: MessageValue) {
     if (data.message.trim() === "") return;
     try {
@@ -54,6 +55,7 @@ function MessageDetail() {
   async function resetUnReadCount() {
     await resetCountMutaion.mutateAsync();
   }
+
   useEffect(() => {
     if (bottomRef?.current) {
       bottomRef?.current.scrollIntoView();
@@ -64,6 +66,10 @@ function MessageDetail() {
     if (currentUser?.uid) {
       resetUnReadCount();
     }
+
+    return () => {
+      resetUnReadCount();
+    };
   }, [currentUser?.uid]);
 
   if (isLoading) {
