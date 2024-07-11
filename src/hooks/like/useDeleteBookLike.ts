@@ -6,7 +6,7 @@ export default function useDeleteBookLike(userId: string, bookId: string) {
 
   const likeMutation = useMutation({
     mutationFn: deleteBookLike,
-    onMutate: async (likeId) => {
+    onMutate: async (_likeId) => {
       const bookLikesQueryKey = ["book_likes", userId, bookId];
       const receivedLikesQueryKey = ["received_likes_count", bookId];
 
@@ -31,7 +31,7 @@ export default function useDeleteBookLike(userId: string, bookId: string) {
         receivedLikesQueryKey,
       };
     },
-    onError: (err, likeId, context) => {
+    onError: (_err, _likeId, context) => {
       if (context?.previousLikeStatus) {
         queryClient.setQueryData(
           context.bookLikesQueryKey,

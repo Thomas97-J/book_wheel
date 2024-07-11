@@ -11,10 +11,6 @@ function LikeBooks() {
   const {
     ref,
     likedBooksDatas, // likedBooksDatas로 수정
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
   } = useInfiniteLikedBooks(currentUser?.uid ?? ""); // useInfiniteLikedBooks 훅으로 수정
 
   useEffect(() => {

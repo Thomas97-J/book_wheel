@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "../../firebase";

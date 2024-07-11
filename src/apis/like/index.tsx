@@ -8,13 +8,10 @@ import {
   limit,
   query,
   serverTimestamp,
-  setDoc,
   startAfter,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import { getAuth } from "firebase/auth";
 
 export async function createPostLike(params: {
   userId: string;

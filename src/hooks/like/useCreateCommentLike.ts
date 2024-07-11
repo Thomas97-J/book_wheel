@@ -9,7 +9,7 @@ export default function useCreateCommentLike(
 
   const likeMutation = useMutation({
     mutationFn: createCommentLike,
-    onMutate: async (newLike) => {
+    onMutate: async () => {
       const commentLikesQueryKey = ["comment_likes", userId, commentId];
       const receivedLikesQueryKey = ["received_likes_count", commentId];
 
@@ -35,7 +35,7 @@ export default function useCreateCommentLike(
       };
     },
 
-    onError: (err, newLike, context) => {
+    onError: (_err, _newLike, context) => {
       if (context?.previousLikeStatus) {
         queryClient.setQueryData(
           context.commentLikesQueryKey,

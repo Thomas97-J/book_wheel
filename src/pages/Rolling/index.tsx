@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import useRollingBooks from "../../hooks/books/useRollingBooks";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import BookShorts from "./BookShorts";
 import { useInView } from "react-intersection-observer";
 import { useLocation } from "react-router-dom";

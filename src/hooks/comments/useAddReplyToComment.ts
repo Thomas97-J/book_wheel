@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { addReplyToComment } from "../../apis/comments";
 
-function useAddReplyToComment(commentId: string, postId: string) {
+function useAddReplyToComment(postId: string) {
   const queryClient = useQueryClient();
 
   const mutationFn: MutationFunction<

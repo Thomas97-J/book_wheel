@@ -3,6 +3,7 @@ interface Timestamp {
   seconds: number;
 }
 interface UserData {
+  uid?: string;
   id: string;
   nickname?: string;
   profileImage?: string;

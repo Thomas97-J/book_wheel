@@ -5,7 +5,7 @@ export default function useCreatePostLike(userId: string, postId: string) {
   const queryClient = useQueryClient();
   const likeMutation = useMutation({
     mutationFn: createPostLike,
-    onMutate: async (newLike) => {
+    onMutate: async (_newLike) => {
       const postLikesQueryKey = ["post_likes", userId, postId];
       const receivedLikesQueryKey = ["received_likes_count", postId];
 
@@ -30,7 +30,7 @@ export default function useCreatePostLike(userId: string, postId: string) {
         receivedLikesQueryKey,
       };
     },
-    onError: (err, newLike, context) => {
+    onError: (_err, _newLike, context) => {
       if (context?.previousLikeStatus) {
         queryClient.setQueryData(
           context.postLikesQueryKey,

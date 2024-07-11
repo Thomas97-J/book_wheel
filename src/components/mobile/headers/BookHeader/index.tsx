@@ -6,7 +6,7 @@ import useDeleteBook from "../../../../hooks/books/useDeleteBook";
 import Header from "../../../../assets/styles/Header";
 import ThreeDot from "../../../common/ThreeDotIcon";
 
-function BookHeader({ user, bookData }) {
+function BookHeader({ user, bookData }: { user: any; bookData: any }) {
   const deleteMutation = useDeleteBook();
   const navigate = useNavigate();
   const dropDownOptions = [
@@ -14,7 +14,7 @@ function BookHeader({ user, bookData }) {
       label: "삭제",
       clickFunction: async () => {
         console.log("삭제 클릭");
-        await deleteMutation.mutateAsync(bookData.id);
+        await deleteMutation.mutateAsync(bookData.id ?? "");
         navigate(`${PATH.bookshelf}`);
       },
     },

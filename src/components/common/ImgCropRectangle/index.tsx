@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import styled from "styled-components";
 import { getOrientation } from "get-orientation/browser";
@@ -24,9 +24,12 @@ function ImgCropRectangle({
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  const onCropComplete = useCallback(
+    (_croppedArea: any, croppedAreaPixels: any) => {
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    []
+  );
 
   const showCroppedImage = useCallback(async () => {
     try {

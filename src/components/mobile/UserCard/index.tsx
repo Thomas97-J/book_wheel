@@ -1,6 +1,4 @@
-import React from "react";
 import styled from "styled-components";
-import imgPaths from "../../../assets/images/image_path";
 import { Link } from "react-router-dom";
 import FollowBtn from "../FollowBtn";
 import { useAuth } from "../../../context/AuthContext";

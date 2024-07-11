@@ -43,7 +43,7 @@ export default function useCreateComment(postId: string) {
 
       return { previousComments };
     },
-    onError: (err, newComment, context) => {
+    onError: (_err, _newComment, context) => {
       queryClient.setQueryData(["comments", postId], context?.previousComments);
     },
     onSuccess: () => {

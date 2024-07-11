@@ -29,18 +29,6 @@ export function rotateSize(
   };
 }
 
-interface PixelCrop {
-  width: number;
-  height: number;
-  x: number;
-  y: number;
-}
-
-interface Flip {
-  horizontal: boolean;
-  vertical: boolean;
-}
-
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */

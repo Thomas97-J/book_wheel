@@ -22,7 +22,7 @@ export default function useCreateFollow(
 
       return { previousFollow, queryKey };
     },
-    onError: (err, updatedUser, context) => {
+    onError: (_err, _updatedUser, context) => {
       if (context?.previousFollow) {
         queryClient.setQueryData(context.queryKey, context.previousFollow);
       }

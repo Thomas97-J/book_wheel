@@ -5,7 +5,7 @@ export default function useDeletePostLike(userId: string, postId: string) {
   const queryClient = useQueryClient();
   const likeMutation = useMutation({
     mutationFn: deletePostLike,
-    onMutate: async (likeId) => {
+    onMutate: async () => {
       const postLikesQueryKey = ["post_likes", userId, postId];
       const receivedLikesQueryKey = ["received_likes_count", postId];
 
@@ -30,7 +30,7 @@ export default function useDeletePostLike(userId: string, postId: string) {
         receivedLikesQueryKey,
       };
     },
-    onError: (err, likeId, context) => {
+    onError: (_err, _likeId, context) => {
       if (context?.previousLikeStatus) {
         queryClient.setQueryData(
           context.postLikesQueryKey,

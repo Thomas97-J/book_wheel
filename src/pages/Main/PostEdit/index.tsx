@@ -13,7 +13,7 @@ import PostEditHeader from "../../../components/mobile/headers/PostEditHeader";
 import { useUploadImgFile } from "../../../hooks/firestore/useUploadImgFile";
 import useImageUpload from "../../../hooks/common/useImageUpload";
 import { v4 as uuidv4 } from "uuid";
-import FileUpload from "../../../components/common/FileUpload";
+import Warn from "../../../components/common/Warn";
 
 interface PostValue {
   uid: string;
@@ -68,6 +68,9 @@ function NewPost() {
   const handleSelect = (option: { label: string; value: string }) => {
     setValue("category", option.value);
   };
+  useEffect(() => {
+    console.log("errors", errors);
+  }, [errors]);
 
   useEffect(() => {
     if (postData && postIndex) {
@@ -143,7 +146,7 @@ function NewPost() {
         {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
         <Title
           {...register("title", {
-            required: true,
+            required: "제목을 입력해 주세요.",
             minLength: {
               value: 1,
               message: "제목을 입력해 주세요.",
@@ -152,10 +155,11 @@ function NewPost() {
           type="text"
           placeholder="제목을 입력하세요."
         />
+        <Warn>{errors?.title?.message}</Warn>
         <ContentArea
           {...register("content")}
           placeholder="내용을 입력하세요."
-        ></ContentArea>
+        />
       </PostForm>
     </NewPostWrapper>
   );

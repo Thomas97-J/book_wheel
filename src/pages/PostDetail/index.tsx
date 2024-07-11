@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import Fallback from "../../components/mobile/Fallback";
 import PostHeader from "../../components/mobile/headers/PostHeader";
@@ -15,7 +14,7 @@ import DateString from "../../components/common/DateString";
 
 function PostDetail() {
   const { currentUser } = useAuth();
-  const [query, setQuery] = useSearchParams();
+  const [query] = useSearchParams();
   const postIndex = parseInt(query.get("no") ?? "");
   const { postData, isLoading, error } = useGetPostByIndex(postIndex);
   const { receivedLikesCount } = useGetReceivedLikesCount(postData?.id ?? "");

@@ -5,8 +5,15 @@ import { PATH } from "../../../../App";
 import useDeletePost from "../../../../hooks/posts/useDeletePost";
 import Header from "../../../../assets/styles/Header";
 import ThreeDot from "../../../common/ThreeDotIcon";
+import { User } from "firebase/auth";
 
-function PostHeader({ user, postData }) {
+function PostHeader({
+  user,
+  postData,
+}: {
+  user: User | null | undefined;
+  postData: Post | undefined;
+}) {
   const deleteMutation = useDeletePost();
   const navigate = useNavigate();
   const dropDownOptions = [
@@ -14,7 +21,7 @@ function PostHeader({ user, postData }) {
       label: "삭제",
       clickFunction: async () => {
         console.log("삭제 클릭");
-        await deleteMutation.mutateAsync(postData.id);
+        await deleteMutation.mutateAsync(postData?.id ?? "");
         navigate(-1);
       },
     },
@@ -22,7 +29,7 @@ function PostHeader({ user, postData }) {
       label: "수정",
       clickFunction: () => {
         console.log("수정 클릭", postData);
-        navigate(`${PATH.postEdit}?no=${postData.index}`);
+        navigate(`${PATH.postEdit}?no=${postData?.index}`);
       },
     },
   ];
@@ -45,7 +52,7 @@ function PostHeader({ user, postData }) {
           <path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path>
         </svg>
       </button>
-      {user?.uid === postData.uid ? (
+      {user?.uid === postData?.uid ? (
         <DropDown
           options={dropDownOptions}
           buttonInner={<ThreeDot />}

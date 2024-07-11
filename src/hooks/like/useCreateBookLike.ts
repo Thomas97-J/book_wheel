@@ -5,7 +5,7 @@ export default function useCreateBookLike(userId: string, bookId: string) {
   const queryClient = useQueryClient();
   const likeMutation = useMutation({
     mutationFn: createBookLike,
-    onMutate: async (newLike) => {
+    onMutate: async (_newLike) => {
       const bookLikesQueryKey = ["book_likes", userId, bookId];
       const receivedLikesQueryKey = ["received_likes_count", bookId];
 
@@ -30,7 +30,7 @@ export default function useCreateBookLike(userId: string, bookId: string) {
         receivedLikesQueryKey,
       };
     },
-    onError: (err, newLike, context) => {
+    onError: (_err, _newLike, context) => {
       if (context?.previousLikeStatus) {
         queryClient.setQueryData(
           context.bookLikesQueryKey,

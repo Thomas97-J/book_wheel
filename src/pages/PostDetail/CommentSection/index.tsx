@@ -35,7 +35,7 @@ function CommentSection({ postId }: { postId: string }) {
     comment: null,
     userData: null,
   });
-  const replyMutation = useAddReplyToComment(replyTarget?.comment?.id, postId);
+  const replyMutation = useAddReplyToComment(postId);
 
   const isEmptyComment = commentData?.pages[0].comments.length;
   useEffect(() => {

@@ -9,7 +9,7 @@ import RedDot from "../../common/RedDot";
 function BottomNav() {
   const { currentUser } = useAuth();
   const userId = currentUser?.uid ?? "";
-  const { unreadCounts, isLoading, error } = useUnreadMessageCounts(userId);
+  const { unreadCounts } = useUnreadMessageCounts(userId);
   const [messageCount, setMessageCount] = useState(0);
   useEffect(() => {
     if (unreadCounts) {

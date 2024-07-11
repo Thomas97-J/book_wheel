@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserData } from "../../apis/users";
+import { User } from "firebase/auth";
 
-export default function useUpdateUserData(currentUser) {
+export default function useUpdateUserData(
+  currentUser: User | null | undefined
+) {
   const queryClient = useQueryClient();
 
   const userInfoUpdateMutation = useMutation({
@@ -23,7 +26,7 @@ export default function useUpdateUserData(currentUser) {
 
       return { previousUser };
     },
-    onError: (err, updatedUser, context) => {
+    onError: (_err, _updatedUser, context) => {
       if (context?.previousUser) {
         queryClient.setQueryData(
           ["users", currentUser?.uid],

@@ -8,7 +8,7 @@ export default function useDeleteFollow(
   const queryClient = useQueryClient();
   const followMutaion = useMutation({
     mutationFn: deleteFollow,
-    onMutate: async (followId) => {
+    onMutate: async () => {
       const queryKey = ["follows", from_userId, to_userId];
 
       await queryClient.cancelQueries({
@@ -18,7 +18,7 @@ export default function useDeleteFollow(
       queryClient.setQueryData(queryKey, null);
       return { previousFollow, queryKey };
     },
-    onError: (err, followId, context) => {
+    onError: (_err, _followId, context) => {
       if (context?.previousFollow) {
         queryClient.setQueryData(context.queryKey, context.previousFollow);
       }

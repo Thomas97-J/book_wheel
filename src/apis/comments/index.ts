@@ -5,15 +5,11 @@ import {
   serverTimestamp,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   limit,
   orderBy,
   query,
-  runTransaction,
-  setDoc,
   startAfter,
-  updateDoc,
   where,
 } from "firebase/firestore";
 export async function createComment(newCommentData: {

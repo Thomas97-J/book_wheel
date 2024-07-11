@@ -13,7 +13,6 @@ import BottomNav from "./components/mobile/BottomNav";
 import Profile from "./pages/Profile";
 import PasswordChange from "./pages/PasswordChange";
 import Fallback from "./components/mobile/Fallback";
-import ErrorBoundary from "./HOCs/ErrorBoundary";
 import { useAuth } from "./context/AuthContext";
 import useSubscribeChatRooms from "./hooks/message/useSubscribeChatRooms";
 

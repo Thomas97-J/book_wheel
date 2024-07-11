@@ -15,7 +15,9 @@ function Mainheaders({ needBottomLine }: { needBottomLine: boolean }) {
       value: -1,
     },
   ];
-  const handleSelect = (option: { label: string; value: string }) => {};
+  const handleSelect = (option: { label: string; value: string }) => {
+    console.log(option.label);
+  };
   return (
     <MainheadersWrapper $scrolled={!needBottomLine}>
       <DropDownSelect

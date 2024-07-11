@@ -9,7 +9,7 @@ export default function useDeleteCommentLike(
 
   const likeMutation = useMutation({
     mutationFn: deleteCommentLike,
-    onMutate: async (likeId) => {
+    onMutate: async () => {
       const commentLikesQueryKey = ["comment_likes", userId, commentId];
       const receivedLikesQueryKey = ["received_likes_count", commentId];
 
@@ -34,7 +34,7 @@ export default function useDeleteCommentLike(
         receivedLikesQueryKey,
       };
     },
-    onError: (err, likeId, context) => {
+    onError: (_err, _likeId, context) => {
       if (context?.previousLikeStatus) {
         queryClient.setQueryData(
           context.commentLikesQueryKey,
