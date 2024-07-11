@@ -1,39 +1,25 @@
-import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { subscribeToUnreadMessageCounts } from "../../apis/message";
 
-function fetchUnreadMessageCounts(
-  userId: string
-): Promise<Record<string, number>> {
-  return new Promise((resolve) => {
+export function useUnreadMessageCounts(userId: string) {
+  const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    setIsLoading(true);
+
     const unsubscribe = subscribeToUnreadMessageCounts(userId, (counts) => {
-      resolve(counts);
+      setUnreadCounts(counts);
+      setIsLoading(false);
     });
 
     return () => {
       unsubscribe();
     };
-  });
-}
-
-export function useUnreadMessageCounts(userId: string) {
-  const {
-    data: unreadCounts,
-    isLoading,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["unreadCounts", userId],
-    queryFn: () => fetchUnreadMessageCounts(userId),
-    enabled: !!userId,
-  });
-
-  useEffect(() => {
-    if (userId) {
-      refetch();
-    }
-  }, [userId, refetch]);
-  console.log(unreadCounts);
+  }, [userId]);
 
   return { unreadCounts, isLoading, error };
 }

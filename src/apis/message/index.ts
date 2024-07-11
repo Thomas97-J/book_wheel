@@ -223,6 +223,7 @@ export async function getChatUsers(chatId: string): Promise<string[]> {
     throw error;
   }
 }
+
 export function subscribeToUserChatRooms(
   userId: string,
   callback: (chats: any[]) => void
@@ -282,7 +283,7 @@ export function subscribeToUnreadMessageCounts(
     where("users", "array-contains", userId)
   );
 
-  return onSnapshot(q, (querySnapshot) => {
+  return onSnapshot(q, (querySnapshot: QuerySnapshot<DocumentData>) => {
     const unreadCounts: Record<string, number> = {};
 
     querySnapshot.forEach((doc) => {
