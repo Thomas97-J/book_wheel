@@ -195,6 +195,7 @@ export async function createBookWithIndex(
     throw error;
   }
 }
+
 export async function updateBookByIndex(bookData: Book): Promise<void> {
   const booksRef = collection(db, "books");
   const booksQuery = query(booksRef, where("index", "==", bookData.index));

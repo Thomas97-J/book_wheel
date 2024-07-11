@@ -18,7 +18,7 @@ const Content = styled.span`
 `;
 const MyMessageWrapper = styled.div`
   width: 100%;
-  min-height: 40px;
+  min-height: 24px;
 
   display: flex;
   justify-content: flex-end;
