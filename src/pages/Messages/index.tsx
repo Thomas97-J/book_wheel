@@ -4,13 +4,13 @@ import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 import { useAuth } from "../../context/AuthContext";
 import ChatRoomCard from "./ChatRoomCard";
 import { useUserChatRooms } from "../../hooks/message/useUserChatRooms";
-// import useSubscribeChatRooms from "../../hooks/message/useSubscribeChatRooms";
+import useSubscribeChatRooms from "../../hooks/message/useSubscribeChatRooms";
 
 function Messages() {
   const { currentUser } = useAuth();
   const userId = currentUser?.uid ?? "";
   const { chatRooms, isLoading, error } = useUserChatRooms(userId);
-  // useSubscribeChatRooms(userId); //채팅 구독
+  useSubscribeChatRooms(userId); //채팅 구독
   return (
     <MessagesWrapper>
       <DefaultHeader />
