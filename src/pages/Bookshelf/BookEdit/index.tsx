@@ -257,7 +257,7 @@ const SubmitButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    background-color: ${({ theme }) => theme.color.default_green};
   }
 `;
 

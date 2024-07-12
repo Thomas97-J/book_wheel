@@ -15,7 +15,7 @@ function Bookshelf() {
   );
 }
 const BookshelfWrapper = styled(PageWrapper)`
-  /* Add your styles here */
+  padding-top: 50px;
 `;
 const NewBookButton = styled(Link)`
   display: flex;

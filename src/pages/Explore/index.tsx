@@ -71,7 +71,7 @@ const TabBar = styled.div`
   width: 100%;
   position: fixed;
   left: 0;
-  top: 60px;
+  top: 50px;
   background: #fff;
   z-index: 100;
 `;
@@ -94,11 +94,6 @@ const Tab = styled.button<{ $isActive: boolean }>`
 const Content = styled.div`
   position: relative;
   min-height: 200px; /* or any suitable value */
-`;
-
-const SearchInput = styled.input`
-  height: 40px;
-  width: 100%;
 `;
 
 export default Explore;

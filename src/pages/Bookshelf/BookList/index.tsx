@@ -7,22 +7,17 @@ import useInfiniteBooks from "../../../hooks/books/useInfiniteBooks";
 import useGetUidByNickname from "../../../hooks/users/useGetUidByNickname";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 
 function BookList() {
   const [query, setQuery] = useSearchParams();
   const nickname = query.get("user") ?? "";
-  const { targetUid, isLoading } = useGetUidByNickname(nickname);
+  const { targetUid } = useGetUidByNickname(nickname);
   const [initialFilter, setInitailFilter] = useState({});
-  const {
-    ref,
-    bookData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    filter,
-    setFilter,
-  } = useInfiniteBooks(initialFilter, 1);
+  const { ref, bookData, isLoading, filter, setFilter } = useInfiniteBooks(
+    initialFilter,
+    1
+  );
 
   useEffect(() => {
     if (targetUid) {
@@ -56,6 +51,7 @@ function BookList() {
 
   return (
     <PostSectionWrapper>
+      {isLoading && <LoadingSpinner />}
       <StickyMenu>
         <DropDownSelect
           options={options}
@@ -75,15 +71,13 @@ function BookList() {
   );
 }
 const PostSectionWrapper = styled.div`
-  min-height: 70vh;
   width: 100%;
-  border: solid 1px;
   position: relative;
 `;
 const StickyMenu = styled.div`
   position: sticky;
   background: #fff;
-  top: 60px;
+  top: 50px;
   height: 50px;
 `;
 export default BookList;

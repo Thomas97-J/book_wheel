@@ -95,12 +95,11 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 4px;
     &:focus {
       outline: none;
-      border-color: #007bff;
+      border-color: rgb(26, 79, 4);;
     }
   }
   button{
     background: none;  
-    border-radius: 4px;
     padding: 8px;
   }
 

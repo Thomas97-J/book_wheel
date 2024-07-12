@@ -7,6 +7,7 @@ import CommentCard from "../../../components/mobile/CommentCard";
 import { useEffect, useState } from "react";
 import ReplyModal from "./ReplyModal";
 import useAddReplyToComment from "../../../hooks/comments/useAddReplyToComment";
+import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 interface CommentValue {
   content: string;
   "": string;
@@ -25,6 +26,7 @@ function CommentSection({ postId }: { postId: string }) {
   const {
     ref,
     commentData,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -37,7 +39,7 @@ function CommentSection({ postId }: { postId: string }) {
   });
   const replyMutation = useAddReplyToComment(postId);
 
-  const isEmptyComment = commentData?.pages[0].comments.length;
+  const isEmptyComment = commentData?.pages[0].comments.length === 0;
   useEffect(() => {
     console.log("commentData", commentData);
   }, []);
@@ -78,7 +80,10 @@ function CommentSection({ postId }: { postId: string }) {
   }
   return (
     <CommentSectionWrapper>
+      {isLoading && <LoadingSpinner />}
       {isEmptyComment ? (
+        <>아직 댓글이 없습니다.</>
+      ) : (
         commentData?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page.comments.map((comment) => (
@@ -90,8 +95,6 @@ function CommentSection({ postId }: { postId: string }) {
             ))}
           </div>
         ))
-      ) : (
-        <>아직 댓글이 없습니다.</>
       )}
       <div ref={ref}></div>
       {replyPopupOpen && (

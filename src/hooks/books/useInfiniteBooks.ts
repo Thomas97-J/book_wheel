@@ -41,6 +41,7 @@ function useInfiniteBooks(initialFilter: any, areaNo: number) {
   return {
     ref,
     bookData,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,

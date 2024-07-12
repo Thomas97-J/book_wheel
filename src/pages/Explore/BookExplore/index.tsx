@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import _ from "lodash";
 import BookCard from "../../Bookshelf/BookList/BookCard";
 import useInfiniteBooks from "../../../hooks/books/useInfiniteBooks";
+import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 
 interface Search {
   type: string;
@@ -20,6 +21,7 @@ function BookExplore() {
   const {
     ref,
     bookData,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -54,6 +56,7 @@ function BookExplore() {
 
   return (
     <BookExploreWrapper>
+      {isLoading && <LoadingSpinner />}
       <SearchForm onSubmit={handleSubmit(onSearch)}>
         <SearchInput
           {...register("keyword", { required: true })}
@@ -83,7 +86,7 @@ const BookExploreWrapper = styled.div`
 const SearchForm = styled.form`
   position: fixed;
   left: 0;
-  top: 106px;
+  top: 93px;
   width: 100%;
   background: #fff;
   z-index: 100;

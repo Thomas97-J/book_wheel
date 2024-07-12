@@ -6,8 +6,8 @@ import {
   getUsersByNicknameBatchBy10,
 } from "../../apis/users";
 
-function useGetUsersBatchBy10(initialNickname: string) {
-  const [isLoading, setIsLoading] = useState(false);
+function useInfiniteUsers(initialNickname: string) {
+  const [isLoading, setIsLoading] = useState(true);
   const [nickname, setNickname] = useState(initialNickname ?? "");
 
   const { ref, inView } = useInView();
@@ -26,16 +26,16 @@ function useGetUsersBatchBy10(initialNickname: string) {
 
   useEffect(() => {
     if (users) {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   }, [users]);
 
   useEffect(() => {
-    if (inView && hasNextPage && isLoading) {
+    if (inView && hasNextPage && !isLoading) {
       fetchNextPage();
       setIsLoading(false);
     }
-  }, [inView, hasNextPage, fetchNextPage, isLoading]);
+  }, [inView, hasNextPage]);
 
   function handleUsersSearchApi(params: any) {
     if (nickname) {
@@ -48,6 +48,7 @@ function useGetUsersBatchBy10(initialNickname: string) {
   return {
     ref,
     users,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -57,4 +58,4 @@ function useGetUsersBatchBy10(initialNickname: string) {
   };
 }
 
-export default useGetUsersBatchBy10;
+export default useInfiniteUsers;

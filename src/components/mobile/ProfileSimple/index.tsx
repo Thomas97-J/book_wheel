@@ -44,7 +44,7 @@ const UserInfoLink = styled(Link)`
   height: 30px;
   cursor: pointer;
   &:hover {
-    color: #0056b3;
+    color: ${({ theme }) => theme.color.default_green};
   }
 `;
 

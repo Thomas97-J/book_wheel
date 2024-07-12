@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Fallback from "../../../components/mobile/Fallback";
 import PostCard from "../../../components/mobile/PostCard";
 import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import _ from "lodash";
 import DropDownSelect from "../../../components/common/DropDownSelect";
+import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 
 function PostSection({
   topRef,
@@ -15,6 +15,7 @@ function PostSection({
   const {
     ref,
     postDatas,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -34,12 +35,9 @@ function PostSection({
     setCategory(option.value);
   };
 
-  // if (isLoading) {
-  //   return <Fallback />;
-  // }
-
   return (
     <PostSectionWrapper>
+      {isLoading && <LoadingSpinner />}
       <StickyRef ref={topRef}></StickyRef>
       <StickyMenu $scrolled={!needBottomLine}>
         <DropDownSelect

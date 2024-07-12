@@ -43,6 +43,7 @@ function useInfiniteComments(postId: string) {
   return {
     ref,
     commentData,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,

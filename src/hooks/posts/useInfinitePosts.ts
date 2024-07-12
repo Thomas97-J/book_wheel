@@ -48,6 +48,7 @@ function useInfinitePosts(
   return {
     ref,
     postDatas,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,

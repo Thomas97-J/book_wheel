@@ -1,9 +1,10 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
-import useGetUsersBatchBy10 from "../../../hooks/users/useGetUsersBatchBy10";
+import useInfiniteUsers from "../../../hooks/users/useInfiniteUsers";
 import UserCard from "../../../components/mobile/UserCard";
+import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 interface Search {
   type: string;
   keyword: string;
@@ -14,22 +15,9 @@ enum SearchType {
   Book = "BOOK",
 }
 function UserExplore() {
-  const {
-    ref,
-    users,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    nickname,
-    setNickname,
-  } = useGetUsersBatchBy10("");
+  const { ref, users, isLoading, setNickname } = useInfiniteUsers("");
 
   const { register, handleSubmit } = useForm<Search>({ mode: "onChange" });
-
-  useEffect(() => {
-    console.log("explore", users);
-  }, [users]);
 
   const debouncedSearch = useMemo(
     () =>
@@ -50,6 +38,7 @@ function UserExplore() {
   }
   return (
     <UserExploreWrapper>
+      {isLoading && <LoadingSpinner />}
       <SearchForm onSubmit={handleSubmit(onSearch)}>
         <SearchInput
           {...register("keyword", { required: true })}
@@ -79,7 +68,7 @@ const UserExploreWrapper = styled.div`
 const SearchForm = styled.form`
   position: fixed;
   left: 0;
-  top: 106px;
+  top: 93px;
   width: 100%;
   background: #fff;
   z-index: 100;
