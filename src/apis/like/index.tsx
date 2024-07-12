@@ -265,6 +265,19 @@ export async function getReceivedLikesCount(postId: string): Promise<number> {
   return receivedLikesCount;
 }
 
+export async function getReceivedCommentLikesCount(
+  commentId: string
+): Promise<number> {
+  const receivedLikesQuery = query(
+    collection(db, "like_comments"),
+    where("commentId", "==", commentId)
+  );
+  const receivedLikesSnapshot = await getDocs(receivedLikesQuery);
+  const receivedLikesCount = receivedLikesSnapshot.size;
+
+  return receivedLikesCount;
+}
+
 export async function getUsersWhoLikedPost(
   postId: string
 ): Promise<UserData[]> {

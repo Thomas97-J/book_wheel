@@ -11,7 +11,7 @@ export default function useCreateCommentLike(
     mutationFn: createCommentLike,
     onMutate: async () => {
       const commentLikesQueryKey = ["comment_likes", userId, commentId];
-      const receivedLikesQueryKey = ["received_likes_count", commentId];
+      const receivedLikesQueryKey = ["received_comment_likes_count", commentId];
 
       await queryClient.cancelQueries({ queryKey: commentLikesQueryKey });
       await queryClient.cancelQueries({ queryKey: receivedLikesQueryKey });

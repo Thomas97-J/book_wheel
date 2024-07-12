@@ -8,6 +8,7 @@ import { useAuth } from "../../../context/AuthContext";
 import LikeBtnComment from "../LikeBtnComment";
 import ReplyCard from "./ReplyCard";
 import DateString from "../../common/DateString";
+import useGetReceivedCommentLikesCount from "../../../hooks/like/useGetReceivedCommentLikesCount";
 
 function CommentCard({
   comment,
@@ -21,6 +22,7 @@ function CommentCard({
   const isCommentOwner = comment.uid === currentUser?.uid;
   const isHasRepliesy = comment?.replies.length !== 0;
   const deleteMutation = useDeleteComment(comment.postId);
+  const { receivedLikesCount } = useGetReceivedCommentLikesCount(comment.id);
   useEffect(() => {
     console.log("comment", comment);
   }, [comment]);
@@ -36,6 +38,7 @@ function CommentCard({
           userId={currentUser?.uid ?? ""}
           commentId={comment?.id}
         />
+        <CommentLikeCount>{receivedLikesCount}</CommentLikeCount>
       </InfoSection>
 
       <ContentSection
@@ -108,6 +111,10 @@ const ContentSection = styled.button`
   border: none;
   padding: 0;
   display: flex;
+`;
+const CommentLikeCount = styled.div`
+  font-size: 12px;
+  margin-left: 2px;
 `;
 const Content = styled.span`
   font-size: 14px;

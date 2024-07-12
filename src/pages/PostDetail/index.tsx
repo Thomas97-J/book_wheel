@@ -40,11 +40,16 @@ function PostDetail() {
       <DataStringPost>
         <DateString date={postData?.createdAt} />
       </DataStringPost>
-      <div>{postData?.content}</div>
-      <LikeAndCount>
-        <LikeBtn userId={currentUser?.uid ?? ""} postId={postData?.id ?? ""} />:{" "}
-        {receivedLikesCount}
-      </LikeAndCount>
+      <Content>{postData?.content}</Content>
+      <CenterWrapper>
+        <LikeAndCount>
+          <LikeBtn
+            userId={currentUser?.uid ?? ""}
+            postId={postData?.id ?? ""}
+          />
+          {receivedLikesCount}
+        </LikeAndCount>
+      </CenterWrapper>
       {postData?.id && <CommentSection postId={postData.id} />}
     </PostDetailWrapper>
   );
@@ -54,12 +59,29 @@ const Title = styled.h2`
   font-weight: bold;
   margin-bottom: 8px;
 `;
+
+const CenterWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+`;
+const Content = styled.p`
+  font-size: 14px;
+  color: #333;
+`;
+
 const DataStringPost = styled.div`
   margin-bottom: 8px;
 `;
 const LikeAndCount = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 4px;
+  width: 52px;
+  white-space: nowrap;
 `;
 export default PostDetail;

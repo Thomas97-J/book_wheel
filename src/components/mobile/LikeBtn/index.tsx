@@ -54,5 +54,7 @@ function LikeBtn({ userId, postId }: { userId: string; postId: string }) {
 }
 const LikeBtnWrapper = styled.button`
   border: none;
+  padding: 0;
+  margin-right: 4px;
 `;
 export default LikeBtn;

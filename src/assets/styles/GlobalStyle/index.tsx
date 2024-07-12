@@ -100,7 +100,6 @@ const GlobalStyle = createGlobalStyle`
   }
   button{
     background: none;  
-    padding: 8px;
   }
 
 `;
