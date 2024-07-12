@@ -14,11 +14,7 @@ function UserCard({ userInfo }: { userInfo: UserData }) {
         <ProfileImage src={userInfo?.profileImage} />
         <NicknameAndBio>
           <Nickname>{userInfo.nickname}</Nickname>
-          <Biography>
-            {userInfo?.bio}
-            {userInfo?.bio}
-            {userInfo?.bio}
-          </Biography>
+          <Biography>{userInfo?.bio}</Biography>
         </NicknameAndBio>
       </GoToProfile>
       <FollowBtnWrapper>
