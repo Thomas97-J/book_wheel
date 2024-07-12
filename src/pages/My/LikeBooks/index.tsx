@@ -3,7 +3,7 @@ import { useAuth } from "../../../context/AuthContext";
 import styled from "styled-components";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
-import BookCard from "../../Bookshelf/BookList/BookCard";
+import BookCard from "../../../components/mobile/BookCard";
 import useInfiniteLikedBooks from "../../../hooks/like/useInfiniteLikedBooks";
 
 function LikeBooks() {

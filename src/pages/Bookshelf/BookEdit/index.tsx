@@ -128,9 +128,7 @@ function BookEdit() {
   useEffect(() => {
     console.log("imagePreview", imagePreview);
   }, [imagePreview]);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+
   return (
     <BookEditWrapper>
       <DefaultHeader />

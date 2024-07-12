@@ -5,6 +5,7 @@ import _ from "lodash";
 import useInfiniteUsers from "../../../hooks/users/useInfiniteUsers";
 import UserCard from "../../../components/mobile/UserCard";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
+import UserCardSkeleton from "../../../components/mobile/UserCardSkeleton";
 interface Search {
   type: string;
   keyword: string;
@@ -18,6 +19,7 @@ function UserExplore() {
   const { ref, users, isLoading, setNickname } = useInfiniteUsers("");
 
   const { register, handleSubmit } = useForm<Search>({ mode: "onChange" });
+  const isFirstLoading = users === undefined && isLoading;
 
   const debouncedSearch = useMemo(
     () =>
@@ -38,7 +40,7 @@ function UserExplore() {
   }
   return (
     <UserExploreWrapper>
-      {isLoading && <LoadingSpinner />}
+      {!isFirstLoading && isLoading && <LoadingSpinner />}
       <SearchForm onSubmit={handleSubmit(onSearch)}>
         <SearchInput
           {...register("keyword", { required: true })}
@@ -49,13 +51,23 @@ function UserExplore() {
           type="text"
         />
       </SearchForm>
-      {users?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.users.map((user: any) => (
-            <UserCard key={user.id} userInfo={user} />
-          ))}
-        </div>
-      ))}
+      {isFirstLoading ? (
+        <>
+          <UserCardSkeleton />
+          <UserCardSkeleton />
+          <UserCardSkeleton />
+          <UserCardSkeleton />
+          <UserCardSkeleton />
+        </>
+      ) : (
+        users?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page?.users.map((user: any) => (
+              <UserCard key={user.id} userInfo={user} />
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref}></div>
     </UserExploreWrapper>
   );

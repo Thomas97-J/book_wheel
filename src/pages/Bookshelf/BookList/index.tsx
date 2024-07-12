@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Fallback from "../../../components/mobile/Fallback";
 import _ from "lodash";
 import DropDownSelect from "../../../components/common/DropDownSelect";
-import BookCard from "./BookCard";
+import BookCard from "../../../components/mobile/BookCard";
 import useInfiniteBooks from "../../../hooks/books/useInfiniteBooks";
 import useGetUidByNickname from "../../../hooks/users/useGetUidByNickname";
 import { useSearchParams } from "react-router-dom";

@@ -61,8 +61,8 @@ export const PATH = {
 
 function App() {
   return (
-    <Suspense fallback={<Fallback />}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Suspense fallback={<Fallback />}>
         <Routes>
           <Route path={PATH.main} element={<Main />} />
           <Route
@@ -128,9 +128,9 @@ function App() {
           <Route path={PATH.bookshelf} element={<Bookshelf />} />
           <Route path={PATH.notFound} element={<NotFound />} />
         </Routes>
-        <BottomNav />
-      </BrowserRouter>
-    </Suspense>
+      </Suspense>
+      <BottomNav />
+    </BrowserRouter>
   );
 }
 

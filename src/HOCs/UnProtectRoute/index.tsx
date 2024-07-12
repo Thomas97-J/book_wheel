@@ -1,5 +1,6 @@
 import { Route, Navigate, RouteProps, PathRouteProps } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import Fallback from "../../components/mobile/Fallback";
 
 interface UnProtectRouteProps extends PathRouteProps {
   component: React.ComponentType<any>;
@@ -12,7 +13,7 @@ function UnProtectRoute({
   const { currentUser, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Fallback />;
   }
 
   if (!currentUser) {

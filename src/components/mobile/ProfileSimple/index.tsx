@@ -6,6 +6,8 @@ import useGetUserPostsByNickname from "../../../hooks/posts/useGetUserPostsByNic
 import useGetBooksCountByUid from "../../../hooks/books/useGetBooksCountByUid";
 import ProfileImage from "../../common/ProfileImage";
 import { useAuth } from "../../../context/AuthContext";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function ProfileSimple({ uid }: { uid: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
@@ -13,8 +15,19 @@ function ProfileSimple({ uid }: { uid: string }) {
   const { bookcount } = useGetBooksCountByUid(uid);
   const { currentUser } = useAuth();
   const isCurrentUser = currentUser?.uid === uid;
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading)
+    return (
+      <UserInfo>
+        <Skeleton
+          style={{ marginBottom: "2px", marginRight: "10px" }}
+          circle={true}
+          height={100}
+          width={100}
+        />
+        <Skeleton style={{ margin: "4px" }} height={30} width={200} count={2} />
+      </UserInfo>
+    );
+  if (error) return <UserInfo>Error: {error.message}</UserInfo>;
 
   return (
     <UserInfo>
@@ -62,6 +75,7 @@ const NickName = styled.strong`
 
 const UserInfo = styled.div`
   width: 100%;
+  height: 100px;
   display: flex;
   margin-bottom: 10px;
 `;

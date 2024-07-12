@@ -8,6 +8,8 @@ import useGetBooksCountByUid from "../../../hooks/books/useGetBooksCountByUid";
 import ProfileImage from "../../common/ProfileImage";
 import { useAuth } from "../../../context/AuthContext";
 import StartMessageBtn from "../StartMessageBtn";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
@@ -16,7 +18,33 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   const { bookcount } = useGetBooksCountByUid(uid);
   const { currentUser } = useAuth();
   const isCurrentUser = currentUser?.uid === uid;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <UserInfo>
+        <TopSection>
+          <Skeleton
+            style={{ marginBottom: "2px", marginRight: "10px" }}
+            circle={true}
+            height={100}
+            width={100}
+          />
+          <Skeleton
+            style={{ margin: "4px" }}
+            height={24}
+            width={200}
+            count={3}
+          />
+        </TopSection>
+        <BottomSection>
+          <Skeleton
+            style={{ margin: "4px" }}
+            height={24}
+            width={250}
+            count={2}
+          />
+        </BottomSection>
+      </UserInfo>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -26,14 +54,14 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
         <InfoSection>
           <NickName>{userData?.nickname}</NickName>
           <Biography>{userData?.bio}</Biography>
-          <span>
+          <FollowTextWrapper>
             <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
               팔로잉 {followData?.followingCount}명
             </UserInfoLink>
             <UserInfoLink to={`${PATH.follow}?type=followers&user=${nickname}`}>
               팔로워 {followData?.followersCount}명
             </UserInfoLink>
-          </span>
+          </FollowTextWrapper>
         </InfoSection>
       </TopSection>
       <BottomSection>
@@ -68,6 +96,10 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
     </UserInfo>
   );
 }
+
+const FollowTextWrapper = styled.div`
+  display: flex;
+`;
 const TopSection = styled.div`
   display: flex;
   padding: 10px 0;
@@ -86,6 +118,7 @@ const UserInfoLink = styled(Link)`
   text-decoration: none;
   color: #000;
   height: 30px;
+  margin-right: 8px;
   display: flex;
   align-items: center;
   svg {

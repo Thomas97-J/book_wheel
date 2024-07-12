@@ -2,9 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
-import BookCard from "../../Bookshelf/BookList/BookCard";
+import BookCard from "../../../components/mobile/BookCard";
 import useInfiniteBooks from "../../../hooks/books/useInfiniteBooks";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
+import BookCardSkeleton from "../../../components/mobile/BookCardSkeleton";
 
 interface Search {
   type: string;
@@ -29,7 +30,7 @@ function BookExplore() {
     filter,
     setFilter,
   } = useInfiniteBooks(initialFilter, 1);
-
+  const isFirstLoading = bookData === undefined && isLoading;
   const { register, handleSubmit } = useForm<Search>({ mode: "onChange" });
 
   useEffect(() => {
@@ -56,7 +57,7 @@ function BookExplore() {
 
   return (
     <BookExploreWrapper>
-      {isLoading && <LoadingSpinner />}
+      {!isFirstLoading && isLoading && <LoadingSpinner />}
       <SearchForm onSubmit={handleSubmit(onSearch)}>
         <SearchInput
           {...register("keyword", { required: true })}
@@ -67,13 +68,21 @@ function BookExplore() {
           type="text"
         />
       </SearchForm>
-      {bookData?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.books.map((book: any) => (
-            <BookCard key={book.id} book={book} />
-          ))}
-        </div>
-      ))}
+      {isFirstLoading ? (
+        <>
+          <BookCardSkeleton />
+          <BookCardSkeleton />
+          <BookCardSkeleton />
+        </>
+      ) : (
+        bookData?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page?.books.map((book: any) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref}></div>
     </BookExploreWrapper>
   );

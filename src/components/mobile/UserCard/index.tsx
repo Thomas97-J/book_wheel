@@ -6,11 +6,20 @@ import ProfileImage from "../../common/ProfileImage";
 
 function UserCard({ userInfo }: { userInfo: UserData }) {
   const { currentUser } = useAuth();
+  console.log("userInfo", userInfo);
+
   return (
     <UserCardWrapper>
       <GoToProfile to={`/profile?user=${userInfo.nickname}`}>
         <ProfileImage src={userInfo?.profileImage} />
-        <Nickname>{userInfo.nickname}</Nickname>
+        <NicknameAndBio>
+          <Nickname>{userInfo.nickname}</Nickname>
+          <Biography>
+            {userInfo?.bio}
+            {userInfo?.bio}
+            {userInfo?.bio}
+          </Biography>
+        </NicknameAndBio>
       </GoToProfile>
       <FollowBtnWrapper>
         <FollowBtn
@@ -24,17 +33,38 @@ function UserCard({ userInfo }: { userInfo: UserData }) {
 
 const UserCardWrapper = styled.div`
   display: flex;
-  padding: 10px 0;
+  height: 68;
+  padding: 4px 0;
 `;
 const GoToProfile = styled(Link)`
   position: relative;
   display: flex;
+  align-items: center;
   text-decoration: none;
   color: #000;
+  width: 100%;
+  img {
+    width: 60px;
+    height: 60px;
+  }
 `;
-
-const Nickname = styled.div`
-  margin-left: 10px;
+const Biography = styled.div`
+  width: 70%;
+  font-size: 14px;
+  color: #737373;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+const Nickname = styled.strong`
+  font-weight: bold;
+  margin-bottom: 8px;
+`;
+const NicknameAndBio = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
 
 const FollowBtnWrapper = styled.div`

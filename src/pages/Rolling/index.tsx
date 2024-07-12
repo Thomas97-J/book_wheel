@@ -39,7 +39,6 @@ function Rolling() {
           ))}
         </div>
       ))}
-      {isFetchingNextPage && <div>Loading more...</div>}
     </RollingWrapper>
   );
 }

@@ -34,8 +34,8 @@ function MessageDetail() {
   const receiverUserId =
     users?.find((userId) => userId !== currentUser?.uid) ?? "";
   const addMessageMutation = useAddMessage(chatId, receiverUserId);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
   const resetCountMutaion = useResetUnreadCount(chatId, currentUser?.uid ?? "");
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   async function handleSendMessage(data: MessageValue) {
     if (data.message.trim() === "") return;
@@ -71,10 +71,6 @@ function MessageDetail() {
       resetUnReadCount();
     };
   }, [currentUser?.uid]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (isError) {
     return <div>Error loading messages.</div>;

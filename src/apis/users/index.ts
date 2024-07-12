@@ -20,9 +20,11 @@ export async function getAllUsers(): Promise<UserData[]> {
   return userSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
-export async function getUsersBatchBy10({
+export async function getUsersBatchBy20({
+  nickname,
   pageParam = null,
 }: {
+  nickname: string;
   pageParam?: any;
 }) {
   try {
@@ -39,16 +41,18 @@ export async function getUsersBatchBy10({
     let q = query(
       usersRef,
       where("__name__", "!=", currentUserUID), // '!=' 연산자 사용
-      limit(10)
+      limit(20)
     );
 
-    if (pageParam) {
+    if (nickname) {
       q = query(
-        usersRef,
-        where("__name__", "!=", currentUserUID), // '!=' 연산자 사용
-        startAfter(pageParam),
-        limit(10)
+        q,
+        where("nickname", ">=", nickname),
+        where("nickname", "<=", nickname + "\uf8ff")
       );
+    }
+    if (pageParam) {
+      q = query(q, startAfter(pageParam));
     }
 
     const querySnapshot = await getDocs(q);
@@ -105,47 +109,6 @@ export async function getUsersByNickname(nickname: string) {
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
-export async function getUsersByNicknameBatchBy10({
-  nickname,
-  pageParam = null,
-}: {
-  nickname: string;
-  pageParam?: any;
-}) {
-  try {
-    const usersRef = collection(db, "users");
-
-    let q = query(
-      usersRef,
-      where("nickname", ">=", nickname),
-      where("nickname", "<=", nickname + "\uf8ff"),
-      limit(10)
-    );
-
-    if (pageParam) {
-      q = query(
-        usersRef,
-        where("nickname", ">=", nickname),
-        where("nickname", "<=", nickname + "\uf8ff"),
-        startAfter(pageParam),
-        limit(10)
-      );
-    }
-
-    const querySnapshot = await getDocs(q);
-    const users = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-
-    return { users, nextPage: lastVisible };
-  } catch (err) {
-    console.error("Error fetching users by nickname:", err);
-    return { users: [], nextPage: null };
-  }
-}
 //update
 
 export async function updateUserData({

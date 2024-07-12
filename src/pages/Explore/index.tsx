@@ -60,7 +60,7 @@ function Explore() {
 }
 
 const ExploreWrapper = styled(PageWrapper)`
-  padding-top: 160px;
+  padding-top: 150px;
   position: relative;
 `;
 

@@ -98,9 +98,4 @@ const Content = styled.div`
   margin-bottom: 8px;
 `;
 
-const Date = styled.div`
-  font-size: 0.8rem;
-  color: #666;
-`;
-
 export default PostCard;

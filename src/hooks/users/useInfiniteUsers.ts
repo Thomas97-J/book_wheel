@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import {
-  getUsersBatchBy10,
-  getUsersByNicknameBatchBy10,
-} from "../../apis/users";
+import { getUsersBatchBy20 } from "../../apis/users";
 
 function useInfiniteUsers(initialNickname: string) {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,11 +35,7 @@ function useInfiniteUsers(initialNickname: string) {
   }, [inView, hasNextPage]);
 
   function handleUsersSearchApi(params: any) {
-    if (nickname) {
-      return getUsersByNicknameBatchBy10({ ...params, nickname: nickname });
-    } else {
-      return getUsersBatchBy10({ ...params });
-    }
+    return getUsersBatchBy20({ ...params, nickname: nickname });
   }
 
   return {

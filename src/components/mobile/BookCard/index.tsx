@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { PATH } from "../../../../App";
+import { PATH } from "../../../App";
 
 function BookCard({ book }: { book: Book }) {
   return (
@@ -24,11 +24,15 @@ const BookCardWapper = styled(Link)`
   border-bottom: 1px solid #ccc;
   padding: 10px 0;
   margin: 0 10px;
+  height: 120px;
   text-decoration: none;
+  color: #000;
 `;
 
 const ThumbnailImage = styled.img`
   min-width: 80px;
+  width: 80px;
+
   height: 100px;
   margin-right: 10px;
   object-fit: cover;
