@@ -27,9 +27,12 @@ function Profile() {
   );
 }
 
-const ProfileWrapper = styled(PageWrapper)``;
+const ProfileWrapper = styled(PageWrapper)`
+  position: relative;
+`;
 const FollowBtnWrapper = styled.div`
   position: absolute;
+  top: 122px;
   right: 10px;
 `;
 export default Profile;

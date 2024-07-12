@@ -6,7 +6,6 @@ import { useAuth } from "../../../context/AuthContext";
 
 function BookShorts({ book }: { book: Book }) {
   const { currentUser } = useAuth();
-  console.log("book.id", book);
 
   return (
     <BookShortsWapper>
@@ -39,7 +38,7 @@ const GoToBookDetail = styled(Link)`
 
 const ThumbnailImage = styled.img`
   width: 100%;
-  max-height: 70vh;
+  max-height: 60vh;
   object-fit: cover;
 `;
 

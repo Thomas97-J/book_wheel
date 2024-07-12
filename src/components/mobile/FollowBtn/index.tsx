@@ -28,19 +28,22 @@ function FollowBtn({
             });
         }
       }}
+      $isFollow={!!followingId}
     >
       {followingId ? "unfollow" : "follow"}
     </FollowBtnWrapper>
   );
 }
-const FollowBtnWrapper = styled.div`
+const FollowBtnWrapper = styled.button<{ $isFollow: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  width: 80px;
+  padding: 4px;
+  width: 70px;
   height: 30px;
   border: solid 1px;
+  border-radius: 6px;
+  ${(props) => (props.$isFollow ? "color: #ccc;   border-color: #ccc;" : "")}
 `;
 
 export default FollowBtn;

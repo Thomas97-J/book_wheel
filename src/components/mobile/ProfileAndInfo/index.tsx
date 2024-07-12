@@ -87,7 +87,8 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
             viewBox="0 0 24 24"
             fill="rgba(0, 0, 0, 1)"
           >
-            <path d="M18 2H6c-1.103 0-2 .897-2 2v18l8-4.572L20 22V4c0-1.103-.897-2-2-2zm0 16.553-6-3.428-6 3.428V4h12v14.553z"></path>
+            <path d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"></path>
+            <path d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"></path>
           </svg>
           작성글 {postDatas?.length}개
         </UserInfoLink>

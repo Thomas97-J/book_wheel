@@ -3,6 +3,7 @@ import { useAuth } from "../../../context/AuthContext";
 import useCreateChat from "../../../hooks/message/useCreateChat";
 import { PATH } from "../../../App";
 import useCheckExistingChat from "../../../hooks/message/useCheckExistingChat";
+import styled from "styled-components";
 
 function StartMessageBtn({ targetUserId }: { targetUserId: string }) {
   const { currentUser } = useAuth();
@@ -32,7 +33,16 @@ function StartMessageBtn({ targetUserId }: { targetUserId: string }) {
     }
   };
 
-  return <button onClick={handleStartChat}>Start Chat</button>;
+  return (
+    <StartMessageBtnWrapper onClick={handleStartChat}>
+      메시지 보내기
+    </StartMessageBtnWrapper>
+  );
 }
+const StartMessageBtnWrapper = styled.button`
+  border: 1px solid #888;
+  width: 120px;
+  white-space: nowrap;
+`;
 
 export default StartMessageBtn;

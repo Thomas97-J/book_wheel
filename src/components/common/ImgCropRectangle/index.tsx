@@ -78,7 +78,7 @@ function ImgCropRectangle({
               crop={crop}
               rotation={rotation}
               zoom={zoom}
-              aspect={152 / 225}
+              aspect={4 / 5}
               onCropChange={setCrop}
               onRotationChange={setRotation}
               onCropComplete={onCropComplete}

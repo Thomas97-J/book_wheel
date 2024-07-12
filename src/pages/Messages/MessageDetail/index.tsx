@@ -23,6 +23,7 @@ function MessageDetail() {
     handleSubmit,
     setError,
     setValue,
+    setFocus,
     formState: { errors, isValid },
   } = useForm<MessageValue>({
     mode: "onBlur",
@@ -40,13 +41,14 @@ function MessageDetail() {
   async function handleSendMessage(data: MessageValue) {
     if (data.message.trim() === "") return;
     try {
-      setValue("message", "");
       await addMessageMutation.mutateAsync({
         text: data.message,
         chatId: chatId,
         uid: currentUser?.uid ?? "",
         userName: currentUser?.displayName ?? "",
       });
+      setValue("message", "");
+      setFocus("message");
     } catch (error) {
       console.error("Error adding message:", error);
     }
@@ -92,7 +94,7 @@ function MessageDetail() {
       <div ref={bottomRef}></div>
       <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
         <input {...register("message")} type="text" />
-        <button type="submit">Send</button>
+        <button type="submit">전송</button>
       </MessageForm>
     </MessageDetailWrapper>
   );
@@ -119,6 +121,9 @@ const MessageForm = styled.form`
   }
   button {
     white-space: nowrap;
+    border: solid 1px #888;
+    border-radius: 10px;
+    margin-left: 10px;
   }
 `;
 export default MessageDetail;

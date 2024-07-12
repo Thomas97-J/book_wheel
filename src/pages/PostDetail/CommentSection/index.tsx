@@ -111,7 +111,7 @@ function CommentSection({ postId }: { postId: string }) {
             replyPopupOpen ? "답글을 입력해주세요." : "댓글을 입력해주세요."
           }
         />
-        <button>저장</button>
+        <button>등록</button>
       </CommentForm>
     </CommentSectionWrapper>
   );
@@ -138,6 +138,9 @@ const CommentForm = styled.form`
   }
   button {
     white-space: nowrap;
+    border: solid 1px #888;
+    border-radius: 10px;
+    margin-left: 10px;
   }
 `;
 export default CommentSection;

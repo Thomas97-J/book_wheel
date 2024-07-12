@@ -24,9 +24,9 @@ function BookDetail() {
       {bookData?.photoUrl && (
         <BookImage src={bookData?.photoUrl} alt="도서 이미지" />
       )}
-      <h2>{bookData?.title}</h2>
-      <div>{bookData?.author}</div>
-      <div>{bookData?.content}</div>
+      <Title>{bookData?.title}</Title>
+      <Author>{bookData?.author}</Author>
+      <Content>{bookData?.content}</Content>
       <LikeBtnBook
         bookId={bookData?.id ?? ""}
         userId={currentUser?.uid ?? ""}
@@ -38,7 +38,23 @@ const BookDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
 `;
 const BookImage = styled.img`
-  max-height: 400px;
-  object-fit: contain;
+  width: 100%;
+  margin-bottom: 10px;
+  object-fit: cover;
 `;
+const Title = styled.h2`
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0 0 8px 0;
+`;
+const Author = styled.p`
+  font-size: 16px;
+  color: #555;
+  margin: 0 0 8px 0;
+`;
+const Content = styled.p`
+  font-size: 14px;
+  color: #333;
+`;
+
 export default BookDetail;
