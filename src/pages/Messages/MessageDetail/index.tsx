@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import useAddMessage from "../../../hooks/message/useAddMessage";
 import useFetchMessages from "../../../hooks/message/useFetchMessages";
-import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
 import styled from "styled-components";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import { useSearchParams } from "react-router-dom";
@@ -11,7 +10,9 @@ import NotMyMessage from "./NotMyMessage";
 import { useForm } from "react-hook-form";
 import useGetChatUsers from "../../../hooks/message/useGetChatUsers";
 import useResetUnreadCount from "../../../hooks/message/useResetUnreadCount";
-import MessageHeader from "../../../components/mobile/headers/MessageHeader";
+import MemoizedMessageHeader from "../../../components/mobile/headers/MessageDetailHeader";
+import dayjs from "dayjs";
+import { Timestamp } from "firebase/firestore"; // Import Firebase Timestamp
 
 interface MessageValue {
   message: string;
@@ -81,13 +82,26 @@ function MessageDetail() {
 
   return (
     <MessageDetailWrapper>
-      <MessageHeader receiverUserId={receiverUserId} />
+      <MemoizedMessageHeader receiverUserId={receiverUserId} />
       <div>최상단</div>
       <div>
         {messages?.map((message, index) => {
           const showProfileImage =
             index === 0 || messages[index - 1].uid !== message.uid;
-
+          const currentDate = dayjs(
+            (message.createdAt as Timestamp).toDate()
+          ).format("YYYY년 MM월 DD일");
+          const previousDate =
+            index > 0
+              ? dayjs(
+                  (messages[index - 1].createdAt as Timestamp).toDate()
+                ).format("YYYY년 MM월 DD일")
+              : null;
+          const showDate = currentDate !== previousDate;
+          if (showDate)
+            return (
+              <DateChangeLine key={message.id}>{currentDate}</DateChangeLine>
+            );
           if (message.uid === currentUser?.uid)
             return <MyMessage key={message.id} message={message} />;
           else {
@@ -112,6 +126,15 @@ function MessageDetail() {
 
 const MessageDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
+`;
+
+const DateChangeLine = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 8px;
+  color: #666;
+  font-size: 14px;
 `;
 const MessageForm = styled.form`
   display: flex;

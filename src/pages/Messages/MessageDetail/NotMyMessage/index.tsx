@@ -25,7 +25,14 @@ function NotMyMessage({
     </NotMyMessageWrapper>
   );
 }
+const NotMyMessageWrapper = styled.div`
+  width: 100%;
+  min-height: 30px;
 
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
 const ProfileImageWrapper = styled.div`
   height: 32px;
   width: 36px;
@@ -40,21 +47,14 @@ const TextSection = styled.div`
 `;
 
 const Content = styled.span`
-  background-color: #d3dbcc;
-  color: #fff;
+  background-color: #f0f3ee;
+  color: #000;
   padding: 4px 8px;
   border-radius: 10px;
   max-width: 70vw;
   line-height: 1.4;
 `;
-const NotMyMessageWrapper = styled.div`
-  width: 100%;
-  min-height: 30px;
 
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-`;
 const Date = styled.div`
   font-size: 0.7rem;
   color: #666;

@@ -5,6 +5,7 @@ import formatRelativeTime from "../../../utils/formatRelativeTime";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import RedDot from "../../../components/common/RedDot";
+import ProfileImage from "../../../components/common/ProfileImage";
 
 function ChatRoomCard({ room }: { room: any }) {
   const { currentUser } = useAuth();
@@ -18,20 +19,25 @@ function ChatRoomCard({ room }: { room: any }) {
     ) {
       console.log(
         "Unread count for current user:",
-        room.unreadCount[currentUser.uid]
+        room.unreadCount[currentUser.uid],
+        room
       );
       setUnReadCount(room.unreadCount[currentUser.uid]);
     }
+    console.log("room", room);
   }, [room]);
 
   return (
     <ChatRoomCardWrapper to={`${PATH.messageDetail}?chat=${room.id}`}>
-      <Info>
-        <strong>{room.otherUsers[0].nickname}</strong>님 과의 대화
-        <Time>{formattedDate}</Time>
-        {unReadCount ? <RedDot>{unReadCount}</RedDot> : ""}
-      </Info>
-      <Content>{room?.lastMessage?.text}</Content>
+      <ProfileImage src={room.otherUsers[0]?.profileImage} />
+      <TextWrapper>
+        <Info>
+          <strong>{room.otherUsers[0].nickname}</strong>님 과의 대화
+          <Date>{formattedDate}</Date>
+          {unReadCount ? <RedDot>{unReadCount}</RedDot> : ""}
+        </Info>
+        <Content>{room?.lastMessage?.text}</Content>
+      </TextWrapper>
     </ChatRoomCardWrapper>
   );
 }
@@ -39,15 +45,21 @@ function ChatRoomCard({ room }: { room: any }) {
 const ChatRoomCardWrapper = styled(Link)`
   position: relative;
   display: flex;
-  flex-direction: column;
-  min-height: 60px;
-  padding: 8px;
+  padding: 8px 4px;
   text-decoration: none;
   font-size: 16px;
   color: #000;
   border-bottom: solid 1px #ccc;
+  img {
+    width: 40px;
+    height: 40px;
+  }
 `;
-
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
 const Info = styled.span`
   position: relative;
   margin-bottom: 6px;
@@ -59,7 +71,7 @@ const Content = styled.span`
   text-overflow: ellipsis;
   font-size: 14px;
 `;
-const Time = styled.span`
+const Date = styled.span`
   margin-left: 4px;
   font-size: 14px;
   color: #828282;

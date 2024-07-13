@@ -11,7 +11,14 @@ function MyMessage({ message }: { message: Message }) {
     </MyMessageWrapper>
   );
 }
+const MyMessageWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  min-height: 24px;
 
+  align-items: flex-end;
+  margin-bottom: 5px;
+`;
 const Content = styled.span`
   background-color: ${({ theme }) => theme.color.default_green};
   color: #fff;
@@ -20,14 +27,7 @@ const Content = styled.span`
   max-width: 70vw;
   line-height: 1.4;
 `;
-const MyMessageWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  min-height: 24px;
 
-  align-items: flex-end;
-  margin-bottom: 6px;
-`;
 const Date = styled.div`
   font-size: 0.7rem;
   color: #666;

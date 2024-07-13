@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useGetUserById from "../../../../hooks/users/useGetUserById";
 import React from "react";
 
-function MessageHeader({ receiverUserId }: { receiverUserId: string }) {
+function MessageDetailHeader({ receiverUserId }: { receiverUserId: string }) {
   const { userData } = useGetUserById(receiverUserId);
   const navigate = useNavigate();
 
@@ -36,6 +36,6 @@ const MessageHeaderWrapper = styled(Header)`
     border: none;
   }
 `;
-const MemoizedMessageHeader = React.memo(MessageHeader);
+const MemoizedMessageHeader = React.memo(MessageDetailHeader);
 
 export default MemoizedMessageHeader;

@@ -95,7 +95,7 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 4px;
     &:focus {
       outline: none;
-      border-color: rgb(26, 79, 4);;
+      border-color: rgb(74 131 50);;
     }
   }
   button{
