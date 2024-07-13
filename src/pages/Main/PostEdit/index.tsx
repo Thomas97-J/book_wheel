@@ -57,6 +57,7 @@ function NewPost() {
   const updateMutation = useUpdatePostByIndex();
   const { imagePreview, setImagePreview, imgRef, saveImgFile } =
     useImageUpload(setValue);
+  const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
 
   const navigate = useNavigate();
   const options = [
@@ -68,9 +69,6 @@ function NewPost() {
   const handleSelect = (option: { label: string; value: string }) => {
     setValue("category", option.value);
   };
-  useEffect(() => {
-    console.log("errors", errors);
-  }, [errors]);
 
   useEffect(() => {
     if (postData && postIndex) {
@@ -92,6 +90,7 @@ function NewPost() {
 
   async function onPostSubmit(postData: PostValue) {
     try {
+      setSubmitBtnDisable(true);
       const updatedPostData: PostValue = {
         uid: currentUser?.uid || "",
         title: postData.title,
@@ -121,13 +120,14 @@ function NewPost() {
         navigate(`${PATH.postDetail}?no=${newPostIndex}`);
       }
     } catch (err) {
+      setSubmitBtnDisable(false);
       console.log("err", err);
     }
   }
 
   return (
     <NewPostWrapper>
-      <PostEditHeader />
+      <PostEditHeader submitBtnDisable={submitBtnDisable} />
       <PostForm id={"postForm"} onSubmit={handleSubmit(onPostSubmit)}>
         <DropDownSelect
           options={options}

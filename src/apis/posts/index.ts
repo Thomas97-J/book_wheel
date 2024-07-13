@@ -287,15 +287,15 @@ export async function getPostByIndex(index: number): Promise<Post> {
 
     const postDoc = querySnapshot.docs[0];
     const postData = postDoc.data() as Post;
-
+    const currentViewCount = (postData.viewCount || 0) + 1;
     const post: Post = {
       id: postDoc.id,
       ...postData,
-      viewCount: postData.viewCount + 1, //현제 디테일 페이지에서 보여줄 카운트
+      viewCount: currentViewCount, //현제 디테일 페이지에서 보여줄 카운트
     };
     const postDocRef = doc(db, "posts", postDoc.id);
     //조회수 업데이트
-    updateDoc(postDocRef, { viewCount: postData.viewCount + 1 });
+    updateDoc(postDocRef, { viewCount: currentViewCount });
 
     return post;
   } catch (error) {
