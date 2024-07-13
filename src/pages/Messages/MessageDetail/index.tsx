@@ -83,34 +83,46 @@ function MessageDetail() {
   return (
     <MessageDetailWrapper>
       <MemoizedMessageHeader receiverUserId={receiverUserId} />
-      <div>최상단</div>
       <div>
         {messages?.map((message, index) => {
           const showProfileImage =
             index === 0 || messages[index - 1].uid !== message.uid;
           const currentDate = dayjs(
-            (message.createdAt as Timestamp).toDate()
+            (message.createdAt as Timestamp)?.toDate()
           ).format("YYYY년 MM월 DD일");
           const previousDate =
             index > 0
               ? dayjs(
-                  (messages[index - 1].createdAt as Timestamp).toDate()
+                  (messages[index - 1].createdAt as Timestamp)?.toDate()
                 ).format("YYYY년 MM월 DD일")
               : null;
           const showDate = currentDate !== previousDate;
-          if (showDate)
+
+          if (message.uid === currentUser?.uid) {
             return (
-              <DateChangeLine key={message.id}>{currentDate}</DateChangeLine>
+              <>
+                {showDate && (
+                  <DateChangeLine key={message.id}>
+                    {currentDate}
+                  </DateChangeLine>
+                )}
+                <MyMessage key={message.id} message={message} />
+              </>
             );
-          if (message.uid === currentUser?.uid)
-            return <MyMessage key={message.id} message={message} />;
-          else {
+          } else {
             return (
-              <NotMyMessage
-                key={message.id}
-                message={message}
-                showProfileImage={showProfileImage}
-              />
+              <>
+                {showDate && (
+                  <DateChangeLine key={message.id}>
+                    {currentDate}
+                  </DateChangeLine>
+                )}
+                <NotMyMessage
+                  key={message.id}
+                  message={message}
+                  showProfileImage={showProfileImage}
+                />
+              </>
             );
           }
         })}
