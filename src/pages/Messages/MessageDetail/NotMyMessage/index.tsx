@@ -3,7 +3,13 @@ import useGetUserById from "../../../../hooks/users/useGetUserById";
 import ProfileImage from "../../../../components/common/ProfileImage";
 import formatRelativeTime from "../../../../utils/formatRelativeTime";
 
-function NotMyMessage({ message }: { message: Message }) {
+function NotMyMessage({
+  message,
+  showProfileImage,
+}: {
+  message: Message;
+  showProfileImage: boolean;
+}) {
   const formattedDate = formatRelativeTime(message?.createdAt as Timestamp);
 
   const uid = message.uid;
@@ -11,39 +17,35 @@ function NotMyMessage({ message }: { message: Message }) {
   return (
     <NotMyMessageWrapper key={message.id}>
       <ProfileImageWrapper>
-        <ProfileImage src={userData?.profileImage} />
+        {showProfileImage && <ProfileImage src={userData?.profileImage} />}
       </ProfileImageWrapper>
       <TextSection>
-        <TopWrapper>
-          <Nickname>{message.userName}</Nickname>
-          <Date>{formattedDate}</Date>
-        </TopWrapper>
-        <Content>{message.text}</Content>
+        <Content>{message.text}</Content> <Date>{formattedDate}</Date>
       </TextSection>
     </NotMyMessageWrapper>
   );
 }
-const Nickname = styled.strong`
-  white-space: nowrap;
-  font-weight: bold;
-`;
+
 const ProfileImageWrapper = styled.div`
+  height: 32px;
+  width: 36px;
   img {
-    height: 40px;
-    width: 40px;
+    height: 32px;
+    width: 32px;
   }
 `;
 const TextSection = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
 `;
-const TopWrapper = styled.span`
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-`;
+
 const Content = styled.span`
+  background-color: #d3dbcc;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 10px;
   max-width: 70vw;
+  line-height: 1.4;
 `;
 const NotMyMessageWrapper = styled.div`
   width: 100%;
@@ -54,9 +56,10 @@ const NotMyMessageWrapper = styled.div`
   margin-bottom: 6px;
 `;
 const Date = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #666;
-  margin-left: 10px;
+  margin-left: 6px;
+  margin-bottom: 4px;
 `;
 
 export default NotMyMessage;

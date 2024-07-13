@@ -11,6 +11,7 @@ import NotMyMessage from "./NotMyMessage";
 import { useForm } from "react-hook-form";
 import useGetChatUsers from "../../../hooks/message/useGetChatUsers";
 import useResetUnreadCount from "../../../hooks/message/useResetUnreadCount";
+import MessageHeader from "../../../components/mobile/headers/MessageHeader";
 
 interface MessageValue {
   message: string;
@@ -61,6 +62,7 @@ function MessageDetail() {
     if (bottomRef?.current) {
       bottomRef?.current.scrollIntoView();
     }
+    console.log("users", users);
   }, [messages]);
 
   useEffect(() => {
@@ -79,14 +81,23 @@ function MessageDetail() {
 
   return (
     <MessageDetailWrapper>
-      <DefaultHeader />
+      <MessageHeader receiverUserId={receiverUserId} />
       <div>최상단</div>
       <div>
-        {messages?.map((message) => {
+        {messages?.map((message, index) => {
+          const showProfileImage =
+            index === 0 || messages[index - 1].uid !== message.uid;
+
           if (message.uid === currentUser?.uid)
             return <MyMessage key={message.id} message={message} />;
           else {
-            return <NotMyMessage key={message.id} message={message} />;
+            return (
+              <NotMyMessage
+                key={message.id}
+                message={message}
+                showProfileImage={showProfileImage}
+              />
+            );
           }
         })}
       </div>
