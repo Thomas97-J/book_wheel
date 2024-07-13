@@ -19,6 +19,7 @@ function useInfiniteBooks(initialFilter: any, areaNo: number) {
     queryFn: handleBooksBatchBy10,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

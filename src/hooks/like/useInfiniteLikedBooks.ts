@@ -17,6 +17,7 @@ function useInfiniteLikedBooks(userId: string) {
     queryFn: handleLikedBooksBatchBy10,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

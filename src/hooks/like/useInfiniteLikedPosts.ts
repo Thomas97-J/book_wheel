@@ -17,6 +17,7 @@ function useInfiniteLikedPosts(userId: string) {
     queryFn: handleLikedPostsBatchBy10,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

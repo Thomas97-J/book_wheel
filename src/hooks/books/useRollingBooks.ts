@@ -18,6 +18,7 @@ function useRollingBooks() {
     queryFn: ({ pageParam }) => getBooksBatchBy3(pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPageToken || undefined,
     initialPageParam: null,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

@@ -18,6 +18,7 @@ function useInfiniteComments(postId: string) {
     queryFn: handleCommentsBatchBy20,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
