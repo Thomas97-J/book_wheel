@@ -22,6 +22,7 @@ function useInfinitePosts(
     queryFn: handlePostBatchBy10,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
+    refetchOnWindowFocus: true,
   });
 
   useEffect(() => {
