@@ -96,7 +96,12 @@ function MessageDetail() {
         })}
       </div>
       <div ref={bottomRef}></div>
-      <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
+      <MessageForm
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(handleSendMessage)();
+        }}
+      >
         <input {...register("message")} type="text" id="messageInput" />
         <button type="submit">전송</button>
       </MessageForm>
