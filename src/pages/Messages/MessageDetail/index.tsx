@@ -47,12 +47,7 @@ function MessageDetail() {
         uid: currentUser?.uid ?? "",
         userName: currentUser?.displayName ?? "",
       });
-      const inputElement = document.getElementById(
-        "messageInput"
-      ) as HTMLInputElement;
-      if (inputElement) {
-        inputElement.value = "";
-      }
+      setValue("message", "");
     } catch (error) {
       console.error("Error adding message:", error);
     }
@@ -96,13 +91,8 @@ function MessageDetail() {
         })}
       </div>
       <div ref={bottomRef}></div>
-      <MessageForm
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(handleSendMessage)();
-        }}
-      >
-        <input {...register("message")} type="text" id="messageInput" />
+      <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
+        <input {...register("message")} type="text" />
         <button type="submit">전송</button>
       </MessageForm>
     </MessageDetailWrapper>
