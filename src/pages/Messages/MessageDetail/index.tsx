@@ -47,8 +47,12 @@ function MessageDetail() {
         uid: currentUser?.uid ?? "",
         userName: currentUser?.displayName ?? "",
       });
-      setValue("message", "");
-      setFocus("message");
+      const inputElement = document.getElementById(
+        "messageInput"
+      ) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.value = "";
+      }
     } catch (error) {
       console.error("Error adding message:", error);
     }
@@ -93,7 +97,7 @@ function MessageDetail() {
       </div>
       <div ref={bottomRef}></div>
       <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
-        <input {...register("message")} type="text" />
+        <input {...register("message")} type="text" id="messageInput" />
         <button type="submit">전송</button>
       </MessageForm>
     </MessageDetailWrapper>
