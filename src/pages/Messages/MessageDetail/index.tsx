@@ -92,8 +92,8 @@ function MessageDetail() {
       </div>
       <div ref={bottomRef}></div>
       <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
-        <input {...register("message")} type="text" />
-        <button type="submit">전송</button>
+        <input {...register("message")} type="text" enterKeyHint="send" />
+        {/* <button type="submit">전송</button> */}
       </MessageForm>
     </MessageDetailWrapper>
   );
