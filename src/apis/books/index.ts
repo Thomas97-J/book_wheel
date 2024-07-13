@@ -115,7 +115,7 @@ export async function getBookById(bookId: string): Promise<Book> {
 export async function getBookByIndex(index: number): Promise<Book> {
   try {
     const booksRef = collection(db, "books");
-    const bookQuery = query(booksRef, where("index", "==", index), limit(0));
+    const bookQuery = query(booksRef, where("index", "==", index), limit(1));
     const querySnapshot = await getDocs(bookQuery);
 
     if (querySnapshot.empty) {

@@ -88,7 +88,7 @@ const GlobalStyle = createGlobalStyle`
       display: none; /* for Chrome, Safari, and Opera */
     }
   }
-  input {
+  input,textarea {
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -100,6 +100,9 @@ const GlobalStyle = createGlobalStyle`
   }
   button{
     background: none;  
+    &:disabled {
+    background: #bcbcbc;
+  }
   }
 
 `;
