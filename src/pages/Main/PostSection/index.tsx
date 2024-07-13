@@ -56,6 +56,7 @@ function PostSection({
               content={post.content}
               uid={post.uid}
               index={post.index}
+              viewCount={post.viewCount}
               createdAt={post.createdAt}
               postImage={post?.postImage}
             />

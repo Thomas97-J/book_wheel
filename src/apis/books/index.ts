@@ -115,7 +115,7 @@ export async function getBookById(bookId: string): Promise<Book> {
 export async function getBookByIndex(index: number): Promise<Book> {
   try {
     const booksRef = collection(db, "books");
-    const bookQuery = query(booksRef, where("index", "==", index));
+    const bookQuery = query(booksRef, where("index", "==", index), limit(0));
     const querySnapshot = await getDocs(bookQuery);
 
     if (querySnapshot.empty) {
@@ -198,7 +198,11 @@ export async function createBookWithIndex(
 
 export async function updateBookByIndex(bookData: Book): Promise<void> {
   const booksRef = collection(db, "books");
-  const booksQuery = query(booksRef, where("index", "==", bookData.index));
+  const booksQuery = query(
+    booksRef,
+    where("index", "==", bookData.index),
+    limit(1)
+  );
   const querySnapshot = await getDocs(booksQuery);
 
   if (querySnapshot.empty) {

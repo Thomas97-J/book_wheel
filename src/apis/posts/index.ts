@@ -125,7 +125,11 @@ export async function updatePostByIndex(newPostData: {
   try {
     //인덱스 찾기
     const postsRef = collection(db, "posts");
-    const postQuery = query(postsRef, where("index", "==", newPostData.index));
+    const postQuery = query(
+      postsRef,
+      where("index", "==", newPostData.index),
+      limit(1)
+    );
     const querySnapshot = await getDocs(postQuery);
 
     if (querySnapshot.empty) {
@@ -274,7 +278,7 @@ export async function getPostById(postId: string): Promise<Post> {
 export async function getPostByIndex(index: number): Promise<Post> {
   try {
     const postsRef = collection(db, "posts");
-    const postQuery = query(postsRef, where("index", "==", index));
+    const postQuery = query(postsRef, where("index", "==", index), limit(1));
     const querySnapshot = await getDocs(postQuery);
 
     if (querySnapshot.empty) {
@@ -287,7 +291,11 @@ export async function getPostByIndex(index: number): Promise<Post> {
     const post: Post = {
       id: postDoc.id,
       ...postData,
+      viewCount: postData.viewCount + 1, //현제 디테일 페이지에서 보여줄 카운트
     };
+    const postDocRef = doc(db, "posts", postDoc.id);
+    //조회수 업데이트
+    updateDoc(postDocRef, { viewCount: postData.viewCount + 1 });
 
     return post;
   } catch (error) {
@@ -325,7 +333,7 @@ export async function updateAllPostsWithAreaNo() {
       // 기존 데이터에 areaNo 추가
       const updatedData = {
         ...postData,
-        areaNo: 1, // 원하는 areaNo 값 설정
+        viewCount: 0, // 원하는 areaNo 값 설정
       };
 
       // 해당 포스트 업데이트

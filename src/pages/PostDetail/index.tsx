@@ -42,6 +42,7 @@ function PostDetail() {
       </DataStringPost>
       <Content>{postData?.content}</Content>
       <CenterWrapper>
+        <ViewCount>조회 {postData?.viewCount}</ViewCount>
         <LikeAndCount>
           <LikeBtn
             userId={currentUser?.uid ?? ""}
@@ -54,6 +55,7 @@ function PostDetail() {
     </PostDetailWrapper>
   );
 }
+
 const PostDetailWrapper = styled(PageWrapper)``;
 const Title = styled.h2`
   font-weight: bold;
@@ -63,6 +65,7 @@ const Title = styled.h2`
 const CenterWrapper = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 10px;
@@ -71,7 +74,11 @@ const Content = styled.p`
   font-size: 14px;
   color: #333;
 `;
-
+const ViewCount = styled.div`
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 4px;
+`;
 const DataStringPost = styled.div`
   margin-bottom: 8px;
 `;

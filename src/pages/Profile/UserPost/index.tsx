@@ -30,6 +30,7 @@ function UserPost() {
               title={post.title}
               content={post.content}
               uid={post.uid}
+              viewCount={post.viewCount}
               index={post.index}
               createdAt={post.createdAt}
             />

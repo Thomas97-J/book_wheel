@@ -4,7 +4,15 @@ import { PATH } from "../../../App";
 import useGetCommentCount from "../../../hooks/comments/useGetCommentCount";
 import DateString from "../../common/DateString";
 
-function PostCard({ title, content, createdAt, index, id, postImage }: Post) {
+function PostCard({
+  title,
+  content,
+  createdAt,
+  index,
+  id,
+  postImage,
+  viewCount,
+}: Post) {
   const { commentCount } = useGetCommentCount(id ?? "");
   return (
     <PostCardWrapper>
@@ -38,7 +46,10 @@ function PostCard({ title, content, createdAt, index, id, postImage }: Post) {
           </Count>
         </TitleAndInfo>
         <Content>{content}</Content>
-        <DateString date={createdAt} />
+        <DateViewWrapper>
+          <DateString date={createdAt} />
+          <ViewCount>조회 {viewCount}</ViewCount>
+        </DateViewWrapper>
       </GoToDetail>
     </PostCardWrapper>
   );
@@ -89,7 +100,14 @@ const Count = styled.span`
     width: 18px;
   }
 `;
-
+const DateViewWrapper = styled.div`
+  display: flex;
+`;
+const ViewCount = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  margin-left: 4px;
+`;
 const Content = styled.div`
   font-size: 12px;
   overflow: hidden;

@@ -135,7 +135,8 @@ export async function getPostLikeId(
   const likeQuery = query(
     collection(db, "like_posts"),
     where("userId", "==", userId),
-    where("postId", "==", postId)
+    where("postId", "==", postId),
+    limit(1)
   );
 
   const querySnapshot = await getDocs(likeQuery);
@@ -151,7 +152,8 @@ export async function getCommentLikeId(
   const likeQuery = query(
     collection(db, "like_comments"),
     where("userId", "==", userId),
-    where("commentId", "==", commentId)
+    where("commentId", "==", commentId),
+    limit(1)
   );
 
   const querySnapshot = await getDocs(likeQuery);
@@ -167,7 +169,8 @@ export async function getBookLikeId(
   const likeQuery = query(
     collection(db, "like_books"),
     where("userId", "==", userId),
-    where("bookId", "==", bookId)
+    where("bookId", "==", bookId),
+    limit(1)
   );
 
   const querySnapshot = await getDocs(likeQuery);

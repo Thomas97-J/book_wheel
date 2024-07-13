@@ -83,7 +83,7 @@ export async function getUserByNickname(nickname: string): Promise<{
   bio?: string;
 }> {
   const usersRef = collection(db, "users");
-  const q = query(usersRef, where("nickname", "==", nickname));
+  const q = query(usersRef, where("nickname", "==", nickname), limit(1));
   const querySnapshot = await getDocs(q);
   const userDoc = querySnapshot.docs[0];
   const userData = userDoc.data();

@@ -26,6 +26,7 @@ interface Post {
   updatadAt?: Timestamp;
   category?: string;
   postImage?: string;
+  viewCount: number;
   index?: number;
 }
 

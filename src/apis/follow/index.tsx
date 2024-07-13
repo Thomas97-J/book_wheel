@@ -4,6 +4,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  limit,
   query,
   where,
 } from "firebase/firestore";
@@ -52,7 +53,8 @@ export async function getFollowId(
   const q = query(
     followsRef,
     where("from_userId", "==", from_userId),
-    where("to_userId", "==", to_userId)
+    where("to_userId", "==", to_userId),
+    limit(1)
   );
 
   const querySnapshot = await getDocs(q);

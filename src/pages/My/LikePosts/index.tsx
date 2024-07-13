@@ -34,6 +34,7 @@ function LikePosts() {
               content={post.content}
               uid={post.uid}
               index={post.index}
+              viewCount={post.viewCount}
               createdAt={post.createdAt}
             />
           ))}
