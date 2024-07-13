@@ -23,7 +23,7 @@ function useInfinitePosts(
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
     refetchOnWindowFocus: true,
-    staleTime: 6000,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
