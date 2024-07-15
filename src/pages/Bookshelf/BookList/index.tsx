@@ -9,17 +9,22 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 import { useAuth } from "../../../context/AuthContext";
+import ListEmpty from "../../../components/mobile/ListEmpty";
 
 function BookList() {
   const { currentUser } = useAuth();
   const [query, setQuery] = useSearchParams();
   const nickname = query.get("user") ?? "";
   const { targetUid } = useGetUidByNickname(nickname);
-  const [initialFilter, setInitailFilter] = useState({ owner: true });
+  const [initialFilter, setInitailFilter] = useState({
+    owner: true,
+    uid: targetUid,
+  });
   const { ref, bookData, isLoading, filter, setFilter } = useInfiniteBooks(
     initialFilter,
     1
   );
+  const isEmpty = bookData?.pages[0]?.books.length === 0 && !isLoading;
 
   useEffect(() => {
     if (targetUid) {
@@ -59,18 +64,22 @@ function BookList() {
           placeholder="전체"
         />
       </StickyMenu>
-      {bookData?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.books.map((book: any) => (
-            <BookCard
-              filter={filter}
-              key={book.id}
-              book={book}
-              myBook={book.uid === currentUser?.uid}
-            />
-          ))}
-        </div>
-      ))}
+      {isEmpty ? (
+        <ListEmpty>첫 도서를 등록해주세요!</ListEmpty>
+      ) : (
+        bookData?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page?.books.map((book: any) => (
+              <BookCard
+                filter={filter}
+                key={book.id}
+                book={book}
+                myBook={book.uid === currentUser?.uid}
+              />
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref}></div>
     </PostSectionWrapper>
   );

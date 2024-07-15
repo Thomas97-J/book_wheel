@@ -5,17 +5,23 @@ import styled from "styled-components";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import PostCard from "../../../components/mobile/PostCard";
 import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
+import ListEmpty from "../../../components/mobile/ListEmpty";
+import LikePostHeader from "../../../components/mobile/headers/LikePostHeader";
 
 function LikePosts() {
   const { currentUser } = useAuth();
   const {
     ref,
     likedPostsDatas,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     status,
   } = useInfiniteLikedPosts(currentUser?.uid ?? "");
+  const isEmpty =
+    !likedPostsDatas ||
+    (likedPostsDatas?.pages[0]?.likedPostsData.length === 0 && !isLoading);
 
   useEffect(() => {
     console.log("likedPostsDatas", likedPostsDatas);
@@ -23,23 +29,27 @@ function LikePosts() {
 
   return (
     <LikePostsWrapper>
-      <DefaultHeader />
-      {likedPostsDatas?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.likedPostsData.map((post: any) => (
-            <PostCard
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              content={post.content}
-              uid={post.uid}
-              index={post.index}
-              viewCount={post.viewCount}
-              createdAt={post.createdAt}
-            />
-          ))}
-        </div>
-      ))}
+      <LikePostHeader />
+      {isEmpty ? (
+        <ListEmpty>게시글에 좋아요를 눌러주세요!</ListEmpty>
+      ) : (
+        likedPostsDatas?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page?.likedPostsData.map((post: any) => (
+              <PostCard
+                key={post.id}
+                id={post.id}
+                title={post.title}
+                content={post.content}
+                uid={post.uid}
+                index={post.index}
+                viewCount={post.viewCount}
+                createdAt={post.createdAt}
+              />
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref}></div>
     </LikePostsWrapper>
   );

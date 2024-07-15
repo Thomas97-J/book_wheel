@@ -4,6 +4,8 @@ import { useSearchParams } from "react-router-dom";
 import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import PostCard from "../../../components/mobile/PostCard";
 import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
+import ListEmpty from "../../../components/mobile/ListEmpty";
+import MemoizedUserPostHeader from "../../../components/mobile/headers/UserPostHeader";
 
 function UserPost() {
   const [query, setQuery] = useSearchParams();
@@ -11,6 +13,7 @@ function UserPost() {
   const {
     ref,
     postDatas,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -18,25 +21,33 @@ function UserPost() {
     category,
     setCategory,
   } = useInfinitePosts("all", 1, nickname);
+
+  const isEmpty =
+    !postDatas || (postDatas?.pages[0]?.posts.length === 0 && !isLoading);
+
   return (
     <UserPostWrapper>
-      <DefaultHeader />
-      {postDatas?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.posts.map((post: any) => (
-            <PostCard
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              content={post.content}
-              uid={post.uid}
-              viewCount={post.viewCount}
-              index={post.index}
-              createdAt={post.createdAt}
-            />
-          ))}
-        </div>
-      ))}
+      <MemoizedUserPostHeader />
+      {isEmpty ? (
+        <ListEmpty>첫 게시글을 작성해주세요!</ListEmpty>
+      ) : (
+        postDatas?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page?.posts.map((post: any) => (
+              <PostCard
+                key={post.id}
+                id={post.id}
+                title={post.title}
+                content={post.content}
+                uid={post.uid}
+                viewCount={post.viewCount}
+                index={post.index}
+                createdAt={post.createdAt}
+              />
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref}></div>
     </UserPostWrapper>
   );

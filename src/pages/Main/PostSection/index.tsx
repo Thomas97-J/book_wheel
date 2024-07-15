@@ -4,6 +4,7 @@ import useInfinitePosts from "../../../hooks/posts/useInfinitePosts";
 import _ from "lodash";
 import DropDownSelect from "../../../components/common/DropDownSelect";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
+import ListEmpty from "../../../components/mobile/ListEmpty";
 
 function PostSection({
   topRef,
@@ -23,6 +24,7 @@ function PostSection({
     category,
     setCategory,
   } = useInfinitePosts("all", 1);
+  const isEmpty = postDatas?.pages[0]?.posts.length === 0 && !isLoading;
 
   const options = [
     { label: "도서", value: "book" },
@@ -46,23 +48,27 @@ function PostSection({
           placeholder="전체"
         />
       </StickyMenu>
-      {postDatas?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.posts.map((post: any) => (
-            <PostCard
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              content={post.content}
-              uid={post.uid}
-              index={post.index}
-              viewCount={post.viewCount}
-              createdAt={post.createdAt}
-              postImage={post?.postImage}
-            />
-          ))}
-        </div>
-      ))}
+      {isEmpty ? (
+        <ListEmpty>첫 게시글을 작성해주세요!</ListEmpty>
+      ) : (
+        postDatas?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page?.posts.map((post: any) => (
+              <PostCard
+                key={post.id}
+                id={post.id}
+                title={post.title}
+                content={post.content}
+                uid={post.uid}
+                index={post.index}
+                viewCount={post.viewCount}
+                createdAt={post.createdAt}
+                postImage={post?.postImage}
+              />
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref}></div>
     </PostSectionWrapper>
   );

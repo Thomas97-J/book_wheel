@@ -5,13 +5,17 @@ import PageWrapper from "../../../assets/styles/PageWrapper";
 import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
 import BookCard from "../../../components/mobile/BookCard";
 import useInfiniteLikedBooks from "../../../hooks/like/useInfiniteLikedBooks";
+import ListEmpty from "../../../components/mobile/ListEmpty";
+import LikeBookHeader from "../../../components/mobile/headers/LikeBookHeader";
 
 function LikeBooks() {
   const { currentUser } = useAuth();
-  const {
-    ref,
-    likedBooksDatas, // likedBooksDatas로 수정
-  } = useInfiniteLikedBooks(currentUser?.uid ?? ""); // useInfiniteLikedBooks 훅으로 수정
+  const { ref, likedBooksDatas, isLoading } = useInfiniteLikedBooks(
+    currentUser?.uid ?? ""
+  );
+  const isEmpty =
+    !likedBooksDatas ||
+    (likedBooksDatas?.pages[0]?.likedBooksData.length === 0 && !isLoading);
 
   useEffect(() => {
     console.log("likedBooksDatas", likedBooksDatas);
@@ -19,18 +23,18 @@ function LikeBooks() {
 
   return (
     <LikeBooksWrapper>
-      <DefaultHeader />
-      {likedBooksDatas?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page?.likedBooksData.map(
-            (
-              book: any // likedBooksData로 수정
-            ) => (
+      <LikeBookHeader />
+      {isEmpty ? (
+        <ListEmpty>관심 가는 책을 골라주세요!</ListEmpty>
+      ) : (
+        likedBooksDatas?.pages.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page?.likedBooksData.map((book: any) => (
               <BookCard key={book.id} book={book} />
-            )
-          )}
-        </div>
-      ))}
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref}></div>
     </LikeBooksWrapper>
   );

@@ -141,7 +141,9 @@ const GoToSignup = styled(Link)`
 const SigninBtn = styled.button`
   background: ${({ theme }) => theme.color.default_green};
   color: #fff;
-  height: 40px;
+  border: none;
+  border-radius: 4px;
+  height: 32px;
   font-size: 16px;
 `;
 
@@ -150,6 +152,7 @@ const GoogleSigninBtn = styled.button`
   align-items: center;
   justify-content: center;
   border: 1px solid ${({ theme }) => theme.color.default_green};
+  border-radius: 4px;
   color: ${({ theme }) => theme.color.default_green};
   height: 40px;
   white-space: nowrap;
@@ -163,7 +166,7 @@ const GoogleSigninBtn = styled.button`
 const SignupBtnWrapper = styled.span`
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 12px;
 `;
 const Warn = styled.p`
   width: 300px;

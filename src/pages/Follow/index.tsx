@@ -7,6 +7,7 @@ import { useGetUserFollowers } from "../../hooks/follow/useGetUserFollowers";
 import { useGetUserFollowing } from "../../hooks/follow/useGetUserFollowing";
 import UserCard from "../../components/mobile/UserCard";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
+import ListEmpty from "../../components/mobile/ListEmpty";
 
 function Follow() {
   const [query, setQuery] = useSearchParams();
@@ -72,7 +73,7 @@ function Follow() {
                   <UserCard key={user.id} userInfo={user} />
                 ))
               ) : (
-                <div>팔로우 하는 유저가 없습니다.</div>
+                <ListEmpty>팔로우하는 유저가 없습니다.</ListEmpty>
               )}
             </TabContent>
           ) : (
@@ -88,7 +89,7 @@ function Follow() {
                   return <UserCard key={user.id} userInfo={user} />;
                 })
               ) : (
-                <div>팔로잉하는 유저가 없습니다.</div>
+                <ListEmpty>팔로잉하는 유저가 없습니다.</ListEmpty>
               )}
             </TabContent>
           )}

@@ -40,6 +40,7 @@ function useInfiniteLikedBooks(userId: string) {
   return {
     ref,
     likedBooksDatas,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,

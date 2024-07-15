@@ -111,14 +111,26 @@ function Signup() {
               message: "8자 미만의 닉네임을 사용해 주세요.",
             },
             pattern: {
-              value: /^[가-힣A-Za-z\d]{1,8}$/,
+              value: /^[ㄱ-ㅎ가-힣A-Za-z0-9\d]/,
               message: "닉네임은 특수문자를 포함할 수 없습니다.",
             },
           })}
           placeholder="닉네임을 입력해주세요"
           type="nickname"
           onBlur={async () => {
-            if (await checkNicknameExists(nickname)) {
+            if (!/^[ㄱ-ㅎ가-힣A-Za-z0-9\d]/.test(nickname)) {
+              setError(
+                "nickname",
+                { message: "닉네임은 특수문자를 포함할 수 없습니다." },
+                { shouldFocus: true }
+              );
+            } else if (nickname.length >= 9) {
+              setError(
+                "nickname",
+                { message: "8자 이하의 닉네임을 사용해 주세요." },
+                { shouldFocus: true }
+              );
+            } else if (await checkNicknameExists(nickname)) {
               setError(
                 "nickname",
                 { message: "이미 사용 중인 닉네임입니다." },
@@ -179,6 +191,8 @@ const SignUpBtn = styled.button`
   color: #fff;
   height: 40px;
   border: none;
+  border-radius: 4px;
+
   font-size: 16px;
 
   &:disabled {

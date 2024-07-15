@@ -40,6 +40,7 @@ function useInfiniteLikedPosts(userId: string) {
   return {
     ref,
     likedPostsDatas,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
