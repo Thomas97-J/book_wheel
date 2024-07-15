@@ -56,10 +56,10 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
           <Biography>{userData?.bio}</Biography>
           <FollowTextWrapper>
             <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
-              팔로잉 {followData?.followingCount}명
+              팔로잉 <UnderLine>{followData?.followingCount}</UnderLine>명
             </UserInfoLink>
             <UserInfoLink to={`${PATH.follow}?type=followers&user=${nickname}`}>
-              팔로워 {followData?.followersCount}명
+              팔로워 <UnderLine>{followData?.followersCount}</UnderLine>명
             </UserInfoLink>
           </FollowTextWrapper>
         </InfoSection>
@@ -98,6 +98,10 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   );
 }
 
+const UnderLine = styled.span`
+  text-decoration: underline;
+  margin-left: 4px;
+`;
 const FollowTextWrapper = styled.div`
   display: flex;
 `;

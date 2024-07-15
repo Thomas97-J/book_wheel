@@ -133,6 +133,8 @@ const FixUserForm = styled.form`
     color: white;
     font-size: 16px;
     border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
   }
 `;
 const UserInfoEditWrapper = styled(PageWrapper)``;

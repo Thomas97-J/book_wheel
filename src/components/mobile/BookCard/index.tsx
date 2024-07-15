@@ -25,7 +25,8 @@ function BookCard({
         <CardContent>
           <Title>{book.title}</Title>
           <Author>
-            {book.author} / {book.publisher}
+            {book.author}
+            {book.publisher ? ` / ${book.publisher}` : ""}
           </Author>
           {/* <Genres>{book.genres.join(", ")}</Genres> */}
           <Content>{book.content}</Content>
@@ -77,6 +78,8 @@ const PublicBtnWrapper = styled.div`
   strong {
     white-space: nowrap;
     margin-bottom: 4px;
+    font-size: 14px;
+    color: #666;
   }
 `;
 const CardContent = styled.div`
@@ -111,8 +114,9 @@ const Content = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; // 원하는 라인수
+  -webkit-line-clamp: 3; // 원하는 라인수
   -webkit-box-orient: vertical;
+  line-height: 1.2;
 `;
 
 export default BookCard;

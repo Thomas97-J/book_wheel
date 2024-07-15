@@ -7,6 +7,8 @@ function MessageMainHeader() {
 
   return <MessageMainHeaderWrapper>메시지</MessageMainHeaderWrapper>;
 }
-const MessageMainHeaderWrapper = styled(Header)``;
+const MessageMainHeaderWrapper = styled(Header)`
+  padding: 0 10px;
+`;
 
 export default MessageMainHeader;

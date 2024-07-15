@@ -25,7 +25,10 @@ function BookDetail() {
         <BookImage src={bookData?.photoUrl} alt="도서 이미지" />
       )}
       <Title>{bookData?.title}</Title>
-      <Author>{bookData?.author}</Author>
+      <Author>
+        {bookData?.author}
+        {bookData?.publisher ? ` / ${bookData?.publisher}` : ""}
+      </Author>
       <Content>{bookData?.content}</Content>
       <LikeBtnBook
         bookId={bookData?.id ?? ""}
@@ -45,16 +48,18 @@ const BookImage = styled.img`
 const Title = styled.h2`
   font-weight: bold;
   font-size: 20px;
-  margin: 0 0 8px 0;
+  margin-bottom: 8px;
 `;
 const Author = styled.p`
   font-size: 16px;
   color: #555;
-  margin: 0 0 8px 0;
+  margin-bottom: 8px;
 `;
 const Content = styled.p`
   font-size: 14px;
   color: #333;
+  line-height: 1.3;
+  margin-bottom: 8px;
 `;
 
 export default BookDetail;
