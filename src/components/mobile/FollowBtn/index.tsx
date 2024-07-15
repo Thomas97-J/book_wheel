@@ -14,7 +14,9 @@ function FollowBtn({
   const { followingId } = useGetFollowId(currentUid, targetUid);
   const followMutation = useCreateFollow(currentUid, targetUid);
   const unFollowMutation = useDeleteFollow(currentUid, targetUid);
-
+  if (currentUid === targetUid) {
+    return "";
+  }
   return (
     <FollowBtnWrapper
       onClick={async () => {
@@ -30,7 +32,7 @@ function FollowBtn({
       }}
       $isFollow={!!followingId}
     >
-      {followingId ? "unfollow" : "follow"}
+      {followingId ? "팔로잉" : "팔로우"}
     </FollowBtnWrapper>
   );
 }
@@ -39,11 +41,15 @@ const FollowBtnWrapper = styled.button<{ $isFollow: boolean }>`
   align-items: center;
   justify-content: center;
   padding: 4px;
-  width: 70px;
+  margin-left: 8px;
+  width: 60px;
   height: 30px;
   border: solid 1px;
   border-radius: 6px;
-  ${(props) => (props.$isFollow ? "color: #ccc;   border-color: #ccc;" : "")}
+  color: ${({ $isFollow, theme }) => ($isFollow ? "#ccc" : "#fff")};
+  background-color: ${({ $isFollow, theme }) =>
+    $isFollow ? theme.color.default_gray_green : theme.color.default_green};
+  border-color: ${({ $isFollow }) => ($isFollow ? "#ccc" : "initial")};
 `;
 
 export default FollowBtn;

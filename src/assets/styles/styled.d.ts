@@ -7,6 +7,8 @@ declare module "styled-components" {
       sub: string;
       white: string;
       font_gray: string;
+      default_green: string;
+      default_gray_green: string;
     };
   }
 }

@@ -7,5 +7,6 @@ export const theme: DefaultTheme = {
     white: "#ffffff",
     font_gray: "#bcbcbc",
     default_green: "rgb(74 131 50)",
+    default_gray_green: "#f0f3ee",
   },
 };

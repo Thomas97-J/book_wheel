@@ -10,6 +10,7 @@ import { useAuth } from "../../../context/AuthContext";
 import StartMessageBtn from "../StartMessageBtn";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import FollowBtn from "../FollowBtn";
 
 function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
   const { userData, isLoading, error } = useGetUserById(uid);
@@ -52,8 +53,15 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
       <TopSection>
         <ProfileImage src={userData?.profileImage} />
         <InfoSection>
-          <NickName>{userData?.nickname}</NickName>
-          <Biography>{userData?.bio}</Biography>
+          <NickName>
+            {userData?.nickname}{" "}
+            <FollowBtn
+              currentUid={currentUser?.uid ?? ""}
+              targetUid={uid ?? ""}
+            />
+            <StartMessageBtn targetUserId={uid} />
+          </NickName>
+          {userData?.bio && <Biography>{userData?.bio}</Biography>}
           <FollowTextWrapper>
             <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
               팔로잉 <UnderLine>{followData?.followingCount}</UnderLine>명
@@ -92,7 +100,6 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
           </svg>
           작성글 {postDatas?.length}개
         </UserInfoLink>
-        {!isCurrentUser && <StartMessageBtn targetUserId={uid} />}
       </BottomSection>
     </UserInfo>
   );
@@ -136,6 +143,8 @@ const UserInfoLink = styled(Link)`
 `;
 
 const NickName = styled.strong`
+  display: flex;
+  align-items: center;
   margin-right: 10px;
   font-size: 18px;
   font-weight: bold;

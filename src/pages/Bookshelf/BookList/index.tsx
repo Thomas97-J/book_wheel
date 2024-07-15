@@ -8,8 +8,10 @@ import useGetUidByNickname from "../../../hooks/users/useGetUidByNickname";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
+import { useAuth } from "../../../context/AuthContext";
 
 function BookList() {
+  const { currentUser } = useAuth();
   const [query, setQuery] = useSearchParams();
   const nickname = query.get("user") ?? "";
   const { targetUid } = useGetUidByNickname(nickname);
@@ -60,7 +62,12 @@ function BookList() {
       {bookData?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
           {page?.books.map((book: any) => (
-            <BookCard filter={filter} key={book.id} book={book} myBook={true} />
+            <BookCard
+              filter={filter}
+              key={book.id}
+              book={book}
+              myBook={book.uid === currentUser?.uid}
+            />
           ))}
         </div>
       ))}

@@ -3,12 +3,12 @@ import BookList from "./BookList";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import { Link } from "react-router-dom";
 import { PATH } from "../../App";
-import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
+import MemoizedBookMainHeader from "../../components/mobile/headers/BookMainHeader";
 
 function Bookshelf() {
   return (
     <BookshelfWrapper>
-      <DefaultHeader />
+      <MemoizedBookMainHeader />
       <BookList />
       <NewBookButton to={PATH.bookEdit}>책 추가</NewBookButton>
     </BookshelfWrapper>

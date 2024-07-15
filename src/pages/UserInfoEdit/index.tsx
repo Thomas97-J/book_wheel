@@ -99,7 +99,17 @@ function UserInfoEdit() {
         <input
           type="text"
           placeholder="사용자명을 입력하세요."
-          {...register("nickname", { required: true })}
+          {...register("nickname", {
+            required: true,
+            maxLength: {
+              value: 8,
+              message: "8자 미만의 닉네임을 사용해 주세요.",
+            },
+            pattern: {
+              value: /^[가-힣A-Za-z\d]{1,8}$/,
+              message: "닉네임은 특수문자를 포함할 수 없습니다.",
+            },
+          })}
         />
         <input
           type="text"

@@ -104,7 +104,17 @@ function Signup() {
         <Warn>{errors?.password_conform?.message}</Warn>
         <label>닉네임</label>
         <input
-          {...register("nickname", { required: true })}
+          {...register("nickname", {
+            required: true,
+            maxLength: {
+              value: 8,
+              message: "8자 미만의 닉네임을 사용해 주세요.",
+            },
+            pattern: {
+              value: /^[가-힣A-Za-z\d]{1,8}$/,
+              message: "닉네임은 특수문자를 포함할 수 없습니다.",
+            },
+          })}
           placeholder="닉네임을 입력해주세요"
           type="nickname"
           onBlur={async () => {

@@ -17,12 +17,6 @@ function Profile() {
     <ProfileWrapper>
       <DefaultHeader />
       <ProfileAndInfo uid={targetUid || ""} nickname={nickname} />
-      <FollowBtnWrapper>
-        <FollowBtn
-          currentUid={currentUser?.uid ?? ""}
-          targetUid={targetUid ?? ""}
-        />
-      </FollowBtnWrapper>
     </ProfileWrapper>
   );
 }
