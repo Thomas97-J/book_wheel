@@ -39,9 +39,11 @@ function DropDownSelect({
   }, []);
 
   const handleSelect = (option: Option) => {
-    setSelected(option);
-    onSelect(option);
+    if (option.value !== false) {
+      setSelected(option);
+    }
     setIsOpen(false);
+    onSelect(option);
   };
 
   return (
