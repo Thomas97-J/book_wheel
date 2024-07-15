@@ -48,6 +48,7 @@ interface Book {
   publisher: string;
   genres?: string[];
   content: string;
+  isPublic?: boolean;
   photoUrl?: string;
   createdAt: Timestamp;
   updatadAt?: Timestamp;

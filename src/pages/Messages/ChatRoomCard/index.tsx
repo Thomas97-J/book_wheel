@@ -59,6 +59,7 @@ const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  width: 100%;
 `;
 const Info = styled.span`
   position: relative;

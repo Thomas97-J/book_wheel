@@ -31,6 +31,7 @@ export async function getBooksBatchBy10({
     author?: string;
     genres?: string[];
     keyword?: string;
+    owner?: boolean;
   };
 }) {
   try {
@@ -39,9 +40,13 @@ export async function getBooksBatchBy10({
       booksRef,
       orderBy("createdAt", "desc"),
       where("areaNo", "==", areaNo),
-      // where("isPublic", "==", true),
       limit(10)
     );
+    console.log("filter", filter);
+
+    if (!filter.owner) {
+      q = query(q, where("isPublic", "==", true));
+    }
     if (filter.uid) {
       q = query(q, where("uid", "==", filter.uid));
     }
@@ -180,6 +185,7 @@ export async function createBookWithIndex(
         publisher: newBookData.publisher,
         photoUrl: newBookData.photoUrl,
         areaNo: newBookData.areaNo,
+        isPublic: true,
         createdAt: new Date(),
         index: newIndex,
       };
@@ -278,7 +284,12 @@ export async function getBooksBatchBy3(
 ): Promise<GetBooksResponse> {
   try {
     const booksRef = collection(db, "books");
-    let q = query(booksRef, orderBy("author"), limit(3));
+    let q = query(
+      booksRef,
+      orderBy("author"),
+      where("isPublic", "==", true),
+      limit(3)
+    );
 
     if (pageToken) {
       q = query(q, startAfter(pageToken));
@@ -302,5 +313,56 @@ export async function getBooksBatchBy3(
   } catch (err) {
     console.error(err);
     return { books: [], nextPageToken: null };
+  }
+}
+
+interface UpdatePublisherParams {
+  bookId: string;
+  newIsPublic: boolean;
+}
+
+export async function updatePublic({
+  bookId,
+  newIsPublic,
+}: UpdatePublisherParams) {
+  const bookDoc = doc(db, "books", bookId);
+  await updateDoc(bookDoc, {
+    isPublic: newIsPublic,
+  });
+}
+
+//
+//
+//
+// updateAllBook();
+export async function updateAllBook() {
+  try {
+    // 모든 도서 가져오기
+    const booksRef = collection(db, "books");
+    const querySnapshot = await getDocs(booksRef);
+
+    // 가져온 각 도서에에 대해 업데이트 수행
+    const batchUpdates = querySnapshot.docs.map(async (docOld) => {
+      const postId = docOld.id;
+      const postData = docOld.data();
+
+      // 기존 데이터에 공개 추가
+      const updatedData = {
+        ...postData,
+        isPublic: true,
+      };
+
+      // 해당 도서 업데이트
+      const postRef = doc(db, "books", postId);
+      await updateDoc(postRef, updatedData);
+    });
+
+    // 모든 업데이트가 완료될 때까지 기다림
+    await Promise.all(batchUpdates);
+
+    console.log("All posts updated with areaNo successfully!");
+  } catch (error) {
+    console.error("Error updating posts with areaNo:", error);
+    throw error;
   }
 }

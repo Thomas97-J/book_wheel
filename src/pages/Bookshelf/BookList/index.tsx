@@ -13,7 +13,7 @@ function BookList() {
   const [query, setQuery] = useSearchParams();
   const nickname = query.get("user") ?? "";
   const { targetUid } = useGetUidByNickname(nickname);
-  const [initialFilter, setInitailFilter] = useState({});
+  const [initialFilter, setInitailFilter] = useState({ owner: true });
   const { ref, bookData, isLoading, filter, setFilter } = useInfiniteBooks(
     initialFilter,
     1
@@ -21,7 +21,7 @@ function BookList() {
 
   useEffect(() => {
     if (targetUid) {
-      setFilter({ uid: targetUid });
+      setFilter({ ...initialFilter, uid: targetUid });
     }
     console.log(targetUid);
   }, [targetUid]);
@@ -40,9 +40,7 @@ function BookList() {
 
   const handleSelect = (option: any) => {
     console.log("Selected option:", option);
-    setFilter(() => {
-      return { ...filter, category: option.value };
-    });
+    setFilter({ ...filter, category: option.value });
   };
 
   // if (isLoading) {
@@ -62,7 +60,7 @@ function BookList() {
       {bookData?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
           {page?.books.map((book: any) => (
-            <BookCard key={book.id} book={book} />
+            <BookCard filter={filter} key={book.id} book={book} myBook={true} />
           ))}
         </div>
       ))}
