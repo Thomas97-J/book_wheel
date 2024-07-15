@@ -3,10 +3,41 @@ import { PATH } from "../../../App";
 import { Link } from "react-router-dom";
 import LikeBtnBook from "../../../components/mobile/LikeBtnBook";
 import { useAuth } from "../../../context/AuthContext";
-
+import { motion, useMotionValue, useTransform } from "framer-motion";
 function BookShorts({ book }: { book: Book }) {
   const { currentUser } = useAuth();
+  // const x = useMotionValue(0);
+  // const background = useTransform(
+  //   x,
+  //   [-100, 0, 100],
+  //   ["#ff008c", "#fff", "rgb(230, 255, 0)"]
+  // );
 
+  // return (
+  //   <motion.div style={{ background }}>
+  //     <motion.div
+  //       drag="x"
+  //       dragConstraints={{ left: 0, right: 200 }}
+  //       style={{ x }}
+  //     >
+  //       {/* <Icon x={x} /> */}
+  //       <BookShortsWapper>
+  //         <GoToBookDetail to={`${PATH.bookDetail}?no=${book.index}`}>
+  //           {book.photoUrl && (
+  //             <ThumbnailImage src={book.photoUrl} alt={book.title} />
+  //           )}
+  //           <CardContent>
+  //             <Title>{book.title}</Title>
+  //             <Author>{book.author}</Author>
+  //             {/* <Genres>{book.genres.join(", ")}</Genres> */}
+  //             <Content>{book.content}</Content>
+  //           </CardContent>
+  //         </GoToBookDetail>
+  //         <LikeBtnBook userId={currentUser?.uid ?? ""} bookId={book.id ?? ""} />
+  //       </BookShortsWapper>
+  //     </motion.div>
+  //   </motion.div>
+  // );
   return (
     <BookShortsWapper>
       <GoToBookDetail to={`${PATH.bookDetail}?no=${book.index}`}>
@@ -40,6 +71,7 @@ const ThumbnailImage = styled.img`
   width: 100%;
   max-height: 60vh;
   object-fit: cover;
+  margin-bottom: 20px;
 `;
 
 const CardContent = styled.div`

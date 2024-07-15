@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import imgPaths from "../../../assets/images/image_path";
 
 function DefaultPopup({
   setIsPopupOn,
@@ -29,6 +30,7 @@ function DefaultPopup({
         >
           X
         </CloseButton>
+        <img src={imgPaths.hamsterWithBook} />
         <Content>
           <h2>{title}</h2>
           <p>{content}</p>
@@ -59,6 +61,13 @@ const PopupContainer = styled.div`
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    width: 200px;
+    height: 200px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -74,7 +83,7 @@ const CloseButton = styled.button`
 const Content = styled.div`
   h2 {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   p {
     line-height: 1.2;

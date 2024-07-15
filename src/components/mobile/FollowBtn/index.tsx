@@ -46,7 +46,7 @@ const FollowBtnWrapper = styled.button<{ $isFollow: boolean }>`
   height: 30px;
   border: solid 1px;
   border-radius: 6px;
-  color: ${({ $isFollow, theme }) => ($isFollow ? "#ccc" : "#fff")};
+  color: ${({ $isFollow }) => ($isFollow ? "#ccc" : "#fff")};
   background-color: ${({ $isFollow, theme }) =>
     $isFollow ? theme.color.default_gray_green : theme.color.default_green};
   border-color: ${({ $isFollow }) => ($isFollow ? "#ccc" : "initial")};

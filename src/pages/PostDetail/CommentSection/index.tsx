@@ -82,7 +82,7 @@ function CommentSection({ postId }: { postId: string }) {
     <CommentSectionWrapper>
       {isLoading && <LoadingSpinner />}
       {isEmptyComment ? (
-        <>아직 댓글이 없습니다.</>
+        <EmptyComment>첫 댓글을 달아주세요.</EmptyComment>
       ) : (
         commentData?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
@@ -116,6 +116,9 @@ function CommentSection({ postId }: { postId: string }) {
     </CommentSectionWrapper>
   );
 }
+const EmptyComment = styled.div`
+  padding-top: 10px;
+`;
 const CommentSectionWrapper = styled.div`
   padding-bottom: 50px;
   border-top: 1px solid #ccc;
