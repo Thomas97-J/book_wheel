@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   deleteDoc,
+  deleteField,
   doc,
   getDoc,
   getDocs,
@@ -112,6 +113,25 @@ export async function createPostWithIndex(newPostData: {
 //     updatedAt: new Date(),
 //   });
 // }
+
+export async function deleteImageInPost({ index }: { index: number }) {
+  try {
+    const postsRef = collection(db, "posts");
+
+    const postQuery = query(postsRef, where("index", "==", index), limit(1));
+    const querySnapshot = await getDocs(postQuery);
+    const existingPostImage = querySnapshot.docs[0].data().postImage;
+    const postDoc = querySnapshot.docs[0].ref;
+
+    if (existingPostImage) {
+      await deleteFile(existingPostImage);
+    }
+    await updateDoc(postDoc, { postImage: deleteField() });
+  } catch (error) {
+    console.error("Error delete post image by index: ", error);
+    throw error;
+  }
+}
 
 interface UpdatePostValue {
   uid: string;

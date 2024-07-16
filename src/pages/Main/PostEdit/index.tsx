@@ -14,6 +14,7 @@ import { useUploadImgFile } from "../../../hooks/firestore/useUploadImgFile";
 import useImageUpload from "../../../hooks/common/useImageUpload";
 import { v4 as uuidv4 } from "uuid";
 import Warn from "../../../components/common/Warn";
+import useDeleteImageInPost from "../../../hooks/posts/useDeleteImageInPost";
 
 interface PostValue {
   uid: string;
@@ -55,6 +56,7 @@ function NewPost() {
   const { postData, isLoading, error } = useGetPostByIndex(postIndex);
   const createMutation = useCreatePostWithIndex();
   const updateMutation = useUpdatePostByIndex();
+  const imageDeleteMutation = useDeleteImageInPost();
   const { imagePreview, setImagePreview, imgRef, saveImgFile } =
     useImageUpload(setValue);
   const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
@@ -108,6 +110,10 @@ function NewPost() {
 
       const isFixPost = !!postIndex;
       if (isFixPost) {
+        if (postData?.postImage === "removed") {
+          console.log("removed");
+          await imageDeleteMutation.mutateAsync({ index: postIndex });
+        }
         updatedPostData.index = postIndex;
         await updateMutation.mutateAsync(updatedPostData as PostUpdateValue);
         navigate(`${PATH.postDetail}?no=${postIndex}`);
@@ -145,7 +151,29 @@ function NewPost() {
             />
           </CategoryAndImage>
 
-          {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
+          {imagePreview && (
+            <ImagePreview>
+              <img src={imagePreview} alt="Preview" />
+              <button
+                type="button"
+                onClick={() => {
+                  setValue("postImage", "removed");
+                  setValue("photoFile", undefined);
+                  setImagePreview(null);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="rgba(0, 0, 0, 0.7)"
+                >
+                  <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm4.207 12.793-1.414 1.414L12 13.414l-2.793 2.793-1.414-1.414L10.586 12 7.793 9.207l1.414-1.414L12 10.586l2.793-2.793 1.414 1.414L13.414 12l2.793 2.793z"></path>
+                </svg>
+              </button>
+            </ImagePreview>
+          )}
           <Title
             {...register("title", {
               required: "제목을 입력해 주세요.",
@@ -182,10 +210,21 @@ const Title = styled.input`
   margin-bottom: 10px;
 `;
 
-const ImagePreview = styled.img`
+const ImagePreview = styled.div`
+  position: relative;
   width: 100%;
-  object-fit: contain;
-  margin-bottom: 10px;
+  img {
+    width: 100%;
+
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+  button {
+    border: none;
+    position: absolute;
+    top: 10px;
+    right: 4px;
+  }
 `;
 
 const PostForm = styled.form`
