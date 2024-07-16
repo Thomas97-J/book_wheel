@@ -14,16 +14,20 @@ function Messages() {
   return (
     <MessagesWrapper>
       <MessageMainHeader />
-      {isEmpty ? (
-        <ListEmpty>첫 대화를 시작해주세요!</ListEmpty>
-      ) : (
-        chatRooms?.map((room) => <ChatRoomCard key={room.id} room={room} />)
-      )}
+      <MessageBody>
+        {isEmpty ? (
+          <ListEmpty>첫 대화를 시작해주세요!</ListEmpty>
+        ) : (
+          chatRooms?.map((room) => <ChatRoomCard key={room.id} room={room} />)
+        )}
+      </MessageBody>
     </MessagesWrapper>
   );
 }
 const MessagesWrapper = styled(PageWrapper)`
   /* Add your styles here */
 `;
-
+const MessageBody = styled.div`
+  padding: 0 10px;
+`;
 export default Messages;

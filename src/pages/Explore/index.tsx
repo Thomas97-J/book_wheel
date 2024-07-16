@@ -69,9 +69,9 @@ const TabBar = styled.div`
   justify-content: center;
   margin-bottom: 20px;
   width: 100%;
+  max-width: 600px;
   height: 43px;
   position: fixed;
-  left: 0;
   top: 50px;
   background: #fff;
   z-index: 100;

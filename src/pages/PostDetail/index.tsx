@@ -32,36 +32,46 @@ function PostDetail() {
   return (
     <PostDetailWrapper>
       <PostHeader user={currentUser} postData={postData} />
-      <ProfileSimple uid={postData?.uid || ""} />
-      {postData?.postImage && (
-        <img src={postData?.postImage} alt="게시글 이미지" />
-      )}
-      <Title>{postData?.title}</Title>
-      <DataStringPost>
-        <DateString date={postData?.createdAt} />
-      </DataStringPost>
-      <Content>{postData?.content}</Content>
-      <CenterWrapper>
-        <ViewCount>조회 {postData?.viewCount}</ViewCount>
-        <LikeAndCount>
-          <LikeBtn
-            userId={currentUser?.uid ?? ""}
-            postId={postData?.id ?? ""}
-          />
-          {receivedLikesCount}
-        </LikeAndCount>
-      </CenterWrapper>
+      <PostDetailBody>
+        <ProfileSimple uid={postData?.uid || ""} />
+        {postData?.postImage && (
+          <PostImg src={postData?.postImage} alt="게시글 이미지" />
+        )}
+        <Title>{postData?.title}</Title>
+        <DataStringPost>
+          <DateString date={postData?.createdAt} />
+        </DataStringPost>
+        <Content>{postData?.content}</Content>
+        <CenterWrapper>
+          <ViewCount>조회 {postData?.viewCount}</ViewCount>
+          <LikeAndCount>
+            <LikeBtn
+              userId={currentUser?.uid ?? ""}
+              postId={postData?.id ?? ""}
+            />
+            {receivedLikesCount}
+          </LikeAndCount>
+        </CenterWrapper>
+      </PostDetailBody>
       {postData?.id && <CommentSection postId={postData.id} />}
     </PostDetailWrapper>
   );
 }
 
 const PostDetailWrapper = styled(PageWrapper)``;
+const PostDetailBody = styled.div`
+  padding: 0 10px;
+`;
 const Title = styled.h2`
   font-weight: bold;
   margin-bottom: 8px;
 `;
 
+const PostImg = styled.img`
+  width: 100%;
+  object-fit: contain;
+  margin-bottom: 10px;
+`;
 const CenterWrapper = styled.div`
   width: 100%;
   display: flex;

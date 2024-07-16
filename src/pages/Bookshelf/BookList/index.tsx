@@ -67,6 +67,7 @@ function BookList() {
       {isEmpty ? (
         <ListEmpty>첫 도서를 등록해주세요!</ListEmpty>
       ) : (
+        targetUid &&
         bookData?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page?.books.map((book: any) => (

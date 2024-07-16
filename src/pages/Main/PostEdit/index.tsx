@@ -14,6 +14,7 @@ import { useUploadImgFile } from "../../../hooks/firestore/useUploadImgFile";
 import useImageUpload from "../../../hooks/common/useImageUpload";
 import { v4 as uuidv4 } from "uuid";
 import Warn from "../../../components/common/Warn";
+import { theme } from "../../../assets/styles/styled";
 
 interface PostValue {
   uid: string;
@@ -128,39 +129,41 @@ function NewPost() {
   return (
     <NewPostWrapper>
       <PostEditHeader submitBtnDisable={submitBtnDisable} />
-      <PostForm id={"postForm"} onSubmit={handleSubmit(onPostSubmit)}>
-        <DropDownSelect
-          options={options}
-          onSelect={handleSelect}
-          placeholder="전체"
-        />
-        <UploadLabel htmlFor="imageInput">파일 업로드</UploadLabel>
-        <FileInput
-          id="imageInput"
-          type="file"
-          accept="image/*"
-          {...register("photoFile")}
-          onChange={saveImgFile}
-          ref={imgRef}
-        />
-        {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
-        <Title
-          {...register("title", {
-            required: "제목을 입력해 주세요.",
-            minLength: {
-              value: 1,
-              message: "제목을 입력해 주세요.",
-            },
-          })}
-          type="text"
-          placeholder="제목을 입력하세요."
-        />
-        <Warn>{errors?.title?.message}</Warn>
-        <ContentArea
-          {...register("content")}
-          placeholder="내용을 입력하세요."
-        />
-      </PostForm>
+      <EditBody>
+        <PostForm id={"postForm"} onSubmit={handleSubmit(onPostSubmit)}>
+          <DropDownSelect
+            options={options}
+            onSelect={handleSelect}
+            placeholder="전체"
+          />
+          <UploadLabel htmlFor="imageInput">사진 추가</UploadLabel>
+          <FileInput
+            id="imageInput"
+            type="file"
+            accept="image/*"
+            {...register("photoFile")}
+            onChange={saveImgFile}
+            ref={imgRef}
+          />
+          {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
+          <Title
+            {...register("title", {
+              required: "제목을 입력해 주세요.",
+              minLength: {
+                value: 1,
+                message: "제목을 입력해 주세요.",
+              },
+            })}
+            type="text"
+            placeholder="제목을 입력하세요."
+          />
+          <Warn>{errors?.title?.message}</Warn>
+          <ContentArea
+            {...register("content")}
+            placeholder="내용을 입력하세요."
+          />
+        </PostForm>
+      </EditBody>
     </NewPostWrapper>
   );
 }
@@ -172,6 +175,7 @@ const UploadLabel = styled.label`
   position: absolute;
   right: 10px;
   top: 10px;
+  color: ${({ theme }) => theme.color.default_green};
 `;
 const Title = styled.input`
   padding: 8px;
@@ -179,36 +183,29 @@ const Title = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 10px;
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-  }
 `;
 
 const ImagePreview = styled.img`
   width: 100%;
-  max-height: 200px;
   object-fit: contain;
   margin-bottom: 10px;
 `;
 
 const PostForm = styled.form`
   position: relative;
-
   display: flex;
   flex-direction: column;
 `;
 
 const NewPostWrapper = styled(PageWrapper)``;
+const EditBody = styled.div`
+  padding: 0 10px;
+`;
 const ContentArea = styled.textarea`
-  min-height: 500px;
+  min-height: 400px;
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-  }
 `;
 export default NewPost;

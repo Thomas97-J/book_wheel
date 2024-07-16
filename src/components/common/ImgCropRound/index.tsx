@@ -175,6 +175,7 @@ const Slider = styled.input`
   flex: 1;
   padding: 16px 0;
   margin-left: 16px;
+  accent-color: ${({ theme }) => theme.color.default_green};
 `;
 
 const Button = styled.button`

@@ -135,59 +135,69 @@ function BookEdit() {
   return (
     <BookEditWrapper>
       <DefaultHeader />
-      <BookForm onSubmit={handleSubmit(onSubmit)}>
-        <DropDownSelect
-          options={options}
-          onSelect={handleSelect}
-          placeholder="카테고리를 선택하세요"
-          defaultLabel={selectedCategory}
-        />
-        {errors.category && (
-          <ErrorMessage>{errors.category.message}</ErrorMessage>
-        )}
+      <EditBody>
+        <BookForm onSubmit={handleSubmit(onSubmit)}>
+          <DropDownSelect
+            options={options}
+            onSelect={handleSelect}
+            placeholder="카테고리를 선택하세요"
+            defaultLabel={selectedCategory}
+          />
+          {errors.category && (
+            <ErrorMessage>{errors.category.message}</ErrorMessage>
+          )}
 
-        {imagePreview && (
-          <ImagePreview src={imagePreview} ref={imgPreviewRef} alt="Preview" />
-        )}
-        <ImgCropRectangle saveCroppedImage={saveCroppedImage}>
-          {imagePreview ? "이미지 수정" : "이미지 추가"}
-        </ImgCropRectangle>
+          {imagePreview && (
+            <ImagePreview
+              src={imagePreview}
+              ref={imgPreviewRef}
+              alt="Preview"
+            />
+          )}
+          <ImgCropRectangle saveCroppedImage={saveCroppedImage}>
+            {imagePreview ? "이미지 수정" : "이미지 추가"}
+          </ImgCropRectangle>
 
-        <Title
-          {...register("title", { required: true })}
-          type="text"
-          placeholder="도서 제목을 입력하세요."
-        />
-        {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
-        <Author
-          {...register("author", { required: true })}
-          type="text"
-          placeholder="지은이를 입력하세요."
-        />
-        {errors.author && <ErrorMessage>{errors.author.message}</ErrorMessage>}
-        <Publisher
-          {...register("publisher", { required: true })}
-          type="text"
-          placeholder="출판사를 입력하세요."
-        />
-        {errors.publisher && (
-          <ErrorMessage>{errors.publisher.message}</ErrorMessage>
-        )}
+          <Title
+            {...register("title", { required: true })}
+            type="text"
+            placeholder="도서 제목을 입력하세요."
+          />
+          {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+          <Author
+            {...register("author", { required: true })}
+            type="text"
+            placeholder="지은이를 입력하세요."
+          />
+          {errors.author && (
+            <ErrorMessage>{errors.author.message}</ErrorMessage>
+          )}
+          <Publisher
+            {...register("publisher", { required: true })}
+            type="text"
+            placeholder="출판사를 입력하세요."
+          />
+          {errors.publisher && (
+            <ErrorMessage>{errors.publisher.message}</ErrorMessage>
+          )}
 
-        <ContentArea
-          {...register("content")}
-          placeholder="도서에 대한 설명을 자유롭게 적어주세요."
-        ></ContentArea>
-        <SubmitButton type="submit" disabled={submitBtnDisable}>
-          저장
-        </SubmitButton>
-      </BookForm>
+          <ContentArea
+            {...register("content")}
+            placeholder="도서에 대한 설명을 자유롭게 적어주세요."
+          ></ContentArea>
+          <SubmitButton type="submit" disabled={submitBtnDisable}>
+            저장
+          </SubmitButton>
+        </BookForm>
+      </EditBody>
     </BookEditWrapper>
   );
 }
 
 const BookEditWrapper = styled(PageWrapper)``;
-
+const EditBody = styled.div`
+  padding: 0 10px;
+`;
 const BookForm = styled.form`
   display: flex;
   flex-direction: column;

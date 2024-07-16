@@ -80,7 +80,7 @@ const ProfileLink = styled(Link)`
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
+  max-width: 600px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -88,7 +88,7 @@ const ModalOverlay = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  z-index: 100;
+  z-index: 1000;
 `;
 const ModalContent = styled.div`
   background: white;
@@ -96,11 +96,11 @@ const ModalContent = styled.div`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100vw;
-  min-height: 200px;
+  min-height: 120px;
+  max-width: 600px;
   position: fixed;
   bottom: 90px;
-  left: 0px;
-  z-index: 101;
+  z-index: 1001;
 `;
 const Content = styled.span`
   display: flex;

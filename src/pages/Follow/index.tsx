@@ -58,52 +58,56 @@ function Follow() {
           </Tab>
         ))}
       </TabBar>
-      <Content>
-        <AnimatePresence>
-          {activeTab === "followers" ? (
-            <TabContent
-              key="followers"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
-              {isFollowerLoading ? (
-                <>로딩중입니다.</>
-              ) : followerData?.length ? (
-                followerData?.map((user: UserData) => (
-                  <UserCard key={user.id} userInfo={user} />
-                ))
-              ) : (
-                <ListEmpty>팔로우하는 유저가 없습니다.</ListEmpty>
-              )}
-            </TabContent>
-          ) : (
-            <TabContent
-              key="following"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
-              {isFollowingLoading ? (
-                <>로딩중입니다.</>
-              ) : followingData?.length ? (
-                followingData?.map((user: UserData) => {
-                  return <UserCard key={user.id} userInfo={user} />;
-                })
-              ) : (
-                <ListEmpty>팔로잉하는 유저가 없습니다.</ListEmpty>
-              )}
-            </TabContent>
-          )}
-        </AnimatePresence>
-      </Content>
+      <FollowBody>
+        <Content>
+          <AnimatePresence>
+            {activeTab === "followers" ? (
+              <TabContent
+                key="followers"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+              >
+                {isFollowerLoading ? (
+                  <>로딩중입니다.</>
+                ) : followerData?.length ? (
+                  followerData?.map((user: UserData) => (
+                    <UserCard key={user.id} userInfo={user} />
+                  ))
+                ) : (
+                  <ListEmpty>팔로우하는 유저가 없습니다.</ListEmpty>
+                )}
+              </TabContent>
+            ) : (
+              <TabContent
+                key="following"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+              >
+                {isFollowingLoading ? (
+                  <>로딩중입니다.</>
+                ) : followingData?.length ? (
+                  followingData?.map((user: UserData) => {
+                    return <UserCard key={user.id} userInfo={user} />;
+                  })
+                ) : (
+                  <ListEmpty>팔로잉하는 유저가 없습니다.</ListEmpty>
+                )}
+              </TabContent>
+            )}
+          </AnimatePresence>
+        </Content>
+      </FollowBody>
     </FollowWrapper>
   );
 }
 const FollowWrapper = styled(PageWrapper)``;
-
+const FollowBody = styled.div`
+  padding: 0 10px;
+`;
 const TabBar = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   width: 100%;
 `;
 

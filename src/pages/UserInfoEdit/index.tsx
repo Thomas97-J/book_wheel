@@ -86,43 +86,47 @@ function UserInfoEdit() {
   return (
     <UserInfoEditWrapper>
       <DefaultHeader />
-      <TopSection>
-        <ProfileImage src={imagePreview} />
-        <CropWrapper>
-          <ImgCropRound saveCroppedImage={saveCroppedImage}>
-            이미지 수정
-          </ImgCropRound>
-        </CropWrapper>
-      </TopSection>
-
-      <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
-        <input
-          type="text"
-          placeholder="사용자명을 입력하세요."
-          {...register("nickname", {
-            required: true,
-            maxLength: {
-              value: 8,
-              message: "8자 미만의 닉네임을 사용해 주세요.",
-            },
-            pattern: {
-              value: /^[가-힣A-Za-z\d]{1,8}$/,
-              message: "닉네임은 특수문자를 포함할 수 없습니다.",
-            },
-          })}
-        />
-        <input
-          type="text"
-          placeholder="인사말을 입력하세요."
-          {...register("bio", { required: true })}
-        />
-        <button type="submit" disabled={!isValid}>
-          {updating ? "저장중" : "저장"}
-        </button>
-      </FixUserForm>
+      <EditBody>
+        <TopSection>
+          <ProfileImage src={imagePreview} />
+          <CropWrapper>
+            <ImgCropRound saveCroppedImage={saveCroppedImage}>
+              이미지 수정
+            </ImgCropRound>
+          </CropWrapper>
+        </TopSection>
+        <FixUserForm onSubmit={handleSubmit(sendFixInfo)}>
+          <input
+            type="text"
+            placeholder="사용자명을 입력하세요."
+            {...register("nickname", {
+              required: true,
+              maxLength: {
+                value: 8,
+                message: "8자 미만의 닉네임을 사용해 주세요.",
+              },
+              pattern: {
+                value: /^[가-힣A-Za-z\d]{1,8}$/,
+                message: "닉네임은 특수문자를 포함할 수 없습니다.",
+              },
+            })}
+          />
+          <input
+            type="text"
+            placeholder="인사말을 입력하세요."
+            {...register("bio", { required: true })}
+          />
+          <button type="submit" disabled={!isValid}>
+            {updating ? "저장중" : "저장"}
+          </button>
+        </FixUserForm>
+      </EditBody>
     </UserInfoEditWrapper>
   );
 }
+const EditBody = styled.div`
+  padding: 0 10px;
+`;
 const TopSection = styled.div`
   display: flex;
   align-items: center;

@@ -83,7 +83,7 @@ function MessageDetail() {
   return (
     <MessageDetailWrapper>
       <MemoizedMessageHeader receiverUserId={receiverUserId} />
-      <div>
+      <MessageDetailBody>
         {messages?.map((message, index) => {
           const showProfileImage =
             index === 0 || messages[index - 1].uid !== message.uid;
@@ -126,7 +126,7 @@ function MessageDetail() {
             );
           }
         })}
-      </div>
+      </MessageDetailBody>
       <div ref={bottomRef}></div>
       <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
         <input {...register("message")} type="text" enterKeyHint="send" />
@@ -139,7 +139,9 @@ function MessageDetail() {
 const MessageDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
 `;
-
+const MessageDetailBody = styled.div`
+  padding: 0 10px;
+`;
 const DateChangeLine = styled.div`
   display: flex;
   justify-content: center;

@@ -68,22 +68,24 @@ function BookExplore() {
           type="text"
         />
       </SearchForm>
-      {isFirstLoading ? (
-        <>
-          <BookCardSkeleton />
-          <BookCardSkeleton />
-          <BookCardSkeleton />
-        </>
-      ) : (
-        bookData?.pages.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page?.books.map((book: any) => (
-              <BookCard key={book.id} book={book} />
-            ))}
-          </div>
-        ))
-      )}
-      <div ref={ref}></div>
+      <BookExploreBody>
+        {isFirstLoading ? (
+          <>
+            <BookCardSkeleton />
+            <BookCardSkeleton />
+            <BookCardSkeleton />
+          </>
+        ) : (
+          bookData?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page?.books.map((book: any) => (
+                <BookCard key={book.id} book={book} />
+              ))}
+            </div>
+          ))
+        )}
+        <div ref={ref}></div>
+      </BookExploreBody>
     </BookExploreWrapper>
   );
 }
@@ -91,12 +93,12 @@ function BookExplore() {
 const BookExploreWrapper = styled.div`
   position: relative;
 `;
-
+const BookExploreBody = styled.div``;
 const SearchForm = styled.form`
   position: fixed;
-  left: 0;
   top: 93px;
   width: 100%;
+  max-width: 600px;
   background: #fff;
   z-index: 100;
   height: 50px;

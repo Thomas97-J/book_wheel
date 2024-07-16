@@ -51,24 +51,26 @@ function UserExplore() {
           type="text"
         />
       </SearchForm>
-      {isFirstLoading ? (
-        <>
-          <UserCardSkeleton />
-          <UserCardSkeleton />
-          <UserCardSkeleton />
-          <UserCardSkeleton />
-          <UserCardSkeleton />
-        </>
-      ) : (
-        users?.pages.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page?.users.map((user: any) => (
-              <UserCard key={user.id} userInfo={user} />
-            ))}
-          </div>
-        ))
-      )}
-      <div ref={ref}></div>
+      <UserExploreBody>
+        {isFirstLoading ? (
+          <>
+            <UserCardSkeleton />
+            <UserCardSkeleton />
+            <UserCardSkeleton />
+            <UserCardSkeleton />
+            <UserCardSkeleton />
+          </>
+        ) : (
+          users?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page?.users.map((user: any) => (
+                <UserCard key={user.id} userInfo={user} />
+              ))}
+            </div>
+          ))
+        )}
+        <div ref={ref}></div>
+      </UserExploreBody>
     </UserExploreWrapper>
   );
 }
@@ -76,12 +78,14 @@ function UserExplore() {
 const UserExploreWrapper = styled.div`
   position: relative;
 `;
-
+const UserExploreBody = styled.div`
+  padding: 0 10px;
+`;
 const SearchForm = styled.form`
   position: fixed;
-  left: 0;
   top: 93px;
   width: 100%;
+  max-width: 600px;
   background: #fff;
   z-index: 100;
   height: 50px;

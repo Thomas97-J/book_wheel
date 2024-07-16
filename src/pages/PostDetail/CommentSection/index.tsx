@@ -127,9 +127,9 @@ const CommentForm = styled.form`
   display: flex;
   position: fixed;
   z-index: 1001;
-  left: 0;
   bottom: 49px;
   width: 100vw;
+  max-width: 600px;
   height: 50px;
   padding: 4px 10px;
   background-color: #fff;
