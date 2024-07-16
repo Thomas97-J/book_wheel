@@ -7,6 +7,9 @@ export default function useUpdatePostByIndex() {
     mutationFn: updatePostByIndex,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post_detail"] });
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
     },
   });
   return updateMutation;

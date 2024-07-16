@@ -6,7 +6,10 @@ export default function useDeleteImageInPost() {
   const imageDeleteMutation = useMutation({
     mutationFn: deleteImageInPost,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post_detail"] });
+      // queryClient.invalidateQueries({ queryKey: ["post_detail"] });
+      // queryClient.invalidateQueries({
+      //   queryKey: ["posts"],
+      // });
     },
   });
   return imageDeleteMutation;

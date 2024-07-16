@@ -8,6 +8,9 @@ export default function useCreatePostWithIndex() {
     mutationFn: createPostWithIndex,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post_detail"] });
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
     },
   });
 
