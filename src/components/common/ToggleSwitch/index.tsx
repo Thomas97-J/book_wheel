@@ -15,7 +15,7 @@ export function ToggleSwitch({ isOn, onToggle }: ToggleSwitchProps) {
   };
 
   return (
-    <Switch isOn={isOn ?? true} onClick={onToggle}>
+    <Switch $isOn={isOn ?? true} onClick={onToggle}>
       <Handle className="handle" layout transition={spring} />
     </Switch>
   );
@@ -23,7 +23,7 @@ export function ToggleSwitch({ isOn, onToggle }: ToggleSwitchProps) {
 
 export default ToggleSwitch;
 
-const Switch = styled.div<{ isOn: boolean }>`
+const Switch = styled.div<{ $isOn: boolean }>`
   width: 32px;
   height: 20px;
   display: flex;
@@ -31,10 +31,10 @@ const Switch = styled.div<{ isOn: boolean }>`
   padding: 2px 3px;
   margin: 2px;
   cursor: pointer;
-  background-color: ${(props: { isOn: boolean }) =>
-    props.isOn ? "#4caf50" : "#ccc"};
-  justify-content: ${(props: { isOn: boolean }) =>
-    props.isOn ? "flex-end" : "flex-start"};
+  background-color: ${(props: { $isOn: boolean }) =>
+    props.$isOn ? "#4caf50" : "#ccc"};
+  justify-content: ${(props: { $isOn: boolean }) =>
+    props.$isOn ? "flex-end" : "flex-start"};
   align-items: center;
 `;
 const Handle = styled(motion.div)`

@@ -19,18 +19,17 @@ function useInfiniteBooks(initialFilter: any, areaNo: number) {
     queryFn: handleBooksBatchBy10,
     getNextPageParam: (lastPage) => lastPage?.nextPage || undefined,
     initialPageParam: null,
+    enabled: !!filter,
     staleTime: Infinity,
   });
-
+  function handleBooksBatchBy10(params: any) {
+    return getBooksBatchBy10({ ...params, filter: filter, areaNo: areaNo });
+  }
   useEffect(() => {
     if (bookData) {
       setIsLoading(false);
     }
   }, [bookData]);
-
-  function handleBooksBatchBy10(params: any) {
-    return getBooksBatchBy10({ ...params, filter: filter, areaNo: areaNo });
-  }
 
   useEffect(() => {
     if (inView && hasNextPage && !isLoading) {

@@ -21,7 +21,7 @@ function BookList() {
     uid: targetUid,
   });
   const { ref, bookData, isLoading, filter, setFilter } = useInfiniteBooks(
-    initialFilter,
+    null,
     1
   );
   const isEmpty = bookData?.pages[0]?.books.length === 0 && !isLoading;
@@ -67,7 +67,6 @@ function BookList() {
       {isEmpty ? (
         <ListEmpty>첫 도서를 등록해주세요!</ListEmpty>
       ) : (
-        targetUid &&
         bookData?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page?.books.map((book: any) => (
