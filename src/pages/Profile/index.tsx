@@ -16,13 +16,18 @@ function Profile() {
   return (
     <ProfileWrapper>
       <DefaultHeader />
-      <ProfileAndInfo uid={targetUid || ""} nickname={nickname} />
+      <ProfileBody>
+        <ProfileAndInfo uid={targetUid || ""} nickname={nickname} />
+      </ProfileBody>{" "}
     </ProfileWrapper>
   );
 }
 
 const ProfileWrapper = styled(PageWrapper)`
   position: relative;
+`;
+const ProfileBody = styled.div`
+  padding: 0 10px;
 `;
 const FollowBtnWrapper = styled.div`
   position: absolute;

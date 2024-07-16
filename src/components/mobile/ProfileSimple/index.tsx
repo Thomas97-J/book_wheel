@@ -31,10 +31,14 @@ function ProfileSimple({ uid }: { uid: string }) {
 
   return (
     <UserInfo>
-      <ProfileImage src={userData?.profileImage} />
+      <Link to={`${PATH.profile}?user=${userData?.nickname}`}>
+        <ProfileImage src={userData?.profileImage} />
+      </Link>
       <div>
         <NameSection>
-          <NickName>{userData?.nickname}</NickName>
+          <NickName to={`${PATH.profile}?user=${userData?.nickname}`}>
+            {userData?.nickname}
+          </NickName>
         </NameSection>
         <div>
           <UserInfoLink to={`${PATH.bookshelf}?user=${userData?.nickname}`}>
@@ -66,7 +70,9 @@ const NameSection = styled.div`
   justify-content: space-between;
   padding: 4px;
 `;
-const NickName = styled.strong`
+const NickName = styled(Link)`
+  text-decoration: none;
+  color: #000;
   margin-right: 10px;
   font-size: 18px;
   font-weight: bold;
