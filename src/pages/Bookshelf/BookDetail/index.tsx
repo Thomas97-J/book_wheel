@@ -20,25 +20,38 @@ function BookDetail() {
   return (
     <BookDetailWrapper>
       <BookHeader user={currentUser} bookData={bookData} />
-      <ProfileSimple uid={ownerId} />
-      {bookData?.photoUrl && (
-        <BookImage src={bookData?.photoUrl} alt="도서 이미지" />
-      )}
-      <Title>{bookData?.title}</Title>
-      <Author>
-        {bookData?.author}
-        {bookData?.publisher ? ` / ${bookData?.publisher}` : ""}
-      </Author>
-      <Content>{bookData?.content}</Content>
-      <LikeBtnBook
-        bookId={bookData?.id ?? ""}
-        userId={currentUser?.uid ?? ""}
-      />
+      <BookDetailBody>
+        <ProfileSimple uid={ownerId} />
+        {bookData?.photoUrl && (
+          <BookImage src={bookData?.photoUrl} alt="도서 이미지" />
+        )}
+        <Title>{bookData?.title}</Title>
+        <Author>
+          {bookData?.author}
+          {bookData?.publisher ? ` / ${bookData?.publisher}` : ""}
+        </Author>
+        <Content>{bookData?.content}</Content>
+        <LikeBtnWrapper>
+          <LikeBtnBook
+            bookId={bookData?.id ?? ""}
+            userId={currentUser?.uid ?? ""}
+          />
+        </LikeBtnWrapper>
+      </BookDetailBody>
     </BookDetailWrapper>
   );
 }
 const BookDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
+`;
+
+const BookDetailBody = styled.div`
+  padding: 0 10px;
+`;
+const LikeBtnWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 const BookImage = styled.img`
   width: 100%;

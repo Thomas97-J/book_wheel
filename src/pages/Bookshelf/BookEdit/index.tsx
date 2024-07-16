@@ -67,6 +67,7 @@ function BookEdit() {
       setValue("title", bookData.title);
       setValue("author", bookData.author);
       setValue("genres", bookData.genres);
+      setValue("publisher", bookData.publisher);
       setValue("content", bookData.content);
       setValue("category", bookData.category);
       setSelectedCategory(

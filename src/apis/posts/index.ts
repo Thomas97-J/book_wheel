@@ -113,6 +113,16 @@ export async function createPostWithIndex(newPostData: {
 //   });
 // }
 
+interface UpdatePostValue {
+  uid: string;
+  title: string;
+  content: string;
+  category: string;
+  areaNo: number;
+  postImage?: string;
+  updatedAt?: Date;
+}
+
 export async function updatePostByIndex(newPostData: {
   uid: string;
   index: number;
@@ -123,34 +133,44 @@ export async function updatePostByIndex(newPostData: {
   category?: string;
 }) {
   try {
-    //인덱스 찾기
     const postsRef = collection(db, "posts");
+
     const postQuery = query(
       postsRef,
       where("index", "==", newPostData.index),
       limit(1)
     );
+
     const querySnapshot = await getDocs(postQuery);
 
-    if (querySnapshot.empty) {
-      throw new Error(`No post found with index ${newPostData.index}`);
-    }
-    //찾아진 첫 인덱스
-    const postDoc = querySnapshot.docs[0].ref;
-    //기존 이미지 삭제
-    if (querySnapshot.docs[0].data()?.postImage) {
-      deleteFile(querySnapshot.docs[0].data()?.postImage);
-    }
+    console.log("updatePostByIndex", newPostData);
 
-    await updateDoc(postDoc, {
+    const updatedPostData: Partial<UpdatePostValue> = {
       uid: newPostData.uid,
       title: newPostData.title,
       content: newPostData.content,
       category: newPostData.category ?? "all",
       areaNo: newPostData.areaNo,
-      postImage: newPostData?.postImage,
       updatedAt: new Date(),
-    });
+    };
+
+    if (querySnapshot.empty) {
+      throw new Error(`No post found with index ${newPostData.index}`);
+    }
+
+    const postDoc = querySnapshot.docs[0].ref;
+
+    if (newPostData.postImage) {
+      updatedPostData.postImage = newPostData.postImage;
+
+      const existingPostImage = querySnapshot.docs[0].data().postImage;
+      if (existingPostImage) {
+        await deleteFile(existingPostImage);
+      }
+    }
+
+    await updateDoc(postDoc, updatedPostData);
+
     return { id: postDoc.id, index: newPostData.index };
   } catch (error) {
     console.error("Error updating post by index: ", error);
@@ -200,6 +220,7 @@ export async function getUserPostsByNickname(
     throw error;
   }
 }
+
 export async function getUserPosts(uid: string): Promise<Post[]> {
   try {
     const postsQuery = query(collection(db, "posts"), where("uid", "==", uid));

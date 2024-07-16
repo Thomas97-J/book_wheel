@@ -104,8 +104,6 @@ function NewPost() {
           `/posts/${currentUser?.uid}/${uuidv4()}`
         );
         updatedPostData.postImage = downloadURL;
-      } else if (postData?.postImage) {
-        updatedPostData.postImage = postData?.postImage;
       }
 
       const isFixPost = !!postIndex;
