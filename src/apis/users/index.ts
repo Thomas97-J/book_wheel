@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteField,
   doc,
   getDoc,
   getDocs,
@@ -119,14 +120,17 @@ export async function updateUserData({
   data: any;
 }) {
   const userDoc = doc(db, "users", currentUser?.uid);
-  await updateDoc(userDoc, {
-    nickname: data?.nickname ?? "",
-    bio: data?.bio ?? "",
-    profileImage: data?.profileImage ?? "",
-    updatedAt: new Date(),
-  });
+  let updataData = { ...data, updatedAt: new Date() };
+  await updateDoc(userDoc, updataData);
   await updateProfile(currentUser, {
     displayName: data.nickname,
+  });
+}
+
+export async function deleteProfileImage({ uid }: { uid: string }) {
+  const userDoc = doc(db, "users", uid);
+  await updateDoc(userDoc, {
+    profileImage: deleteField(),
   });
 }
 

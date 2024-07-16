@@ -9,6 +9,7 @@ import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
 import ImgCropRound from "../../components/common/ImgCropRound";
 import ProfileImage from "../../components/common/ProfileImage";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
+import useDeleteProfileImage from "../../hooks/users/useDeleteProfileImage";
 
 interface FixUserInfoFormValue {
   nickname: string;
@@ -37,7 +38,7 @@ function UserInfoEdit() {
     maxWidthOrHeight: 256,
   });
   const userInfoUpataeMutation = useUpdateUserData(currentUser);
-
+  const imageDeleteMutation = useDeleteProfileImage(currentUser?.uid ?? "");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   function saveCroppedImage(blob: Blob | null, url: string | null) {
     setImagePreview(url);
@@ -69,8 +70,9 @@ function UserInfoEdit() {
           `/users/${currentUser?.uid}/profile/profileImg`
         );
         updatedProfileData.profileImage = downloadURL;
-      } else if (profileData?.profileImage) {
-        updatedProfileData.profileImage = profileData?.profileImage;
+      }
+      if (profileData?.profileImage === "removed") {
+        await imageDeleteMutation.mutateAsync({ uid: currentUser?.uid ?? "" });
       }
       await userInfoUpataeMutation.mutateAsync({
         currentUser,
@@ -88,10 +90,31 @@ function UserInfoEdit() {
       <DefaultHeader />
       <EditBody>
         <TopSection>
-          <ProfileImage src={imagePreview} />
+          <ImageWrapper>
+            <ProfileImage src={imagePreview} />
+            {imagePreview && (
+              <button
+                type="button"
+                onClick={() => {
+                  setImagePreview(null);
+                  setValue("profileImage", "removed");
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="rgba(0, 0, 0, 0.7)"
+                >
+                  <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm4.207 12.793-1.414 1.414L12 13.414l-2.793 2.793-1.414-1.414L10.586 12 7.793 9.207l1.414-1.414L12 10.586l2.793-2.793 1.414 1.414L13.414 12l2.793 2.793z"></path>
+                </svg>
+              </button>
+            )}
+          </ImageWrapper>
           <CropWrapper>
             <ImgCropRound saveCroppedImage={saveCroppedImage}>
-              이미지 수정
+              {imagePreview ? "이미지 수정" : "이미지 추가"}
             </ImgCropRound>
           </CropWrapper>
         </TopSection>
@@ -132,7 +155,16 @@ const TopSection = styled.div`
   align-items: center;
   padding: 10px 0;
 `;
+const ImageWrapper = styled.div`
+  position: relative;
 
+  button {
+    border: none;
+    position: absolute;
+    top: 2px;
+    right: -2px;
+  }
+`;
 const CropWrapper = styled.div`
   width: 200px;
 `;
