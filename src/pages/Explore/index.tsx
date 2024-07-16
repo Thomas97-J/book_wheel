@@ -8,6 +8,7 @@ import PostExplore from "./PostExplore";
 import BookExplore from "./BookExplore";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
+import { Helmet } from "react-helmet-async";
 
 function Explore() {
   const [query, setQuery] = useSearchParams();
@@ -29,6 +30,9 @@ function Explore() {
 
   return (
     <ExploreWrapper>
+      <Helmet>
+        <title>책바퀴 - 검색</title>
+      </Helmet>
       <DefaultHeader />
       <TabBar>
         <Tab

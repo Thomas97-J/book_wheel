@@ -6,6 +6,7 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import { Link } from "react-router-dom";
 import { PATH } from "../../App";
 import useGetUserById from "../../hooks/users/useGetUserById";
+import { Helmet } from "react-helmet-async";
 
 function My() {
   const { currentUser } = useAuth();
@@ -14,6 +15,9 @@ function My() {
 
   return (
     <MyWrapper>
+      <Helmet>
+        <title>책바퀴 - 마이페이지</title>
+      </Helmet>
       <MypageHeader />
       <MypageBody>
         <ProfileAndInfo uid={uid} nickname={userData?.nickname} />

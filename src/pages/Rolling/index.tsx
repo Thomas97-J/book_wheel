@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import BookShorts from "./BookShorts";
 import { useInView } from "react-intersection-observer";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 function Rolling() {
   const location = useLocation();
@@ -30,6 +31,13 @@ function Rolling() {
 
   return (
     <RollingWrapper>
+      <Helmet>
+        <title>책바퀴 - 책바퀴 굴리기</title>
+        <meta
+          property="og:description"
+          content="당신 주변의 모든 도서를 만나보세요."
+        />
+      </Helmet>
       {bookData?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
           {page.books.map((book, bookIndex) => (

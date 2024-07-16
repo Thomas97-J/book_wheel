@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PATH } from "../../../App";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import useUnreadMessageCounts from "../../../hooks/message/useUnreadMessageCounts";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
@@ -29,7 +29,11 @@ function BottomNav() {
 
   return (
     <BottomNavWrapper>
-      <LinkIcon to={PATH.main} $isCurrentPath={location.pathname === "/"}>
+      <LinkIcon
+        to={PATH.main}
+        className={({ isActive }) => (isActive ? "active" : "")}
+        end
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -42,7 +46,7 @@ function BottomNav() {
       </LinkIcon>
       <LinkIcon
         to={PATH.rolling}
-        $isCurrentPath={location.pathname.includes(PATH.rolling)}
+        className={({ isActive }) => (isActive ? "active" : "")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +60,7 @@ function BottomNav() {
       </LinkIcon>
       <LinkIcon
         to={PATH.messages}
-        $isCurrentPath={location.pathname.includes(PATH.messages)}
+        className={({ isActive }) => (isActive ? "active" : "")}
       >
         {messageCount ? <NavRedDot>{messageCount}</NavRedDot> : ""}
         <svg
@@ -73,7 +77,7 @@ function BottomNav() {
       </LinkIcon>
       <LinkIcon
         to={PATH.my}
-        $isCurrentPath={location.pathname.includes(PATH.my)}
+        className={({ isActive }) => (isActive ? "active" : "")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -110,12 +114,12 @@ const NavRedDot = styled(RedDot)`
   right: -2px;
   top: -2px;
 `;
-const LinkIcon = styled(Link)<{ $isCurrentPath?: boolean }>`
+const LinkIcon = styled(NavLink)<{ $isCurrentPath?: boolean }>`
   position: relative;
-
-  svg {
-    fill: ${({ theme, $isCurrentPath }) =>
-      $isCurrentPath ? theme.color.default_green : ""};
+  &.active {
+    svg {
+      fill: ${({ theme }) => theme.color.default_green};
+    }
   }
 `;
 

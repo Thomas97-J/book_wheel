@@ -5,6 +5,7 @@ import ChatRoomCard from "./ChatRoomCard";
 import { useUserChatRooms } from "../../hooks/message/useUserChatRooms";
 import MessageMainHeader from "../../components/mobile/headers/MessageMainHeader";
 import ListEmpty from "../../components/mobile/ListEmpty";
+import { Helmet } from "react-helmet-async";
 
 function Messages() {
   const { currentUser } = useAuth();
@@ -13,6 +14,9 @@ function Messages() {
   const isEmpty = chatRooms?.length === 0 && !isLoading;
   return (
     <MessagesWrapper>
+      <Helmet>
+        <title>책바퀴 - 메시지</title>
+      </Helmet>
       <MessageMainHeader />
       <MessageBody>
         {isEmpty ? (

@@ -8,6 +8,7 @@ import { useGetUserFollowing } from "../../hooks/follow/useGetUserFollowing";
 import UserCard from "../../components/mobile/UserCard";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 import ListEmpty from "../../components/mobile/ListEmpty";
+import { Helmet } from "react-helmet-async";
 
 function Follow() {
   const [query, setQuery] = useSearchParams();
@@ -46,6 +47,9 @@ function Follow() {
 
   return (
     <FollowWrapper>
+      <Helmet>
+        <title>책바퀴 - 팔로우</title>
+      </Helmet>
       <DefaultHeader />
       <TabBar>
         {tabs.map((tab) => (

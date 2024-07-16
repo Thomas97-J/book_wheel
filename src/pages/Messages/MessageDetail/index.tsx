@@ -100,29 +100,20 @@ function MessageDetail() {
 
           if (message.uid === currentUser?.uid) {
             return (
-              <>
-                {showDate && (
-                  <DateChangeLine key={message.id}>
-                    {currentDate}
-                  </DateChangeLine>
-                )}
-                <MyMessage key={message.id} message={message} />
-              </>
+              <div key={message.id}>
+                {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
+                <MyMessage message={message} />
+              </div>
             );
           } else {
             return (
-              <>
-                {showDate && (
-                  <DateChangeLine key={message.id}>
-                    {currentDate}
-                  </DateChangeLine>
-                )}
+              <div key={message.id}>
+                {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
                 <NotMyMessage
-                  key={message.id}
                   message={message}
                   showProfileImage={showProfileImage}
                 />
-              </>
+              </div>
             );
           }
         })}

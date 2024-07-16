@@ -6,6 +6,7 @@ import { PATH } from "../../App";
 import PostSection from "./PostSection";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import { useInView } from "react-intersection-observer";
+import { Helmet } from "react-helmet-async";
 
 function Main() {
   const { ref: topRef, inView: needBottomLine } = useInView({
@@ -14,6 +15,9 @@ function Main() {
 
   return (
     <MainWrapper>
+      <Helmet>
+        <title>책바퀴 - 게시글</title>
+      </Helmet>
       <Mainheaders needBottomLine={needBottomLine} />
       <Banner>배너 색션</Banner>
       <PostSection topRef={topRef} needBottomLine={needBottomLine} />

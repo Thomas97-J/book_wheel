@@ -81,22 +81,24 @@ function CommentSection({ postId }: { postId: string }) {
   return (
     <CommentSectionWrapper>
       {isLoading && <LoadingSpinner />}
-      {isEmptyComment ? (
-        <EmptyComment>첫 댓글을 달아주세요.</EmptyComment>
-      ) : (
-        commentData?.pages.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page.comments.map((comment) => (
-              <CommentCard
-                key={comment.id}
-                comment={comment}
-                handleReplyPopupOpen={handleReplyPopupOpen}
-              />
-            ))}
-          </div>
-        ))
-      )}
-      <div ref={ref}></div>
+      <CommentWrapper>
+        {isEmptyComment ? (
+          <EmptyComment>첫 댓글을 달아주세요.</EmptyComment>
+        ) : (
+          commentData?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.comments.map((comment) => (
+                <CommentCard
+                  key={comment.id}
+                  comment={comment}
+                  handleReplyPopupOpen={handleReplyPopupOpen}
+                />
+              ))}
+            </div>
+          ))
+        )}
+        <div ref={ref}></div>
+      </CommentWrapper>
       {replyPopupOpen && (
         <ReplyModal
           replyTarget={replyTarget}
@@ -118,6 +120,9 @@ function CommentSection({ postId }: { postId: string }) {
 }
 const EmptyComment = styled.div`
   padding-top: 10px;
+`;
+const CommentWrapper = styled.div`
+  padding: 0 10px;
 `;
 const CommentSectionWrapper = styled.div`
   padding-bottom: 50px;

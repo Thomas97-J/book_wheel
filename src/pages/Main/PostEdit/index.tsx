@@ -14,7 +14,6 @@ import { useUploadImgFile } from "../../../hooks/firestore/useUploadImgFile";
 import useImageUpload from "../../../hooks/common/useImageUpload";
 import { v4 as uuidv4 } from "uuid";
 import Warn from "../../../components/common/Warn";
-import { theme } from "../../../assets/styles/styled";
 
 interface PostValue {
   uid: string;
@@ -131,20 +130,23 @@ function NewPost() {
       <PostEditHeader submitBtnDisable={submitBtnDisable} />
       <EditBody>
         <PostForm id={"postForm"} onSubmit={handleSubmit(onPostSubmit)}>
-          <DropDownSelect
-            options={options}
-            onSelect={handleSelect}
-            placeholder="전체"
-          />
-          <UploadLabel htmlFor="imageInput">사진 추가</UploadLabel>
-          <FileInput
-            id="imageInput"
-            type="file"
-            accept="image/*"
-            {...register("photoFile")}
-            onChange={saveImgFile}
-            ref={imgRef}
-          />
+          <CategoryAndImage>
+            <DropDownSelect
+              options={options}
+              onSelect={handleSelect}
+              placeholder="전체"
+            />
+            <UploadLabel htmlFor="imageInput">사진 추가</UploadLabel>
+            <FileInput
+              id="imageInput"
+              type="file"
+              accept="image/*"
+              {...register("photoFile")}
+              onChange={saveImgFile}
+              ref={imgRef}
+            />
+          </CategoryAndImage>
+
           {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
           <Title
             {...register("title", {
@@ -172,9 +174,6 @@ const FileInput = styled.input`
 `;
 
 const UploadLabel = styled.label`
-  position: absolute;
-  right: 10px;
-  top: 10px;
   color: ${({ theme }) => theme.color.default_green};
 `;
 const Title = styled.input`
@@ -200,6 +199,11 @@ const PostForm = styled.form`
 const NewPostWrapper = styled(PageWrapper)``;
 const EditBody = styled.div`
   padding: 0 10px;
+`;
+const CategoryAndImage = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 const ContentArea = styled.textarea`
   min-height: 400px;

@@ -10,6 +10,7 @@ import Main from "./pages/Main";
 import NotFound from "./pages/NotFound";
 import BottomNav from "./components/mobile/BottomNav";
 import Fallback from "./components/mobile/Fallback";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const My = React.lazy(() => import("./pages/My"));
 const Explore = React.lazy(() => import("./pages/Explore"));
@@ -63,71 +64,82 @@ function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Fallback />}>
-        <Routes>
-          <Route path={PATH.main} element={<Main />} />
-          <Route
-            path={PATH.signIn}
-            element={<UnProtectRoute component={Signin} />}
-          />
-          <Route
-            path={PATH.signUp}
-            element={<UnProtectRoute component={Signup} />}
-          />
-          <Route path={PATH.my} element={<ProtectRoute component={My} />} />
-          <Route
-            path={PATH.likedPost}
-            element={<ProtectRoute component={LikePosts} />}
-          />
-          <Route
-            path={PATH.likedBook}
-            element={<ProtectRoute component={LikeBooks} />}
-          />
-          <Route
-            path={PATH.infoFix}
-            element={<ProtectRoute component={UserInfoEdit} />}
-          />
-          <Route
-            path={PATH.explore}
-            element={<ProtectRoute component={Explore} />}
-          />
-          <Route
-            path={PATH.passwordChange}
-            element={<ProtectRoute component={PasswordChange} />}
-          />
-          <Route
-            path={PATH.postEdit}
-            element={<ProtectRoute component={PostEdit} />}
-          />
-          <Route path={PATH.postDetail} element={<PostDetail />} />
-          <Route path={PATH.profile} element={<Profile />} />
-          <Route
-            path={PATH.userPost}
-            element={<ProtectRoute component={UserPosts} />}
-          />
-          <Route path={PATH.follow} element={<Follow />} />
-          <Route
-            path={PATH.rolling}
-            element={<ProtectRoute component={Rolling} />}
-          />
-          <Route
-            path={PATH.messages}
-            element={<ProtectRoute component={Messages} />}
-          />
-          <Route
-            path={PATH.messageDetail}
-            element={<ProtectRoute component={MessageDetail} />}
-          />
-          <Route
-            path={PATH.bookEdit}
-            element={<ProtectRoute component={BookEdit} />}
-          />
-          <Route
-            path={PATH.bookDetail}
-            element={<ProtectRoute component={BookDetail} />}
-          />
-          <Route path={PATH.bookshelf} element={<Bookshelf />} />
-          <Route path={PATH.notFound} element={<NotFound />} />
-        </Routes>
+        <HelmetProvider>
+          <Helmet>
+            <title>책바퀴</title>
+            <meta property="og:site_name" content="책바퀴" />
+            <meta property="og:url" content="https://book-wheel.vercel.app/" />
+            <meta
+              property="og:description"
+              content="책바퀴 속에서 내 근처 누군가의 책과 만나보세요."
+            />
+          </Helmet>
+          <Routes>
+            <Route path={PATH.main} element={<Main />} />
+            <Route
+              path={PATH.signIn}
+              element={<UnProtectRoute component={Signin} />}
+            />
+            <Route
+              path={PATH.signUp}
+              element={<UnProtectRoute component={Signup} />}
+            />
+            <Route path={PATH.my} element={<ProtectRoute component={My} />} />
+            <Route
+              path={PATH.likedPost}
+              element={<ProtectRoute component={LikePosts} />}
+            />
+            <Route
+              path={PATH.likedBook}
+              element={<ProtectRoute component={LikeBooks} />}
+            />
+            <Route
+              path={PATH.infoFix}
+              element={<ProtectRoute component={UserInfoEdit} />}
+            />
+            <Route
+              path={PATH.explore}
+              element={<ProtectRoute component={Explore} />}
+            />
+            <Route
+              path={PATH.passwordChange}
+              element={<ProtectRoute component={PasswordChange} />}
+            />
+            <Route
+              path={PATH.postEdit}
+              element={<ProtectRoute component={PostEdit} />}
+            />
+            <Route path={PATH.postDetail} element={<PostDetail />} />
+            <Route path={PATH.profile} element={<Profile />} />
+            <Route
+              path={PATH.userPost}
+              element={<ProtectRoute component={UserPosts} />}
+            />
+            <Route path={PATH.follow} element={<Follow />} />
+            <Route
+              path={PATH.rolling}
+              element={<ProtectRoute component={Rolling} />}
+            />
+            <Route
+              path={PATH.messages}
+              element={<ProtectRoute component={Messages} />}
+            />
+            <Route
+              path={PATH.messageDetail}
+              element={<ProtectRoute component={MessageDetail} />}
+            />
+            <Route
+              path={PATH.bookEdit}
+              element={<ProtectRoute component={BookEdit} />}
+            />
+            <Route
+              path={PATH.bookDetail}
+              element={<ProtectRoute component={BookDetail} />}
+            />
+            <Route path={PATH.bookshelf} element={<Bookshelf />} />
+            <Route path={PATH.notFound} element={<NotFound />} />
+          </Routes>
+        </HelmetProvider>
       </Suspense>
       <BottomNav />
     </BrowserRouter>
