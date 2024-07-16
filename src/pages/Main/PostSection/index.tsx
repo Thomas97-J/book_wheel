@@ -91,6 +91,7 @@ const StickyMenu = styled.div<{ $scrolled: boolean }>`
   top: 50px;
   height: 50px;
   width: 100vw;
+  max-width: 600px;
   border-bottom: 1px solid #ccc;
   ${(props) =>
     props.$scrolled ? "box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1)" : ""}
