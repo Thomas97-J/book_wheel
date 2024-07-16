@@ -6,6 +6,7 @@ import useSignUp from "../../hooks/auth/useSignUp";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import imgPaths from "../../assets/images/image_path";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
+import Warn from "../../components/common/Warn";
 
 interface SignupForm {
   nickname: string;
@@ -198,15 +199,6 @@ const SignUpBtn = styled.button`
   &:disabled {
     background: #bcbcbc;
   }
-`;
-
-const Warn = styled.p`
-  width: 300px;
-  color: red;
-  font-weight: 700;
-  font-size: 0.8rem;
-
-  margin-bottom: 4px;
 `;
 
 export default Signup;

@@ -6,6 +6,7 @@ import useHandleGoogleLogin from "../../hooks/auth/useHandleGoogleLogin";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import imgPaths from "../../assets/images/image_path";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
+import Warn from "../../components/common/Warn";
 
 interface SigninFormValue {
   email: string;
@@ -167,14 +168,6 @@ const SignupBtnWrapper = styled.span`
   display: flex;
   align-items: center;
   margin-top: 12px;
-`;
-const Warn = styled.p`
-  width: 300px;
-  color: red;
-  font-weight: 700;
-  font-size: 0.8rem;
-
-  margin-bottom: 4px;
 `;
 
 export default Signin;

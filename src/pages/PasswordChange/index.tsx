@@ -7,6 +7,7 @@ import usePasswordUpdate from "../../hooks/auth/usePasswordUpdate";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 import imgPaths from "../../assets/images/image_path";
+import Warn from "../../components/common/Warn";
 
 interface PasswordChangeFrom {
   new_password: string;
@@ -91,12 +92,7 @@ function PasswordChange() {
     </PasswordChangeWrapper>
   );
 }
-const Warn = styled.p`
-  width: 300px;
-  color: red;
-  font-size: 0.8rem;
-  font-weight: 700;
-`;
+
 const Logo = styled.img`
   width: 100px;
 `;

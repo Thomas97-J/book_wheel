@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import useReauthenticate from "../../../hooks/auth/useReauthenticate";
+import Warn from "../../../components/common/Warn";
 
 interface PasswordFrom {
   password: string;
@@ -47,12 +48,6 @@ function ReauthenticateUser({
   );
 }
 
-const Warn = styled.p`
-  width: 300px;
-  color: red;
-  font-size: 0.8rem;
-  font-weight: 700;
-`;
 const ReauthenticateUserWrapper = styled.form`
   /* Add your styles here */
 `;
