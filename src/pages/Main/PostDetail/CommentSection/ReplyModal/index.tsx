@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import { PATH } from "../../../../App";
+import { PATH } from "../../../../../App";
 import { Link } from "react-router-dom";
-import LikeBtnComment from "../../../../components/mobile/LikeBtnComment";
-import formatRelativeTime from "../../../../utils/formatRelativeTime";
-import { useAuth } from "../../../../context/AuthContext";
-import ReplyCard from "../../../../components/mobile/CommentCard/ReplyCard";
-import DateString from "../../../../components/common/DateString";
+import LikeBtnComment from "../../../../../components/mobile/LikeBtnComment";
+import { useAuth } from "../../../../../context/AuthContext";
+import ReplyCard from "../../../../../components/mobile/CommentCard/ReplyCard";
+import DateString from "../../../../../components/common/DateString";
 
 const ReplyModalWrapper = styled.div`
   /* Add your styles here */

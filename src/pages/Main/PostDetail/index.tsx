@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
-import Fallback from "../../components/mobile/Fallback";
-import PostHeader from "../../components/mobile/headers/PostHeader";
-import { useAuth } from "../../context/AuthContext";
-import useGetPostByIndex from "../../hooks/posts/useGetPostByIndex";
-import PageWrapper from "../../assets/styles/PageWrapper";
-import LikeBtn from "../../components/mobile/LikeBtn";
-import useGetReceivedLikesCount from "../../hooks/like/useGetReceivedLikesCount";
+import Fallback from "../../../components/mobile/Fallback";
+import PostHeader from "../../../components/mobile/headers/PostHeader";
+import { useAuth } from "../../../context/AuthContext";
+import useGetPostByIndex from "../../../hooks/posts/useGetPostByIndex";
+import PageWrapper from "../../../assets/styles/PageWrapper";
+import LikeBtn from "../../../components/mobile/LikeBtn";
+import useGetReceivedLikesCount from "../../../hooks/like/useGetReceivedLikesCount";
 import CommentSection from "./CommentSection";
-import ProfileSimple from "../../components/mobile/ProfileSimple";
-import DateString from "../../components/common/DateString";
+import ProfileSimple from "../../../components/mobile/ProfileSimple";
+import DateString from "../../../components/common/DateString";
 
 function PostDetail() {
   const { currentUser } = useAuth();

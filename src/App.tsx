@@ -15,10 +15,10 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 const My = React.lazy(() => import("./pages/My"));
 const Explore = React.lazy(() => import("./pages/Explore"));
 const PostEdit = React.lazy(() => import("./pages/Main/PostEdit"));
-const PostDetail = React.lazy(() => import("./pages/PostDetail"));
+const PostDetail = React.lazy(() => import("./pages/Main/PostDetail"));
 const Profile = React.lazy(() => import("./pages/Profile"));
 const PasswordChange = React.lazy(() => import("./pages/PasswordChange"));
-const UserInfoEdit = React.lazy(() => import("./pages/UserInfoEdit"));
+const UserInfoEdit = React.lazy(() => import("./pages/My/UserInfoEdit"));
 const Follow = React.lazy(() => import("./pages/Follow"));
 
 const Rolling = React.lazy(() => import("./pages/Rolling"));

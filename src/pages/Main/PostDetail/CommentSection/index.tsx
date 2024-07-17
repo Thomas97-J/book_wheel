@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useAuth } from "../../../context/AuthContext";
-import useCreateComment from "../../../hooks/comments/useCreateComment";
-import useInfiniteComments from "../../../hooks/comments/useInfiniteComments";
-import CommentCard from "../../../components/mobile/CommentCard";
+import { useAuth } from "../../../../context/AuthContext";
+import useCreateComment from "../../../../hooks/comments/useCreateComment";
+import useInfiniteComments from "../../../../hooks/comments/useInfiniteComments";
+import CommentCard from "../../../../components/mobile/CommentCard";
 import { useEffect, useState } from "react";
 import ReplyModal from "./ReplyModal";
-import useAddReplyToComment from "../../../hooks/comments/useAddReplyToComment";
-import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
+import useAddReplyToComment from "../../../../hooks/comments/useAddReplyToComment";
+import LoadingSpinner from "../../../../components/mobile/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
-import { PATH } from "../../../App";
+import { PATH } from "../../../../App";
 interface CommentValue {
   content: string;
   "": string;

@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../context/AuthContext";
-import useGetUserById from "../../hooks/users/useGetUserById";
-import useUpdateUserData from "../../hooks/users/useUpdateUserData";
-import PageWrapper from "../../assets/styles/PageWrapper";
-import { useUploadImgFile } from "../../hooks/firestore/useUploadImgFile";
-import ImgCropRound from "../../components/common/ImgCropRound";
-import ProfileImage from "../../components/common/ProfileImage";
-import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
-import useDeleteProfileImage from "../../hooks/users/useDeleteProfileImage";
+import { useAuth } from "../../../context/AuthContext";
+import useGetUserById from "../../../hooks/users/useGetUserById";
+import useUpdateUserData from "../../../hooks/users/useUpdateUserData";
+import PageWrapper from "../../../assets/styles/PageWrapper";
+import { useUploadImgFile } from "../../../hooks/firestore/useUploadImgFile";
+import ImgCropRound from "../../../components/common/ImgCropRound";
+import ProfileImage from "../../../components/common/ProfileImage";
+import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
+import useDeleteProfileImage from "../../../hooks/users/useDeleteProfileImage";
 
 interface FixUserInfoFormValue {
   nickname: string;
