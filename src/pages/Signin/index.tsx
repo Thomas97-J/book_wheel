@@ -109,7 +109,6 @@ function Signin() {
 ``;
 
 const SigninWrapper = styled(PageWrapper)`
-  padding-top: 200px;
   align-items: center;
   justify-content: center;
   form {
@@ -129,7 +128,7 @@ const SigninWrapper = styled(PageWrapper)`
   }
 `;
 const Logo = styled.img`
-  width: 100px;
+  width: 160px;
 `;
 const GoToSignup = styled(Link)`
   display: flex;
@@ -162,6 +161,8 @@ const GoogleSigninBtn = styled.button`
 
   svg {
     margin-right: 4px;
+    min-width: 24px;
+    min-height: 24px;
   }
 `;
 const SignupBtnWrapper = styled.span`

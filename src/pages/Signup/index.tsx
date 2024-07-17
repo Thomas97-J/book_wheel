@@ -164,10 +164,9 @@ function Signup() {
   );
 }
 const Logo = styled.img`
-  width: 100px;
+  width: 160px;
 `;
 const SignupWrapper = styled(PageWrapper)`
-  padding-top: 200px;
   align-items: center;
   justify-content: center;
   form {

@@ -50,6 +50,12 @@ const NewPostButton = styled(Link)`
   white-space: nowrap;
   text-decoration: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 600px) {
+    right: calc(
+      (100vw - 560px) / 2
+    ); /* 화면 너비가 600px 이상일 때 버튼 위치 조정 */
+  }
 `;
 
 const MainWrapper = styled(PageWrapper)`
