@@ -7,12 +7,16 @@ import { useAuth } from "../../../context/AuthContext";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import LikeBtnBook from "../../../components/mobile/LikeBtnBook";
 import ProfileSimple from "../../../components/mobile/ProfileSimple";
+import { useCreateDeal } from "../../../hooks/deal/useCreateDeal";
+import CreateDealPopup from "./CreateDealPopup";
+import { useState } from "react";
 
 function BookDetail() {
   const { currentUser } = useAuth();
   const [query, setQuery] = useSearchParams();
   const bookIndex = parseInt(query.get("no") ?? "");
   const { bookData, isLoading } = useGetBookByIndex(bookIndex);
+  const [isPopupOn, setIsPopupOn] = useState(false);
   const ownerId = bookData?.uid ?? "";
   if (isLoading) {
     return <Fallback />;
@@ -37,10 +41,25 @@ function BookDetail() {
             userId={currentUser?.uid ?? ""}
           />
         </LikeBtnWrapper>
+        <button
+          onClick={async () => {
+            setIsPopupOn(true);
+          }}
+        >
+          교환 신청하기
+        </button>
+        {isPopupOn && (
+          <CreateDealPopup
+            setIsPopupOn={setIsPopupOn}
+            targetUserId={ownerId}
+            bookId={bookData?.id ?? ""}
+          />
+        )}
       </BookDetailBody>
     </BookDetailWrapper>
   );
 }
+
 const BookDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
 `;

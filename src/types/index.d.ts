@@ -61,6 +61,8 @@ interface Message {
   userName: string;
   text: string;
   createdAt?: Timestamp;
+  isDealMessage?: boolean;
+  dealId?: string;
 }
 
 interface Deal {

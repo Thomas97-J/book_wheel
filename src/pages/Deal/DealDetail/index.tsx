@@ -1,6 +1,16 @@
 import styled from "styled-components";
+import { useGetDealById } from "../../../hooks/deal/useGetDealById";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function DealDetail() {
+  let { deald } = useParams();
+
+  const { dealDatas, isLoading } = useGetDealById(deald ?? "");
+
+  useEffect(() => {
+    console.log("dealDatas", dealDatas);
+  }, [dealDatas]);
   return (
     <DealDetailWrapper>
       <div>~님의 거래 요청</div>

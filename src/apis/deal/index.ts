@@ -13,15 +13,27 @@ import {
 import { db } from "../../firebase";
 
 // Create
-export const createDeal = async (deal: Deal): Promise<void> => {
+export const createDeal = async ({
+  from_uid,
+  to_uid,
+  book_id,
+}: {
+  from_uid: string;
+  to_uid: string;
+  book_id: string;
+}): Promise<string | undefined> => {
   try {
     const dealsCollection = collection(db, "deals");
 
-    await addDoc(dealsCollection, {
-      ...deal,
+    const dealRef = await addDoc(dealsCollection, {
+      from_uid: from_uid,
+      to_uid: to_uid,
+      book_id: book_id,
+      state: "await",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
+    return dealRef.id;
   } catch (error) {
     console.error("Error creating deal: ", error);
     throw error;

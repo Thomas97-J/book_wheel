@@ -13,6 +13,7 @@ import useResetUnreadCount from "../../../hooks/message/useResetUnreadCount";
 import MemoizedMessageHeader from "../../../components/mobile/headers/MessageDetailHeader";
 import dayjs from "dayjs";
 import { Timestamp } from "firebase/firestore"; // Import Firebase Timestamp
+import DealMessage from "./DealMessage";
 
 interface MessageValue {
   message: string;
@@ -106,6 +107,18 @@ function MessageDetail() {
               </div>
             );
           } else {
+            if (message?.isDealMessage) {
+              return (
+                <div key={message.id}>
+                  {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
+                  <DealMessage
+                    message={message}
+                    showProfileImage={showProfileImage}
+                  />
+                </div>
+              );
+            }
+
             return (
               <div key={message.id}>
                 {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
