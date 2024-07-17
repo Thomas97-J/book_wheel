@@ -62,3 +62,13 @@ interface Message {
   text: string;
   createdAt?: Timestamp;
 }
+
+interface Deal {
+  id?: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  from_uid: string;
+  to_uid: string;
+  book_id: string;
+  state: string;
+}

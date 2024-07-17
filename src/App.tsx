@@ -33,7 +33,7 @@ const LikePosts = React.lazy(() => import("./pages/My/LikePosts"));
 const LikeBooks = React.lazy(() => import("./pages/My/LikeBooks"));
 
 const UserPosts = React.lazy(() => import("./pages/Profile/UserPost"));
-
+const Deal = React.lazy(() => import("./pages/Deal"));
 export const PATH = {
   main: "",
   signIn: "/signin",
@@ -57,6 +57,7 @@ export const PATH = {
   bookEdit: "/bookshelf/bookEdit",
   bookDetail: "/bookshelf/detail",
 
+  deal: "/deal",
   notFound: "*",
 };
 
@@ -136,6 +137,11 @@ function App() {
               path={PATH.bookDetail}
               element={<ProtectRoute component={BookDetail} />}
             />
+            <Route
+              path={PATH.deal}
+              element={<ProtectRoute component={Deal} />}
+            />
+
             <Route path={PATH.bookshelf} element={<Bookshelf />} />
             <Route path={PATH.notFound} element={<NotFound />} />
           </Routes>
