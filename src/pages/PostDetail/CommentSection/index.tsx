@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import ReplyModal from "./ReplyModal";
 import useAddReplyToComment from "../../../hooks/comments/useAddReplyToComment";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
+import { theme } from "../../../assets/styles/styled";
 interface CommentValue {
   content: string;
   "": string;
@@ -148,7 +149,11 @@ const CommentForm = styled.form`
     white-space: nowrap;
     border: solid 1px #888;
     border-radius: 10px;
-    margin-left: 10px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    border: 1px solid ${({ theme }) => theme.color.default_green};
+    color: ${({ theme }) => theme.color.default_green};
+    font-weight: bold;
   }
 `;
 export default CommentSection;

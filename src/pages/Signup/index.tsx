@@ -169,6 +169,7 @@ const Logo = styled.img`
 const SignupWrapper = styled(PageWrapper)`
   align-items: center;
   justify-content: center;
+  padding-bottom: 200px;
   form {
     display: flex;
     flex-direction: column;
