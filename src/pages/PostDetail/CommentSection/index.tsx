@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import ReplyModal from "./ReplyModal";
 import useAddReplyToComment from "../../../hooks/comments/useAddReplyToComment";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
-import { theme } from "../../../assets/styles/styled";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../../../App";
 interface CommentValue {
   content: string;
   "": string;
@@ -39,6 +40,7 @@ function CommentSection({ postId }: { postId: string }) {
     userData: null,
   });
   const replyMutation = useAddReplyToComment(postId);
+  const navigate = useNavigate();
 
   const isEmptyComment = commentData?.pages[0].comments.length === 0;
   useEffect(() => {
@@ -67,6 +69,9 @@ function CommentSection({ postId }: { postId: string }) {
         });
         setValue("content", "");
       }
+    } else {
+      alert("로그인 후 댓글을 달아주세요.");
+      navigate(PATH.signIn);
     }
   }
 
