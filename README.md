@@ -4,9 +4,29 @@
 
 ## 프로젝트 소개
 
-책바퀴는 지역 기반 독서가들을 위한 커뮤니티 겸 도서 교환 플랫폼입니다.
+책바퀴는 독서가들을 위한 지역 커뮤니티 & 도서 교환 플랫폼입니다.
 
 ## 0. 시작하기
+
+1. 레포지토리 복제 및 의존성 설치
+
+```
+$ git clone https://github.com/Thomas97-J/book_wheel.git
+$ cd book_wheel
+$ yarn install
+```
+
+2. 개발 서버 가동
+
+```
+$ yarn dev
+```
+
+3. 브라우저 실행
+
+```
+http://localhost:5173/
+```
 
 ## 1. 기술 스택
 
@@ -22,8 +42,107 @@
 
 2024년 6월 ~ 7월 (4주)
 
-## 3. 페이지별 기능
+## 3. 주요 기능
 
-## 4. 프로젝트 구조
+1. 도서 등록 및 관리
 
-## 5. 트러블 슈팅
+- 1.  도서 등록
+- 2.  도서 관리
+
+2. 도서 교환
+
+- 1.  도서 검색
+- 2.  사용자 프로필을 통한 도서 목록
+- 3.  도서 교환 신청
+- 4.  신청 내역 확인
+- 5.  도서 교환 수락
+- 6.  수락 내역 확인
+
+## 4. 페이지별 기능
+
+1. 홈
+
+- 지역 커뮤니티 페이지
+- 게시글 목록
+- 게시글 상세
+
+2. 롤링
+
+- 다른 사용자가 공개한 도서 목록을 순회하는 페이지
+
+3. 교환
+
+- 도서 교환 현황을 볼 수 있는 페이지
+- 교환 목록
+- 교환 상세
+
+4. 메시지
+
+- 실시간 사용자 채팅 페이지
+- 메시지 목록
+- 메시지 상세
+
+5. 마이
+
+- 사용자 정보 페이지
+- 프로필
+- - 팔로워, 팔로잉
+- - 작성 글
+- - 관심 글
+- - 관심 도서
+
+6. 내 책장
+
+- 도서 목록
+
+## 5. 프로젝트 구조
+
+```
+┣ 📁public
+┣ 📁src
+  ┣ 📁api
+      ┣ 📁auth
+      ┣ 📁book
+      ┣ 📁comments
+      ┣ 📁deal
+      ┣ 📁firestore
+      ┣ 📁follow
+      ┣ 📁like
+      ┣ 📁message
+      ┣ 📁posts
+      ┣ 📁users
+  ┣ 📁assets
+      ┣ 📁fonts
+      ┣ 📁images
+      ┣ 📁styles
+  ┣ 📁components
+      ┣ 📁common
+      ┣ 📁desktop
+      ┣ 📁mobile
+  ┣ 📁context
+  ┣ 📁HOCs
+  ┣ 📁hooks
+      ┣ 📁auth
+      ┣ 📁book
+      ┣ 📁comments
+      ┣ 📁common
+      ┣ 📁deal
+      ┣ 📁firestore
+      ┣ 📁follow
+      ┣ 📁like
+      ┣ 📁message
+      ┣ 📁posts
+      ┣ 📁users
+  ┣ 📁pages
+  ┣ 📁store
+  ┣ 📁type
+  ┣ 📁utils
+  ┣ App.tsx
+  ┣ firebase.ts
+  ┣ main.tsx
+  ┣ vite-env.d.ts
+```
+
+## 6. 트러블 슈팅
+
+1. 쿼리 개선
