@@ -3,17 +3,21 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetDealsByFromUserUid } from "../../hooks/deal/useGetDealsByFromUserUid";
 import { useGetDealsByToUserUid } from "../../hooks/deal/useGetDealsByToUserUid";
 import ReceivedDealCard from "./ReceivedDealCard";
 import SentDealCard from "./SentDealCard";
 import ListEmpty from "../../components/mobile/ListEmpty";
 import LoadingSpinner from "../../components/mobile/LoadingSpinner";
+import { useSearchParams } from "react-router-dom";
 
 function Deal() {
   const { currentUser } = useAuth();
   const userId = currentUser?.uid ?? "";
+  const [query, setQuery] = useSearchParams();
+  const type = query.get("type");
+
   const [activeTab, setActiveTab] = useState("to");
   const { sentDealDatas, isLoading: isSendLoading } =
     useGetDealsByFromUserUid(userId);
@@ -28,8 +32,18 @@ function Deal() {
     { name: "보낸 거래", key: "from" },
   ];
 
+  useEffect(() => {
+    const type = query.get("type");
+    if (type === "to") {
+      setActiveTab("to");
+    } else {
+      setActiveTab("from");
+    }
+  }, [query]);
+
   const handleTabClick = (tabKey: string) => {
     setActiveTab(tabKey);
+    setQuery({ type: tabKey });
   };
 
   return (

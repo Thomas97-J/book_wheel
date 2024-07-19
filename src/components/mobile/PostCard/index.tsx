@@ -14,8 +14,14 @@ function PostCard({
   viewCount,
 }: Post) {
   const { commentCount } = useGetCommentCount(id ?? "");
+
   return (
-    <PostCardWrapper>
+    <PostCardWrapper
+      id={id}
+      onClick={() => {
+        sessionStorage.setItem(`scrollTarget-/post`, String(id));
+      }}
+    >
       <GoToDetail to={`${PATH.postDetail}?no=${index}`}>
         <TitleAndInfo>
           <Title>{title}</Title>

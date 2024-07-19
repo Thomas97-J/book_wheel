@@ -5,6 +5,8 @@ import _ from "lodash";
 import DropDownSelect from "../../../components/common/DropDownSelect";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 import ListEmpty from "../../../components/mobile/ListEmpty";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function PostSection({
   topRef,
@@ -25,6 +27,7 @@ function PostSection({
     setCategory,
   } = useInfinitePosts("all", 1);
   const isEmpty = postDatas?.pages[0]?.posts.length === 0 && !isLoading;
+  const location = useLocation();
 
   const options = [
     { label: "도서", value: "book" },
@@ -36,6 +39,16 @@ function PostSection({
     console.log("Selected option:", option);
     setCategory(option.value);
   };
+
+  useEffect(() => {
+    const scrollTarget = sessionStorage.getItem(`scrollTarget-/post`);
+    if (scrollTarget) {
+      let elem = document.getElementById(scrollTarget);
+      if (elem) {
+        elem.scrollIntoView({ block: "center" });
+      }
+    }
+  }, [location]);
 
   return (
     <PostSectionWrapper>
