@@ -85,7 +85,7 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
             <path d="M8 6h9v2H8z"></path>
           </svg>
           {isCurrentUser ? "내 책장" : `${userData?.nickname}의 책장`}{" "}
-          {bookcount}권
+          <UnderLine>{bookcount}</UnderLine>권
         </UserInfoLink>
         <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
           <svg
@@ -98,7 +98,7 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
             <path d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"></path>
             <path d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"></path>
           </svg>
-          작성글 {postDatas?.length}개
+          작성글 <UnderLine>{postDatas?.length}</UnderLine>개
         </UserInfoLink>
       </BottomSection>
     </UserInfo>

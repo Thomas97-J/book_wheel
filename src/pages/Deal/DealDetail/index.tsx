@@ -26,7 +26,9 @@ function DealDetail() {
   const { currentUser } = useAuth();
   const updateDealMutation = useUpdateDeal(dealId ?? "");
   const [AcceptPopupOpen, setAcceptPopupOpen] = useState(false);
-
+  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+  const isSentUser = currentUser?.uid === dealData?.from_uid;
+  const isReceivedUser = currentUser?.uid === dealData?.to_uid;
   const handleFinished = async () => {
     await updateDealMutation.mutateAsync({ state: "finished" });
   };
@@ -34,6 +36,11 @@ function DealDetail() {
   const handleReject = async () => {
     await updateDealMutation.mutateAsync({ state: "reject" });
   };
+  useEffect(() => {
+    if (dealData?.selected_book_indexes) {
+      setSelectedIndices(dealData.selected_book_indexes);
+    }
+  }, [dealData]);
 
   return (
     <DealDetailWrapper>
@@ -47,6 +54,7 @@ function DealDetail() {
             setIsPopupOn={setAcceptPopupOpen}
             targetUserId={dealData?.from_uid ?? ""}
             dealId={dealId ?? ""}
+            selectedBookIndexes={selectedIndices}
           />
         )}
         <ProfileSimpleSmall uid={dealData?.from_uid ?? ""} />
@@ -54,10 +62,20 @@ function DealDetail() {
         <BookInfo>신청 도서</BookInfo>
         <BookCard book={targetBookData} />
         <UserBookSection>
-          <Title>{userData?.nickname}님의 도서 목록 보기</Title>
-          <UserBookPagination uid={dealData?.from_uid} />
+          <Title>{userData?.nickname}님의 도서 목록</Title>
+          <SubTitle>
+            {isReceivedUser
+              ? "교환을 희망하는 도서를 선택하세요."
+              : `${dealData?.to_nickname}님의 선택을 확인하세요.`}
+          </SubTitle>
+          <UserBookPagination
+            isCheckable={dealData?.state === "await" && isReceivedUser}
+            uid={dealData?.from_uid}
+            selectedIndices={selectedIndices}
+            setSelectedIndices={setSelectedIndices}
+          />
         </UserBookSection>
-        {currentUser?.uid !== dealData?.to_uid ? (
+        {isSentUser ? (
           ""
         ) : dealData?.state === "accept" ? (
           <ButtonWrapper>
@@ -67,13 +85,13 @@ function DealDetail() {
         ) : dealData?.state === "reject" ? (
           <ButtonWrapper>
             <RejectBtn onClick={() => {}} disabled>
-              취소되었습니다.
+              취소된 요청입니다.
             </RejectBtn>
           </ButtonWrapper>
         ) : dealData?.state === "finished" ? (
           <ButtonWrapper>
             <RejectBtn onClick={() => {}} disabled>
-              완료되었습니다.
+              완료된 요청입니다.
             </RejectBtn>
           </ButtonWrapper>
         ) : (
@@ -104,17 +122,26 @@ const ButtonWrapper = styled.div`
 `;
 
 const DealDate = styled.div`
-  margin-bottom: 4px;
+  margin-bottom: 16px;
+  color: #666;
+  font-size: 14px;
 `;
-const BookInfo = styled.div``;
+const BookInfo = styled.div`
+  font-weight: bold;
+`;
 
 const UserBookSection = styled.section`
-  margin-top: 10px;
+  margin-top: 16px;
 `;
 const Title = styled.h2`
   font-weight: bold;
   font-size: 18px;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
+`;
+const SubTitle = styled.span`
+  font-size: 12px;
+  color: #666;
+  padding-bottom: 6px;
 `;
 const AcceptBtn = styled.button`
   display: flex;

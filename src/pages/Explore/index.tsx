@@ -90,10 +90,6 @@ const Tab = styled.button<{ $isActive: boolean }>`
   font-size: 16px;
   border-bottom: ${(props) => (props.$isActive ? "2px solid black" : "none")};
   background: #fff;
-
-  &:hover {
-    color: gray;
-  }
 `;
 
 const Content = styled.div`

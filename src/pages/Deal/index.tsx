@@ -72,7 +72,7 @@ function Deal() {
   );
 }
 const DealWrapper = styled(PageWrapper)`
-  /* Add your styles here */
+  padding-top: 52px;
 `;
 const DealBody = styled.div`
   padding: 0 10px;
@@ -93,10 +93,6 @@ const Tab = styled.button<{ $isActive: boolean }>`
   cursor: pointer;
   font-size: 16px;
   border-bottom: ${(props) => (props.$isActive ? "2px solid black" : "none")};
-
-  &:hover {
-    color: gray;
-  }
 `;
 
 const TabContent = styled(motion.div)`

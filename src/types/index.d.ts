@@ -77,4 +77,5 @@ interface Deal {
   book_index: number;
   book_name: string;
   state: "await" | "reject" | "accept" | "finished";
+  selected_book_indexes: number[];
 }

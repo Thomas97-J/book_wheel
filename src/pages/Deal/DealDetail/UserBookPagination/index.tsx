@@ -2,10 +2,41 @@ import styled from "styled-components";
 import { usePaginationUserBook } from "../../../../hooks/books/usePaginationUserBook";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../../App";
+import { useEffect, useState } from "react";
 
-function UserBookPagination({ uid }: { uid: string | undefined }) {
-  const { page, setPage, totalPages, data, isLoading, status } =
-    usePaginationUserBook(uid);
+function UserBookPagination({
+  uid,
+  isCheckable,
+  selectedIndices,
+  setSelectedIndices,
+}: {
+  uid: string | undefined;
+  isCheckable: boolean;
+  selectedIndices: number[];
+  setSelectedIndices: any;
+}) {
+  const {
+    page,
+    setPage,
+    totalPages,
+    data,
+    filter,
+    setFilter,
+    isLoading,
+    status,
+  } = usePaginationUserBook(uid);
+
+  const handleCheckboxChange = (index: number) => {
+    setSelectedIndices((prev: number[]) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+  useEffect(() => {
+    if (!isCheckable) {
+      setFilter((prevFilter) => ({ ...prevFilter, indexes: selectedIndices }));
+    }
+  }, [selectedIndices]);
 
   return (
     <UserBookPaginationWrapper>
@@ -14,10 +45,20 @@ function UserBookPagination({ uid }: { uid: string | undefined }) {
         <>
           <ul>
             {data?.books.map((book: any, index: number) => (
-              <BookLink to={`${PATH.bookDetail}?no=${book.index}`} key={index}>
-                <Title>{book.title}</Title>
-                <Author> / {book.author}</Author>
-              </BookLink>
+              <BookItem key={index}>
+                <input
+                  type="checkbox"
+                  checked={selectedIndices.includes(book.index)}
+                  onChange={() => handleCheckboxChange(book.index)}
+                  id={String(book.index)}
+                  disabled={!isCheckable}
+                />
+                <label htmlFor={String(book.index)}></label>
+                <BookLink to={`${PATH.bookDetail}?no=${book.index}`}>
+                  <Title>{book.title}</Title>
+                  <Author> / {book.author}</Author>
+                </BookLink>
+              </BookItem>
             ))}
           </ul>
           <Pagination>
@@ -52,6 +93,7 @@ function UserBookPagination({ uid }: { uid: string | undefined }) {
 }
 
 const UserBookPaginationWrapper = styled.div`
+  padding-top: 10px;
   ul {
     list-style-type: none;
     padding: 0;
@@ -59,16 +101,54 @@ const UserBookPaginationWrapper = styled.div`
     flex-direction: column;
   }
 `;
+
+const BookItem = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+
+  input {
+    display: none;
+  }
+
+  label {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #707070;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 8px;
+
+    &::after {
+      content: "✔";
+      width: 12px;
+      height: 12px;
+      color: ${({ theme }) => theme.color.default_green};
+      display: none;
+      border-radius: 2px;
+    }
+  }
+  input:disabled + label {
+    opacity: 0.5;
+  }
+  input:checked + label::after {
+    display: block;
+  }
+`;
+
 const BookLink = styled(Link)`
   width: 100%;
   text-decoration: none;
   color: #666;
-  padding: 8px 0;
   display: flex;
   align-items: center;
 `;
+
 const Title = styled.h2`
-  font-size: 14px;
+  font-size: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -81,8 +161,7 @@ const Author = styled.p`
   margin-left: 4px;
   color: #555;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+
   line-height: 1.2;
 `;
 

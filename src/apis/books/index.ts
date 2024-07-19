@@ -32,6 +32,7 @@ export async function getBooksBatchBy10({
     genres?: string[];
     keyword?: string;
     owner?: boolean;
+    indexes?: number[];
   };
 }) {
   try {
@@ -70,6 +71,9 @@ export async function getBooksBatchBy10({
       );
       // q = query(q, where("author", "array-contains", filter.keyword));
       // q = query(q, where("publisher", "array-contains", filter.keyword));
+    }
+    if (filter.indexes && filter.indexes.length > 0) {
+      q = query(q, where("index", "in", filter.indexes));
     }
     if (pageParam) {
       q = query(q, startAfter(pageParam));

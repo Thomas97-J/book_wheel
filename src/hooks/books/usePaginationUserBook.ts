@@ -44,6 +44,8 @@ export function usePaginationUserBook(
     page,
     setPage,
     totalPages,
+    filter,
+    setFilter,
     data,
     isLoading,
     status,

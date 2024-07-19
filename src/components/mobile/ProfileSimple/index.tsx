@@ -42,11 +42,11 @@ function ProfileSimple({ uid }: { uid: string }) {
         </NameSection>
         <div>
           <UserInfoLink to={`${PATH.bookshelf}?user=${userData?.nickname}`}>
-            {isCurrentUser ? "내 책장" : `${userData?.nickname}의 책장`}{" "}
-            {bookcount}
+            {isCurrentUser ? "내 책장" : `${userData?.nickname}의 책장`}
+            <UnderLine>{bookcount}</UnderLine>권
           </UserInfoLink>
           <UserInfoLink to={`${PATH.userPost}?user=${userData?.nickname}`}>
-            작성글 {postDatas?.length}
+            작성글<UnderLine>{postDatas?.length}</UnderLine>개
           </UserInfoLink>
         </div>
       </div>
@@ -64,7 +64,10 @@ const UserInfoLink = styled(Link)`
     color: ${({ theme }) => theme.color.default_green};
   }
 `;
-
+const UnderLine = styled.span`
+  text-decoration: underline;
+  margin-left: 4px;
+`;
 const NameSection = styled.div`
   display: flex;
   justify-content: space-between;

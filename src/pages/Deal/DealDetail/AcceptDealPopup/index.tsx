@@ -12,10 +12,12 @@ function AcceptDealPopup({
   setIsPopupOn,
   targetUserId,
   dealId,
+  selectedBookIndexes,
 }: {
   setIsPopupOn: (bool: boolean) => void;
   targetUserId: string;
   dealId: string;
+  selectedBookIndexes: number[];
 }) {
   const { currentUser } = useAuth();
   const uid = currentUser?.uid ?? "";
@@ -43,7 +45,10 @@ function AcceptDealPopup({
         userId2: targetUserId,
       });
     }
-    await updateDealMutation.mutateAsync({ state: "accept" });
+    await updateDealMutation.mutateAsync({
+      state: "accept",
+      selected_book_indexes: selectedBookIndexes,
+    });
     await addMessageMutation.mutateAsync({
       text: "교환을 수락했어요!",
       chatId: chatId,
