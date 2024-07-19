@@ -6,10 +6,10 @@ import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 import { useState } from "react";
 import { useGetDealsByFromUserUid } from "../../hooks/deal/useGetDealsByFromUserUid";
 import { useGetDealsByToUserUid } from "../../hooks/deal/useGetDealsByToUserUid";
-import { Link } from "react-router-dom";
-import { PATH } from "../../App";
 import ReceivedDealCard from "./ReceivedDealCard";
 import SentDealCard from "./SentDealCard";
+import ListEmpty from "../../components/mobile/ListEmpty";
+import LoadingSpinner from "../../components/mobile/LoadingSpinner";
 
 function Deal() {
   const { currentUser } = useAuth();
@@ -19,6 +19,9 @@ function Deal() {
     useGetDealsByFromUserUid(userId);
   const { receivedDealDatas, isLoading: isReceivedLoading } =
     useGetDealsByToUserUid(userId);
+  const isSentEmpty = sentDealDatas?.length === 0 && !isSendLoading;
+  const isReceivedtEmpty =
+    receivedDealDatas?.length === 0 && !isReceivedLoading;
 
   const tabs = [
     { name: "받은 거래", key: "to" },
@@ -44,17 +47,20 @@ function Deal() {
         ))}
       </TabBar>
       <DealBody>
+        {(isReceivedLoading || isSendLoading) && <LoadingSpinner />}
         {activeTab === "to" ? (
           <TabContent
             key="to"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            {receivedDealDatas?.map((receivedDeal) => {
-              console.log("receivedDeal", receivedDeal);
-
-              return <ReceivedDealCard receivedDeal={receivedDeal} />;
-            })}
+            {isReceivedtEmpty ? (
+              <ListEmpty>받은 교환 신청이 없습니다.</ListEmpty>
+            ) : (
+              receivedDealDatas?.map((receivedDeal) => {
+                return <ReceivedDealCard receivedDeal={receivedDeal} />;
+              })
+            )}
           </TabContent>
         ) : (
           <TabContent
@@ -62,9 +68,13 @@ function Deal() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            {sentDealDatas?.map((sentDeal) => (
-              <SentDealCard sentDeal={sentDeal} />
-            ))}
+            {isSentEmpty ? (
+              <ListEmpty>보낸 교환 신청이 없습니다.</ListEmpty>
+            ) : (
+              sentDealDatas?.map((sentDeal) => (
+                <SentDealCard sentDeal={sentDeal} />
+              ))
+            )}
           </TabContent>
         )}
       </DealBody>
