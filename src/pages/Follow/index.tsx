@@ -122,7 +122,8 @@ const Tab = styled.button<{ $isActive: boolean }>`
   width: 100%;
   cursor: pointer;
   font-size: 16px;
-  border-bottom: ${(props) => (props.$isActive ? "2px solid black" : "none")};
+  border-bottom: ${(props) =>
+    props.$isActive ? "2px solid black" : "2px solid #fff"};
 `;
 
 const Content = styled.div`

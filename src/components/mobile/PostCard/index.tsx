@@ -121,6 +121,7 @@ const Content = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   margin-bottom: 8px;
+  line-height: 1.2;
 `;
 
 export default PostCard;

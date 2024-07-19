@@ -72,7 +72,12 @@ function Deal() {
               <ListEmpty>받은 교환 신청이 없습니다.</ListEmpty>
             ) : (
               receivedDealDatas?.map((receivedDeal) => {
-                return <ReceivedDealCard receivedDeal={receivedDeal} />;
+                return (
+                  <ReceivedDealCard
+                    receivedDeal={receivedDeal}
+                    key={receivedDeal.id}
+                  />
+                );
               })
             )}
           </TabContent>
@@ -85,9 +90,9 @@ function Deal() {
             {isSentEmpty ? (
               <ListEmpty>보낸 교환 신청이 없습니다.</ListEmpty>
             ) : (
-              sentDealDatas?.map((sentDeal) => (
-                <SentDealCard sentDeal={sentDeal} />
-              ))
+              sentDealDatas?.map((sentDeal) => {
+                return <SentDealCard sentDeal={sentDeal} key={sentDeal.id} />;
+              })
             )}
           </TabContent>
         )}
@@ -116,7 +121,8 @@ const Tab = styled.button<{ $isActive: boolean }>`
   width: 100%;
   cursor: pointer;
   font-size: 16px;
-  border-bottom: ${(props) => (props.$isActive ? "2px solid black" : "none")};
+  border-bottom: ${(props) =>
+    props.$isActive ? "2px solid black" : "2px solid #fff"};
 `;
 
 const TabContent = styled(motion.div)`

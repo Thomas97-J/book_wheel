@@ -8,6 +8,8 @@ import useGetUserById from "../../../../hooks/users/useGetUserById";
 import { useEffect, useState } from "react";
 import AcceptBtn from "../../../../components/common/AcceptBtn";
 import RejectBtn from "../../../../components/common/RejectBtn";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../../../../App";
 
 function CreateDealPopup({
   setIsPopupOn,
@@ -25,20 +27,41 @@ function CreateDealPopup({
   const fromNickname = currentUser?.displayName ?? "";
   let chatId = useCheckExistingChat(uid, targetUserId) ?? "";
   const createChatMutation = useCreateChat();
-
+  const navigate = useNavigate();
   const addMessageMutation = useAddMessage(chatId, targetUserId);
   const createDealMutation = useCreateDeal();
   const { userData } = useGetUserById(targetUserId);
   const [popupWillClose, setPopupWillClose] = useState(false);
   const toNickname = userData?.nickname as string;
+  const [newDealId, setNewDealId] = useState("");
 
-  useEffect(() => {
-    if (popupWillClose) {
-      setTimeout(() => {
-        setIsPopupOn(false);
-      }, 1000);
+  async function handleCreateDeal() {
+    if (!chatId) {
+      chatId = await createChatMutation.mutateAsync({
+        userId1: uid,
+        userId2: targetUserId,
+      });
     }
-  }, [popupWillClose]);
+    const dealId = await createDealMutation.mutateAsync({
+      fromUid: uid,
+      fromNickname: fromNickname,
+      toUid: targetUserId,
+      toNickname: toNickname,
+      bookIndex: bookIndex,
+      bookName: bookName,
+    });
+    await addMessageMutation.mutateAsync({
+      text: `${currentUser?.displayName ?? ""}님의 교환 신청`,
+      chatId: chatId,
+      uid: uid ?? "",
+      userName: currentUser?.displayName ?? "",
+      isDealMessage: true,
+      dealId: dealId,
+    });
+    setNewDealId(dealId ?? "");
+    setPopupWillClose(true);
+  }
+
   return (
     <Overlay
       onClick={(e) => {
@@ -60,36 +83,26 @@ function CreateDealPopup({
           X
         </CloseButton>
         <Content>
-          <p>{popupWillClose ? "신청 완료" : "교환을 신청하시겠습니까?"}</p>
+          <p>
+            {popupWillClose ? (
+              <>
+                <Bold>신청 완료</Bold>
+                <div>상세 페이지로 이동하시겠습니까?</div>
+              </>
+            ) : (
+              "교환을 신청하시겠습니까?"
+            )}
+          </p>
         </Content>
         <ButtonWrapper>
           <AcceptBtn
             onClick={async () => {
-              if (!chatId) {
-                chatId = await createChatMutation.mutateAsync({
-                  userId1: uid,
-                  userId2: targetUserId,
-                });
+              if (popupWillClose) {
+                navigate(`${PATH.deal}/${newDealId}`);
+              } else {
+                handleCreateDeal();
               }
-              const dealId = await createDealMutation.mutateAsync({
-                fromUid: uid,
-                fromNickname: fromNickname,
-                toUid: targetUserId,
-                toNickname: toNickname,
-                bookIndex: bookIndex,
-                bookName: bookName,
-              });
-              await addMessageMutation.mutateAsync({
-                text: `${currentUser?.displayName ?? ""}님의 교환 신청`,
-                chatId: chatId,
-                uid: uid ?? "",
-                userName: currentUser?.displayName ?? "",
-                isDealMessage: true,
-                dealId: dealId,
-              });
-              setPopupWillClose(true);
             }}
-            disabled={popupWillClose}
           >
             확인
           </AcceptBtn>
@@ -97,7 +110,6 @@ function CreateDealPopup({
             onClick={() => {
               setIsPopupOn(false);
             }}
-            disabled={popupWillClose}
           >
             취소
           </RejectBtn>
@@ -152,7 +164,12 @@ const CloseButton = styled.button`
   font-size: 20px;
   cursor: pointer;
 `;
-
+const Bold = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 16px;
+  margin-top: 8px;
+`;
 const Content = styled.div`
   margin-bottom: 16px;
 
