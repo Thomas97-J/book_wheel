@@ -6,12 +6,16 @@ import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 import { useState } from "react";
 import { useGetDealsByFromUserUid } from "../../hooks/deal/useGetDealsByFromUserUid";
 import { useGetDealsByToUserUid } from "../../hooks/deal/useGetDealsByToUserUid";
+import { Link } from "react-router-dom";
+import { PATH } from "../../App";
+import ReceivedDealCard from "./ReceivedDealCard";
+import SentDealCard from "./SentDealCard";
 
 function Deal() {
   const { currentUser } = useAuth();
   const userId = currentUser?.uid ?? "";
   const [activeTab, setActiveTab] = useState("to");
-  const { sendDealDatas, isLoading: isSendLoading } =
+  const { sentDealDatas, isLoading: isSendLoading } =
     useGetDealsByFromUserUid(userId);
   const { receivedDealDatas, isLoading: isReceivedLoading } =
     useGetDealsByToUserUid(userId);
@@ -46,10 +50,11 @@ function Deal() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            받은 거래
-            {receivedDealDatas?.map(() => (
-              <div>거래 내역</div>
-            ))}
+            {receivedDealDatas?.map((receivedDeal) => {
+              console.log("receivedDeal", receivedDeal);
+
+              return <ReceivedDealCard receivedDeal={receivedDeal} />;
+            })}
           </TabContent>
         ) : (
           <TabContent
@@ -57,9 +62,8 @@ function Deal() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            보낸 거래{" "}
-            {sendDealDatas?.map(() => (
-              <div>거래 내역</div>
+            {sentDealDatas?.map((sentDeal) => (
+              <SentDealCard sentDeal={sentDeal} />
             ))}
           </TabContent>
         )}
@@ -96,6 +100,8 @@ const Tab = styled.button<{ $isActive: boolean }>`
 `;
 
 const TabContent = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   top: 0;
   left: 0;

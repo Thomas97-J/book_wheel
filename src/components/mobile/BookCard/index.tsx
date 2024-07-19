@@ -10,12 +10,14 @@ function BookCard({
   myBook,
 }: {
   filter?: any;
-  book: Book;
+  book: Book | undefined;
   myBook?: boolean;
 }) {
   console.log("book", book, filter);
   const updatePublisherMutation = useUpdatePublic(book?.id ?? "", filter);
-
+  if (!book) {
+    return <></>;
+  }
   return (
     <BookCardWrapper>
       <CardLink to={`${PATH.bookDetail}?no=${book.index}`}>
@@ -97,6 +99,7 @@ const Title = styled.h2`
   display: -webkit-box;
   -webkit-line-clamp: 1; // 원하는 라인수
   -webkit-box-orient: vertical;
+  line-height: 1.2;
 `;
 
 const Author = styled.p`
@@ -106,6 +109,7 @@ const Author = styled.p`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  line-height: 1.2;
 `;
 
 const Content = styled.p`

@@ -70,7 +70,11 @@ interface Deal {
   createdAt: Timestamp;
   updatedAt: Timestamp;
   from_uid: string;
+  from_nickname: string;
   to_uid: string;
-  book_id: string;
-  state: string;
+  to_nickname: string;
+  book_id?: string;
+  book_index: number;
+  book_name: string;
+  state: "await" | "reject" | "accept" | "finished";
 }

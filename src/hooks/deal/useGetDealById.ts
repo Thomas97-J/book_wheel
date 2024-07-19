@@ -8,5 +8,5 @@ export function useGetDealById(id: string) {
     queryFn: () => getDealById(id),
     enabled: !!id,
   });
-  return { dealDatas: data, isLoading };
+  return { dealData: data, isLoading };
 }

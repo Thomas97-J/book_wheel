@@ -14,21 +14,30 @@ import { db } from "../../firebase";
 
 // Create
 export const createDeal = async ({
-  from_uid,
-  to_uid,
-  book_id,
+  fromUid,
+  fromNickname,
+  toUid,
+  toNickname,
+  bookIndex,
+  bookName,
 }: {
-  from_uid: string;
-  to_uid: string;
-  book_id: string;
+  fromUid: string;
+  fromNickname: string;
+  toUid: string;
+  toNickname: string;
+  bookIndex: number;
+  bookName: string;
 }): Promise<string | undefined> => {
   try {
     const dealsCollection = collection(db, "deals");
 
     const dealRef = await addDoc(dealsCollection, {
-      from_uid: from_uid,
-      to_uid: to_uid,
-      book_id: book_id,
+      from_uid: fromUid,
+      from_nickname: fromNickname,
+      to_uid: toUid,
+      to_nickname: toNickname,
+      book_index: bookIndex,
+      book_name: bookName,
       state: "await",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),

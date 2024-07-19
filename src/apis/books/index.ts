@@ -77,6 +77,8 @@ export async function getBooksBatchBy10({
     console.log("getBooksBatchBy10:", q, filter);
 
     const querySnapshot = await getDocs(q);
+    const count = querySnapshot.size;
+
     const books = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -85,7 +87,7 @@ export async function getBooksBatchBy10({
 
     const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 
-    return { books, nextPage: lastVisible };
+    return { books, nextPage: lastVisible, count: count };
   } catch (err) {
     console.error(err);
     return { books: [], nextPage: undefined };

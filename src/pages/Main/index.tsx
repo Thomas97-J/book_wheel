@@ -19,16 +19,19 @@ function Main() {
         <title>책바퀴 - 게시글</title>
       </Helmet>
       <Mainheaders needBottomLine={needBottomLine} />
-      <Banner>배너 색션</Banner>
+      <Banner>
+        <img src="/images/banner.webp" alt="" />
+      </Banner>
       <PostSection topRef={topRef} needBottomLine={needBottomLine} />
       <NewPostButton to={PATH.postEdit}>새 글 쓰기</NewPostButton>
     </MainWrapper>
   );
 }
 const Banner = styled.div`
-  min-height: 200px;
   width: 100%;
-  border: solid 1px;
+  img {
+    width: 100%;
+  }
 `;
 
 const NewPostButton = styled(Link)`
@@ -59,7 +62,7 @@ const NewPostButton = styled(Link)`
 `;
 
 const MainWrapper = styled(PageWrapper)`
-  padding: 60px 0;
+  padding: 52px 0;
 `;
 
 export default Main;

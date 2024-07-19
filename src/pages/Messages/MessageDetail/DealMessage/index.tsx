@@ -5,13 +5,7 @@ import formatRelativeTime from "../../../../utils/formatRelativeTime";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../../App";
 
-function DealMessage({
-  message,
-  showProfileImage,
-}: {
-  message: Message;
-  showProfileImage: boolean;
-}) {
+function DealMessage({ message }: { message: Message }) {
   const formattedDate = formatRelativeTime(message?.createdAt as Timestamp);
 
   const uid = message.uid;
@@ -19,19 +13,20 @@ function DealMessage({
   return (
     <DealMessageWrapper key={message.id}>
       <ProfileImageWrapper>
-        {showProfileImage && <ProfileImage src={userData?.profileImage} />}
+        {<ProfileImage src={userData?.profileImage} />}
       </ProfileImageWrapper>
       <TextSection>
         <Content to={`${PATH.deal}/${message.dealId}`}>
           <span>{message.text}</span>
-          <span>상세 교환 페이지로 이동</span>
-        </Content>{" "}
+          <span>상세 내용 확인</span>
+        </Content>
         <Date>{formattedDate}</Date>
       </TextSection>
     </DealMessageWrapper>
   );
 }
 const DealMessageWrapper = styled.div`
+  position: relative;
   width: 100%;
   min-height: 30px;
 
@@ -40,7 +35,9 @@ const DealMessageWrapper = styled.div`
   margin-bottom: 5px;
 `;
 const ProfileImageWrapper = styled.div`
-  height: 32px;
+  position: absolute;
+  top: 0;
+
   width: 36px;
   img {
     height: 32px;
@@ -50,12 +47,13 @@ const ProfileImageWrapper = styled.div`
 const TextSection = styled.div`
   display: flex;
   align-items: flex-end;
+  margin-left: 36px;
 `;
 
 const Content = styled(Link)`
   display: flex;
   flex-direction: column;
-  background-color: #f0f3ee;
+  background-color: rgb(255 216 163);
   padding: 4px 8px;
   border-radius: 10px;
   max-width: 70vw;

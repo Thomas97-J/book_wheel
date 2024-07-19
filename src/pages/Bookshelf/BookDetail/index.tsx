@@ -7,7 +7,6 @@ import { useAuth } from "../../../context/AuthContext";
 import PageWrapper from "../../../assets/styles/PageWrapper";
 import LikeBtnBook from "../../../components/mobile/LikeBtnBook";
 import ProfileSimple from "../../../components/mobile/ProfileSimple";
-import { useCreateDeal } from "../../../hooks/deal/useCreateDeal";
 import CreateDealPopup from "./CreateDealPopup";
 import { useState } from "react";
 
@@ -52,7 +51,8 @@ function BookDetail() {
           <CreateDealPopup
             setIsPopupOn={setIsPopupOn}
             targetUserId={ownerId}
-            bookId={bookData?.id ?? ""}
+            bookIndex={bookIndex}
+            bookName={bookData?.title ?? ""}
           />
         )}
       </BookDetailBody>

@@ -8,5 +8,5 @@ export function useGetDealsByFromUserUid(uid: string) {
     queryFn: () => getDealsByFromUserUid(uid),
     enabled: !!uid,
   });
-  return { sendDealDatas: data, isLoading };
+  return { sentDealDatas: data, isLoading };
 }

@@ -111,10 +111,7 @@ function MessageDetail() {
               return (
                 <div key={message.id}>
                   {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
-                  <DealMessage
-                    message={message}
-                    showProfileImage={showProfileImage}
-                  />
+                  <DealMessage message={message} />
                 </div>
               );
             }

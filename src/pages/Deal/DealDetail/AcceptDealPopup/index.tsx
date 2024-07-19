@@ -1,36 +1,32 @@
 import styled from "styled-components";
-import { useCreateDeal } from "../../../../hooks/deal/useCreateDeal";
 import useAddMessage from "../../../../hooks/message/useAddMessage";
 import useCheckExistingChat from "../../../../hooks/message/useCheckExistingChat";
 import useCreateChat from "../../../../hooks/message/useCreateChat";
 import { useAuth } from "../../../../context/AuthContext";
-import useGetUserById from "../../../../hooks/users/useGetUserById";
 import { useEffect, useState } from "react";
 import AcceptBtn from "../../../../components/common/AcceptBtn";
 import RejectBtn from "../../../../components/common/RejectBtn";
+import { useUpdateDeal } from "../../../../hooks/deal/useUpdateDeal";
 
-function CreateDealPopup({
+function AcceptDealPopup({
   setIsPopupOn,
   targetUserId,
-  bookIndex,
-  bookName,
+  dealId,
 }: {
   setIsPopupOn: (bool: boolean) => void;
   targetUserId: string;
-  bookIndex: number;
-  bookName: string;
+  dealId: string;
 }) {
   const { currentUser } = useAuth();
   const uid = currentUser?.uid ?? "";
-  const fromNickname = currentUser?.displayName ?? "";
   let chatId = useCheckExistingChat(uid, targetUserId) ?? "";
   const createChatMutation = useCreateChat();
+  console.log("uid, targetUserId", uid, targetUserId);
+  console.log("chatId", chatId);
 
   const addMessageMutation = useAddMessage(chatId, targetUserId);
-  const createDealMutation = useCreateDeal();
-  const { userData } = useGetUserById(targetUserId);
   const [popupWillClose, setPopupWillClose] = useState(false);
-  const toNickname = userData?.nickname as string;
+  const updateDealMutation = useUpdateDeal(dealId ?? "");
 
   useEffect(() => {
     if (popupWillClose) {
@@ -39,6 +35,26 @@ function CreateDealPopup({
       }, 1000);
     }
   }, [popupWillClose]);
+
+  const handleAccept = async () => {
+    if (!chatId) {
+      chatId = await createChatMutation.mutateAsync({
+        userId1: uid,
+        userId2: targetUserId,
+      });
+    }
+    await updateDealMutation.mutateAsync({ state: "accept" });
+    await addMessageMutation.mutateAsync({
+      text: "교환을 수락했어요!",
+      chatId: chatId,
+      uid: uid ?? "",
+      userName: currentUser?.displayName ?? "",
+      isDealMessage: true,
+      dealId: dealId,
+    });
+    setPopupWillClose(true);
+  };
+
   return (
     <Overlay
       onClick={(e) => {
@@ -60,37 +76,14 @@ function CreateDealPopup({
           X
         </CloseButton>
         <Content>
-          <p>{popupWillClose ? "신청 완료" : "교환을 신청하시겠습니까?"}</p>
+          <p>
+            {popupWillClose
+              ? "교환이 수락되었습니다."
+              : "교환을 수락하시겠습니까?"}
+          </p>
         </Content>
         <ButtonWrapper>
-          <AcceptBtn
-            onClick={async () => {
-              if (!chatId) {
-                chatId = await createChatMutation.mutateAsync({
-                  userId1: uid,
-                  userId2: targetUserId,
-                });
-              }
-              const dealId = await createDealMutation.mutateAsync({
-                fromUid: uid,
-                fromNickname: fromNickname,
-                toUid: targetUserId,
-                toNickname: toNickname,
-                bookIndex: bookIndex,
-                bookName: bookName,
-              });
-              await addMessageMutation.mutateAsync({
-                text: `${currentUser?.displayName ?? ""}님의 교환 신청`,
-                chatId: chatId,
-                uid: uid ?? "",
-                userName: currentUser?.displayName ?? "",
-                isDealMessage: true,
-                dealId: dealId,
-              });
-              setPopupWillClose(true);
-            }}
-            disabled={popupWillClose}
-          >
+          <AcceptBtn onClick={handleAccept} disabled={popupWillClose}>
             확인
           </AcceptBtn>
           <RejectBtn
@@ -161,4 +154,4 @@ const Content = styled.div`
   }
 `;
 
-export default CreateDealPopup;
+export default AcceptDealPopup;

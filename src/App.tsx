@@ -59,7 +59,7 @@ export const PATH = {
   bookDetail: "/bookshelf/detail",
 
   deal: "/deal",
-  dealDetail: "/deal/:deald",
+  dealDetail: "/deal/:dealId",
   notFound: "*",
 };
 

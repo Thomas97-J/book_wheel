@@ -1,33 +1,157 @@
 import styled from "styled-components";
-import { useGetDealById } from "../../../hooks/deal/useGetDealById";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import PageWrapper from "../../../assets/styles/PageWrapper";
+import useGetUserById from "../../../hooks/users/useGetUserById";
+import formatRelativeTime from "../../../utils/formatRelativeTime";
+import BookCard from "../../../components/mobile/BookCard";
+import useGetBookByIndex from "../../../hooks/books/useGetBookByIndex";
+import UserBookPagination from "./UserBookPagination";
+import { useGetDealById } from "../../../hooks/deal/useGetDealById";
+import { useUpdateDeal } from "../../../hooks/deal/useUpdateDeal";
+import DealDetailHeader from "../../../components/mobile/headers/DealDetailHeader";
+import ProfileSimpleSmall from "../../../components/mobile/ProfileSimpleSmall";
+import { useAuth } from "../../../context/AuthContext";
+import AcceptDealPopup from "./AcceptDealPopup";
 
 function DealDetail() {
-  let { deald } = useParams();
+  let { dealId } = useParams();
 
-  const { dealDatas, isLoading } = useGetDealById(deald ?? "");
+  const { dealData, isLoading } = useGetDealById(dealId ?? "");
+  const { userData } = useGetUserById(dealData?.from_uid ?? "");
+  const dealCreatedAt = formatRelativeTime(dealData?.createdAt);
+  const { bookData: targetBookData } = useGetBookByIndex(
+    dealData?.book_index ?? 0
+  );
+  const { currentUser } = useAuth();
+  const updateDealMutation = useUpdateDeal(dealId ?? "");
+  const [AcceptPopupOpen, setAcceptPopupOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("dealDatas", dealDatas);
-  }, [dealDatas]);
+  const handleFinished = async () => {
+    await updateDealMutation.mutateAsync({ state: "finished" });
+  };
+
+  const handleReject = async () => {
+    await updateDealMutation.mutateAsync({ state: "reject" });
+  };
+
   return (
     <DealDetailWrapper>
-      <div>~님의 거래 요청</div>
-      <div>거래 상태</div>
-      <div>날짜</div>
-      <div>~의 프로필</div>
-      거래 요청 도서
-      <div>도서 정보</div>
-      ~님의 도서 목록
-      <div>도서 목록</div>
-      <button>수락</button>
-      <button>거절</button>
+      <DealDetailHeader
+        nickname={userData?.nickname}
+        dealState={dealData?.state}
+      />
+      <DealDetailBody>
+        {AcceptPopupOpen && (
+          <AcceptDealPopup
+            setIsPopupOn={setAcceptPopupOpen}
+            targetUserId={dealData?.from_uid ?? ""}
+            dealId={dealId ?? ""}
+          />
+        )}
+        <ProfileSimpleSmall uid={dealData?.from_uid ?? ""} />
+        <DealDate>신청 일시 : {dealCreatedAt}</DealDate>
+        <BookInfo>신청 도서</BookInfo>
+        <BookCard book={targetBookData} />
+        <UserBookSection>
+          <Title>{userData?.nickname}님의 도서 목록 보기</Title>
+          <UserBookPagination uid={dealData?.from_uid} />
+        </UserBookSection>
+        {currentUser?.uid !== dealData?.to_uid ? (
+          ""
+        ) : dealData?.state === "accept" ? (
+          <ButtonWrapper>
+            <AcceptBtn onClick={handleFinished}>완료</AcceptBtn>
+            <RejectBtn onClick={handleReject}>취소</RejectBtn>
+          </ButtonWrapper>
+        ) : dealData?.state === "reject" ? (
+          <ButtonWrapper>
+            <RejectBtn onClick={() => {}} disabled>
+              취소되었습니다.
+            </RejectBtn>
+          </ButtonWrapper>
+        ) : dealData?.state === "finished" ? (
+          <ButtonWrapper>
+            <RejectBtn onClick={() => {}} disabled>
+              완료되었습니다.
+            </RejectBtn>
+          </ButtonWrapper>
+        ) : (
+          <ButtonWrapper>
+            <AcceptBtn
+              onClick={() => {
+                setAcceptPopupOpen(true);
+              }}
+            >
+              수락
+            </AcceptBtn>
+            <RejectBtn onClick={handleReject}>거절</RejectBtn>
+          </ButtonWrapper>
+        )}
+      </DealDetailBody>
     </DealDetailWrapper>
   );
 }
-const DealDetailWrapper = styled.div`
+
+const DealDetailWrapper = styled(PageWrapper)`
   /* Add your styles here */
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const DealDate = styled.div`
+  margin-bottom: 4px;
+`;
+const BookInfo = styled.div``;
+
+const UserBookSection = styled.section`
+  margin-top: 10px;
+`;
+const Title = styled.h2`
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 8px;
+`;
+const AcceptBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  margin: 6px;
+
+  height: 30px;
+  border: solid 1px;
+  border-radius: 6px;
+  color: #fff;
+  background-color: ${({ theme }) => theme.color.default_green};
+  border-color: initial;
+`;
+
+const RejectBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  margin: 6px;
+
+  height: 30px;
+  border: solid 1px;
+  border-radius: 6px;
+  color: #666;
+  background-color: ${({ theme }) => theme.color.default_gray_green};
+  border-color: initial;
+  &:disabled {
+    color: #666;
+    background-color: ${({ theme }) => theme.color.default_gray_green};
+    opacity: 0.7;
+  }
+`;
+const DealDetailBody = styled.div`
+  padding: 0 10px;
 `;
 
 export default DealDetail;
