@@ -18,7 +18,7 @@ function Deal() {
   const [query, setQuery] = useSearchParams();
   const type = query.get("type");
 
-  const [activeTab, setActiveTab] = useState("to");
+  const [activeTab, setActiveTab] = useState("received");
   const { sentDealDatas, isLoading: isSendLoading } =
     useGetDealsByFromUserUid(userId);
   const { receivedDealDatas, isLoading: isReceivedLoading } =
@@ -28,16 +28,16 @@ function Deal() {
     receivedDealDatas?.length === 0 && !isReceivedLoading;
 
   const tabs = [
-    { name: "받은 거래", key: "to" },
-    { name: "보낸 거래", key: "from" },
+    { name: "받은 거래", key: "received" },
+    { name: "보낸 거래", key: "sent" },
   ];
 
   useEffect(() => {
     const type = query.get("type");
-    if (type === "to") {
-      setActiveTab("to");
+    if (type === "sent") {
+      setActiveTab("sent");
     } else {
-      setActiveTab("from");
+      setActiveTab("received");
     }
   }, [query]);
 
@@ -62,9 +62,9 @@ function Deal() {
       </TabBar>
       <DealBody>
         {(isReceivedLoading || isSendLoading) && <LoadingSpinner />}
-        {activeTab === "to" ? (
+        {activeTab === "received" ? (
           <TabContent
-            key="to"
+            key="received"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
           >
@@ -83,7 +83,7 @@ function Deal() {
           </TabContent>
         ) : (
           <TabContent
-            key="from"
+            key="sent"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
           >

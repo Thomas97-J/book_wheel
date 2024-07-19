@@ -27,13 +27,13 @@ function CreateDealPopup({
   const fromNickname = currentUser?.displayName ?? "";
   let chatId = useCheckExistingChat(uid, targetUserId) ?? "";
   const createChatMutation = useCreateChat();
-  const navigate = useNavigate();
   const addMessageMutation = useAddMessage(chatId, targetUserId);
   const createDealMutation = useCreateDeal();
   const { userData } = useGetUserById(targetUserId);
   const [popupWillClose, setPopupWillClose] = useState(false);
   const toNickname = userData?.nickname as string;
   const [newDealId, setNewDealId] = useState("");
+  const navigate = useNavigate();
 
   async function handleCreateDeal() {
     if (!chatId) {
@@ -87,7 +87,7 @@ function CreateDealPopup({
             {popupWillClose ? (
               <>
                 <Bold>신청 완료</Bold>
-                <div>상세 페이지로 이동하시겠습니까?</div>
+                <div>상세 페이지로 이동하기</div>
               </>
             ) : (
               "교환을 신청하시겠습니까?"

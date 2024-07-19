@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import AcceptBtn from "../../../../components/common/AcceptBtn";
 import RejectBtn from "../../../../components/common/RejectBtn";
 import { useUpdateDeal } from "../../../../hooks/deal/useUpdateDeal";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../../../../App";
 
 function AcceptDealPopup({
   setIsPopupOn,
@@ -29,14 +31,7 @@ function AcceptDealPopup({
   const addMessageMutation = useAddMessage(chatId, targetUserId);
   const [popupWillClose, setPopupWillClose] = useState(false);
   const updateDealMutation = useUpdateDeal(dealId ?? "");
-
-  useEffect(() => {
-    if (popupWillClose) {
-      setTimeout(() => {
-        setIsPopupOn(false);
-      }, 1000);
-    }
-  }, [popupWillClose]);
+  const navigate = useNavigate();
 
   const handleAccept = async () => {
     if (!chatId) {
@@ -81,21 +76,31 @@ function AcceptDealPopup({
           X
         </CloseButton>
         <Content>
-          <p>
-            {popupWillClose
-              ? "교환이 수락되었습니다."
-              : "교환을 수락하시겠습니까?"}
-          </p>
+          {popupWillClose ? (
+            <>
+              <Bold>신청 완료</Bold>
+              <div>메시지 페이지로 이동하기</div>
+            </>
+          ) : (
+            "교환을 수락하시겠습니까?"
+          )}
         </Content>
         <ButtonWrapper>
-          <AcceptBtn onClick={handleAccept} disabled={popupWillClose}>
+          <AcceptBtn
+            onClick={() => {
+              if (popupWillClose) {
+                navigate(`${PATH.messageDetail}/?chat=${chatId}`);
+              } else {
+                handleAccept();
+              }
+            }}
+          >
             확인
           </AcceptBtn>
           <RejectBtn
             onClick={() => {
               setIsPopupOn(false);
             }}
-            disabled={popupWillClose}
           >
             취소
           </RejectBtn>
@@ -150,13 +155,20 @@ const CloseButton = styled.button`
   font-size: 20px;
   cursor: pointer;
 `;
-
+const Bold = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 16px;
+  margin-top: 8px;
+`;
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 16px;
 
-  p {
-    line-height: 1.2;
-  }
+  line-height: 1.2;
 `;
 
 export default AcceptDealPopup;
