@@ -123,7 +123,7 @@ const CommentCardWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 4px 0;
+  padding-top: 8px;
   border-bottom: 1px solid #ccc;
 `;
 export default CommentCard;

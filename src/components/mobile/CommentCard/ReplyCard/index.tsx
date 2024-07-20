@@ -72,11 +72,13 @@ const DeleteBtn = styled.button`
 `;
 const Content = styled.span`
   font-size: 14px;
+  /* white-space: ; */
+  word-break: break-all;
 `;
 const ReplyCardWrapper = styled.div`
   border-top: 1px solid #ccc;
-  padding: 4px;
-  padding-left: 20px;
+  margin-top: 8px;
+  padding: 8px 20px 8px 24px;
   position: relative;
 `;
 const InfoSection = styled.div`
