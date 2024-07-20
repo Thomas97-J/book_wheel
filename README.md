@@ -37,7 +37,7 @@ http://localhost:5173/
 <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
 
 <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=netlify&logoColor=white">
-![image](https://github.com/user-attachments/assets/8dc351e7-c2ea-4dbc-8404-8c9cfe046190)
+![프로젝트 아키텍처](https://github.com/user-attachments/assets/8dc351e7-c2ea-4dbc-8404-8c9cfe046190)
 
 ## 2. 개발 기간
 
