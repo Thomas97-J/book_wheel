@@ -47,9 +47,9 @@ http://localhost:5173/
 1. 도서 등록 및 관리
 
    1. 도서 등록
-      ![도서 등록](\demo\book_create.gif "book_create")
+      ![](https://velog.velcdn.com/images/alstn6987/post/0275f85d-1801-4a94-9ffb-77f417124e80/image.gif)
    2. 도서 관리
-      ![도서 관리](\demo\book_update.gif "book_update")
+      ![](https://velog.velcdn.com/images/alstn6987/post/82577bb1-68d8-4e26-b71b-f7bc521e36ff/image.gif)
 
 2. 도서 교환
 
@@ -75,7 +75,7 @@ http://localhost:5173/
 3. 교환
 
    - 도서 교환 현황을 볼 수 있는 페이지
-   - 교환 목록
+   - 받은 거래 / 보낸 거래
    - 교환 상세
 
 4. 메시지
@@ -92,12 +92,18 @@ http://localhost:5173/
    - 프로필
      - 팔로워, 팔로잉
      - 작성 글
-     - 관심 글
-     - 관심 도서
+   - 관심 글
+   - 관심 도서
 
 6. 내 책장
 
    - 도서 목록
+   - 도서 상세
+
+7. 검색
+   - 사용자 검색
+   - 게시글 검색(미구현)
+   - 도서 검색
 
 ## 5. 프로젝트 구조
 
