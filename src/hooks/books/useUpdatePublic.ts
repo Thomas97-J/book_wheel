@@ -3,7 +3,7 @@ import { updatePublic } from "../../apis/books";
 
 export const useUpdatePublic = (_bookId: string, filter: any) => {
   const queryClient = useQueryClient();
-  const bookQuery = ["books", filter];
+  const bookQuery = ["books"];
   return useMutation({
     mutationFn: updatePublic,
     onMutate: async ({ newIsPublic }) => {

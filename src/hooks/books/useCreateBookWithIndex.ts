@@ -8,6 +8,7 @@ export default function useCreateBookWithIndex() {
     mutationFn: createBookWithIndex,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["book_detail"] });
+      queryClient.invalidateQueries({ queryKey: ["books"] });
     },
   });
 

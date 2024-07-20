@@ -16,6 +16,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <App />
       </AuthProvider>
     </ThemeProvider>
-    <ReactQueryDevtools initialIsOpen={false} />
+    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
   </QueryClientProvider>
 );

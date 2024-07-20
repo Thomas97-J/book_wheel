@@ -8,6 +8,7 @@ export default function useUpdateBookByIndex() {
     mutationFn: updateBookByIndex,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["book_detail"] });
+      queryClient.invalidateQueries({ queryKey: ["books"] });
     },
   });
 

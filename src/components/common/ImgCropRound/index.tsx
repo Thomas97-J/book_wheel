@@ -125,6 +125,8 @@ const ImgCropWrapper = styled.div`
   left: 0;
   height: 100vh;
   width: 100vw;
+  max-width: 600px;
+
   background-color: #fff;
   z-index: 1001;
 `;
@@ -141,7 +143,7 @@ const CropContainer = styled.div`
   height: 60%;
   background: #333;
   @media (min-width: 600px) {
-    height: 400px;
+    height: 600px;
   }
 `;
 
