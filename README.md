@@ -47,9 +47,10 @@ http://localhost:5173/
 1. 도서 등록 및 관리
 
    1. 도서 등록
-      ![](https://velog.velcdn.com/images/alstn6987/post/0275f85d-1801-4a94-9ffb-77f417124e80/image.gif)
+      <img src="https://velog.velcdn.com/images/alstn6987/post/0275f85d-1801-4a94-9ffb-77f417124e80/image.gif" width="400">
+
    2. 도서 관리
-      ![](https://velog.velcdn.com/images/alstn6987/post/82577bb1-68d8-4e26-b71b-f7bc521e36ff/image.gif)
+      <img src="https://velog.velcdn.com/images/alstn6987/post/82577bb1-68d8-4e26-b71b-f7bc521e36ff/image.gif" width="400">
 
 2. 도서 교환
 
