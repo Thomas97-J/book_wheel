@@ -47,7 +47,9 @@ http://localhost:5173/
 1. 도서 등록 및 관리
 
    1. 도서 등록
+      ![도서 등록](\demo\book_create.gif "book_create")
    2. 도서 관리
+      ![도서 관리](\demo\book_update.gif "book_update")
 
 2. 도서 교환
 
