@@ -120,8 +120,10 @@ export async function updateUserData({
   data: any;
 }) {
   const userDoc = doc(db, "users", currentUser?.uid);
+  //여기서 유저 닉네임 매핑 테이블 삭제 해줘야함. 기존 유저 닉네임으로
   let updataData = { ...data, updatedAt: new Date() };
   await updateDoc(userDoc, updataData);
+
   await updateProfile(currentUser, {
     displayName: data.nickname,
   });

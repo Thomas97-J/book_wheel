@@ -5,7 +5,9 @@ import {
   doc,
   getDocs,
   limit,
+  orderBy,
   query,
+  startAfter,
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -113,6 +115,62 @@ export async function getUserFollowers(nickname: string): Promise<UserData[]> {
   return followersData;
 }
 
+export async function getUserFollowersBatchBy20({
+  nickname,
+  pageParam = null,
+}: {
+  nickname: string;
+  pageParam?: any;
+}): Promise<{
+  followers: UserData[];
+  nextPage: any;
+}> {
+  try {
+    const uid = await getUidByNickname(nickname);
+    const startTime = performance.now(); // 시작 시간 기록
+
+    let followersQuery = query(
+      collection(db, "follows"),
+      where("to_userId", "==", uid),
+      orderBy("createdAt", "desc"),
+      limit(20)
+    );
+
+    if (pageParam) {
+      followersQuery = query(followersQuery, startAfter(pageParam));
+    }
+    const followersSnapshot = await getDocs(followersQuery);
+    const followerIds = followersSnapshot.docs.map(
+      (doc) => doc.data().from_userId
+    );
+
+    if (followerIds.length === 0) {
+      return { followers: [], nextPage: undefined };
+    }
+
+    const userQuery = query(
+      collection(db, "users"),
+      where("__name__", "in", followerIds)
+    );
+    const userSnapshot = await getDocs(userQuery);
+    const followersData = userSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const lastVisible =
+      followersSnapshot.docs[followersSnapshot.docs.length - 1];
+    const endTime = performance.now(); // 종료 시간 기록
+    const responseTime = endTime - startTime;
+
+    console.log(`Response time: ${responseTime} milliseconds`);
+    return { followers: followersData, nextPage: lastVisible };
+  } catch (err) {
+    console.error(err);
+    return { followers: [], nextPage: undefined };
+  }
+}
+
 // 특정 사용자의 팔로잉 목록을 가져오는 함수
 export async function getUserFollowing(nickname: string): Promise<UserData[]> {
   const uid = await getUidByNickname(nickname);
@@ -137,4 +195,55 @@ export async function getUserFollowing(nickname: string): Promise<UserData[]> {
   }));
 
   return followingData;
+}
+
+export async function getUserFollowingBatchBy20({
+  nickname,
+  pageParam = null,
+}: {
+  nickname: string;
+  pageParam?: any;
+}): Promise<{
+  following: UserData[];
+  nextPage: any;
+}> {
+  try {
+    const uid = await getUidByNickname(nickname);
+    let followingQuery = query(
+      collection(db, "follows"),
+      where("from_userId", "==", uid),
+      orderBy("createdAt", "desc"),
+      limit(20)
+    );
+
+    if (pageParam) {
+      followingQuery = query(followingQuery, startAfter(pageParam));
+    }
+    const followingSnapshot = await getDocs(followingQuery);
+    const followingIds = followingSnapshot.docs.map(
+      (doc) => doc.data().to_userId
+    );
+
+    if (followingIds.length === 0) {
+      return { following: [], nextPage: undefined };
+    }
+
+    const userQuery = query(
+      collection(db, "users"),
+      where("__name__", "in", followingIds)
+    );
+    const userSnapshot = await getDocs(userQuery);
+    const followingData = userSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const lastVisible =
+      followingSnapshot.docs[followingSnapshot.docs.length - 1];
+
+    return { following: followingData, nextPage: lastVisible };
+  } catch (err) {
+    console.error(err);
+    return { following: [], nextPage: undefined };
+  }
 }

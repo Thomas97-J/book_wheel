@@ -111,7 +111,10 @@ const GlobalStyle = createGlobalStyle`
     background: #bcbcbc;
   }
   }
-
+  #root{
+    width: 100vw;
+    max-width: 600px;
+  }
 `;
 
 export default GlobalStyle;

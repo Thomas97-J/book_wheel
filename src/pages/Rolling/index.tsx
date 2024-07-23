@@ -6,6 +6,8 @@ import BookShorts from "./BookShorts";
 import { useInView } from "react-intersection-observer";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useStore } from "zustand";
+import useScrollStore from "../../stores/useScrollStore";
 
 function Rolling() {
   const location = useLocation();
@@ -18,16 +20,20 @@ function Rolling() {
     isFetchingNextPage,
     status,
   } = useRollingBooks();
+  const { setScrollTarget, scrollTarget, clearScrollTarget } = useScrollStore();
+  const handleClick = (bookCardId: string) => {
+    setScrollTarget(String(bookCardId));
+  };
 
   useEffect(() => {
-    const scrollTarget = sessionStorage.getItem(`scrollTarget-/rolling`);
     if (scrollTarget) {
-      let elem = document.getElementById(scrollTarget);
+      const elem = document.getElementById(scrollTarget);
       if (elem) {
         elem.scrollIntoView({});
       }
+      clearScrollTarget();
     }
-  }, [location]);
+  }, [location, scrollTarget, clearScrollTarget]);
 
   return (
     <RollingWrapper>
@@ -40,11 +46,20 @@ function Rolling() {
       </Helmet>
       {bookData?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
-          {page.books.map((book, bookIndex) => (
-            <div ref={bookIndex === 1 ? getRef : null} key={bookIndex}>
-              <BookShortsWithInView book={book} />
-            </div>
-          ))}
+          {page.books.map((book, bookIndex) => {
+            const bookCardId = `book-${book.index}`;
+            return (
+              <div
+                ref={bookIndex === 1 ? getRef : null}
+                key={bookIndex}
+                onClick={() => {
+                  handleClick(bookCardId);
+                }}
+              >
+                <BookShortsWithInView book={book} />
+              </div>
+            );
+          })}
         </div>
       ))}
     </RollingWrapper>
@@ -52,21 +67,10 @@ function Rolling() {
 }
 
 function BookShortsWithInView({ book }: { book: any }) {
-  const { inView, ref, entry } = useInView({ threshold: 0.8 });
-  const location = useLocation();
   const bookCardId = `book-${book.index}`;
-  useEffect(() => {
-    if (inView) {
-      console.log("entry", entry, book);
-      sessionStorage.setItem(
-        `scrollTarget-${location.pathname}`,
-        String(bookCardId)
-      );
-    }
-  }, [inView]);
 
   return (
-    <BookShortsWrapper ref={ref} id={bookCardId}>
+    <BookShortsWrapper id={bookCardId}>
       <BookShorts book={book} />
     </BookShortsWrapper>
   );
