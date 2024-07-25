@@ -156,7 +156,7 @@ function BottomNav() {
     </BottomNavWrapper>
   );
 }
-const BottomNavWrapper = styled.div`
+const BottomNavWrapper = styled.nav`
   height: 50px;
   padding: 6px;
   display: flex;

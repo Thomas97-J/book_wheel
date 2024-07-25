@@ -29,7 +29,7 @@ const NewBookButton = styled(Link)`
   background: ${({ theme }) => theme.color.default_green};
   color: white;
   border: none;
-  border-radius: 10%;
+  border-radius: 10px;
   width: 80px;
   height: 40px;
   font-size: 14px;

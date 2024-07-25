@@ -34,16 +34,7 @@ function UserPost() {
         postDatas?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page?.posts.map((post: any) => (
-              <PostCard
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                content={post.content}
-                uid={post.uid}
-                viewCount={post.viewCount}
-                index={post.index}
-                createdAt={post.createdAt}
-              />
+              <PostCard {...post} key={post.id} />
             ))}
           </div>
         ))

@@ -36,16 +36,7 @@ function LikePosts() {
         likedPostsDatas?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page?.likedPostsData.map((post: any) => (
-              <PostCard
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                content={post.content}
-                uid={post.uid}
-                index={post.index}
-                viewCount={post.viewCount}
-                createdAt={post.createdAt}
-              />
+              <PostCard {...post} key={post.id} />
             ))}
           </div>
         ))

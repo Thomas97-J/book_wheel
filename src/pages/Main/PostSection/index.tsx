@@ -50,6 +50,8 @@ function PostSection({
     }
   }, [location]);
 
+  console.log("postDatas", postDatas);
+
   return (
     <PostSectionWrapper>
       {isLoading && <LoadingSpinner />}
@@ -67,17 +69,7 @@ function PostSection({
         postDatas?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page?.posts.map((post: any) => (
-              <PostCard
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                content={post.content}
-                uid={post.uid}
-                index={post.index}
-                viewCount={post.viewCount}
-                createdAt={post.createdAt}
-                postImage={post?.postImage}
-              />
+              <PostCard {...post} key={post.id} />
             ))}
           </div>
         ))
