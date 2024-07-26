@@ -11,6 +11,7 @@ import SentDealCard from "./SentDealCard";
 import ListEmpty from "../../components/mobile/ListEmpty";
 import LoadingSpinner from "../../components/mobile/LoadingSpinner";
 import { useSearchParams } from "react-router-dom";
+import DealHeader from "../../components/mobile/headers/DealHeader";
 
 function Deal() {
   const { currentUser } = useAuth();
@@ -28,8 +29,8 @@ function Deal() {
     receivedDealDatas?.length === 0 && !isReceivedLoading;
 
   const tabs = [
-    { name: "받은 거래", key: "received" },
-    { name: "보낸 거래", key: "sent" },
+    { name: "받은 교환 신청", key: "received" },
+    { name: "보낸 교환 신청", key: "sent" },
   ];
 
   useEffect(() => {
@@ -48,7 +49,7 @@ function Deal() {
 
   return (
     <DealWrapper>
-      <DefaultHeader />
+      <DealHeader />
       <TabBar>
         {tabs.map((tab) => (
           <Tab
@@ -101,7 +102,7 @@ function Deal() {
   );
 }
 const DealWrapper = styled(PageWrapper)`
-  padding-top: 52px;
+  padding-top: 84px;
 `;
 const DealBody = styled.div`
   padding: 0 10px;
@@ -112,17 +113,22 @@ const TabBar = styled.div`
   justify-content: center;
   margin-bottom: 10px;
   width: 100%;
+  height: 32px;
+  top: 44px;
+  position: fixed;
+  background-color: #fff;
 `;
 
 const Tab = styled.button<{ $isActive: boolean }>`
   background: none;
   border: none;
-  padding: 10px 20px;
+  padding: 6px 20px;
   width: 100%;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   border-bottom: ${(props) =>
-    props.$isActive ? "2px solid black" : "2px solid #fff"};
+    props.$isActive ? "2px solid #10B981" : "2px solid #9CA3AF"};
+  color: ${(props) => (props.$isActive ? "#10B981" : "#9CA3AF")};
 `;
 
 const TabContent = styled(motion.div)`
