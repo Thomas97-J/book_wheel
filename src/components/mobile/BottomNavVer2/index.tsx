@@ -147,23 +147,21 @@ const BottomNavWrapper = styled.nav`
   position: fixed;
   z-index: 1000;
   bottom: 0;
-  background-color: white;
-  box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.1);
-  padding: 0 20px;
+  padding: 0 10px;
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
 
   width: 100vw;
   max-width: 600px;
-  height: 68px;
+  height: 60px;
 
   /* Default/green/500 */
   background: #f3f4f6;
 `;
 const Background = styled.img`
   position: fixed;
-  bottom: -60px;
+  bottom: -72px;
   left: 50%;
 
   z-index: -1;
@@ -182,7 +180,7 @@ const LinkIcon = styled(NavLink)<{ $isCurrentPath?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 12px;
+  padding-top: 8px;
   width: 60px;
   gap: 8px;
 
@@ -219,6 +217,6 @@ const Exchange = styled(Link)`
   position: absolute;
   left: 50%;
   bottom: 0;
-  transform: translate(-50%, -62%);
+  transform: translate(-50%, -45%);
 `;
 export default BottomNavVer2;
