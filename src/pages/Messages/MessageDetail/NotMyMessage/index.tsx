@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useGetUserById from "../../../../hooks/users/useGetUserById";
-import ProfileImage from "../../../../components/common/ProfileImage";
 import formatRelativeTime from "../../../../utils/formatRelativeTime";
+import ProfileImageSmall from "../../../../components/common/ProfileImageSmall";
 
 function NotMyMessage({
   message,
@@ -17,7 +17,7 @@ function NotMyMessage({
   return (
     <NotMyMessageWrapper key={message.id}>
       <ProfileImageWrapper>
-        {showProfileImage && <ProfileImage src={userData?.profileImage} />}
+        {showProfileImage && <ProfileImageSmall src={userData?.profileImage} />}
       </ProfileImageWrapper>
       <TextSection>
         <Content>{message.text}</Content> <Date>{formattedDate}</Date>

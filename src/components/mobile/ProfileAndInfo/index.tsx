@@ -53,14 +53,14 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
       <TopSection>
         <ProfileImage src={userData?.profileImage} />
         <InfoSection>
-          <NickName>
-            {userData?.nickname}{" "}
+          <NickName>{userData?.nickname} </NickName>
+          <FollowAndChat>
             <FollowBtn
               currentUid={currentUser?.uid ?? ""}
               targetUid={uid ?? ""}
             />
             <StartMessageBtn targetUserId={uid} />
-          </NickName>
+          </FollowAndChat>
           {userData?.bio && <Biography>{userData?.bio}</Biography>}
           <FollowTextWrapper>
             <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
@@ -117,9 +117,18 @@ const NickName = styled.strong`
   justify-content: center;
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: #111827;
   white-space: nowrap;
+`;
+const FollowAndChat = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  button {
+    margin: 0 4px;
+  }
 `;
 const Biography = styled.div`
   display: flex;

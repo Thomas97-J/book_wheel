@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import useGetUserById from "../../../../hooks/users/useGetUserById";
-import ProfileImage from "../../../../components/common/ProfileImage";
 import formatRelativeTime from "../../../../utils/formatRelativeTime";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../../App";
+import ProfileImageSmall from "../../../../components/common/ProfileImageSmall";
 
 function DealMessage({ message }: { message: Message }) {
   const formattedDate = formatRelativeTime(message?.createdAt as Timestamp);
@@ -13,7 +13,7 @@ function DealMessage({ message }: { message: Message }) {
   return (
     <DealMessageWrapper key={message.id}>
       <ProfileImageWrapper>
-        {<ProfileImage src={userData?.profileImage} />}
+        {<ProfileImageSmall src={userData?.profileImage} />}
       </ProfileImageWrapper>
       <TextSection>
         <Content to={`${PATH.deal}/${message.dealId}`}>
