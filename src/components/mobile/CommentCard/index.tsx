@@ -74,25 +74,32 @@ function CommentCard({
             </svg>
           </DeleteBtn>
         )}
-        {isHasReplies &&
-          comment.replies.map(
-            (reply: {
-              content: string;
-              createdAt: Timestamp;
-              userId: string;
-              id: string;
-            }) => (
-              <ReplyCard
-                key={reply?.id}
-                id={reply?.id}
-                content={reply.content}
-                commentId={comment?.id}
-                createdAt={reply.createdAt}
-                postId={comment.postId}
-                userId={reply.userId}
-              />
-            )
-          )}
+        {isHasReplies && (
+          <ReplyCardWrapper
+            onClick={() => {
+              handleReplyPopupOpen(true, { comment, userData });
+            }}
+          >
+            {comment.replies.map(
+              (reply: {
+                content: string;
+                createdAt: Timestamp;
+                userId: string;
+                id: string;
+              }) => (
+                <ReplyCard
+                  key={reply?.id}
+                  id={reply?.id}
+                  content={reply.content}
+                  commentId={comment?.id}
+                  createdAt={reply.createdAt}
+                  postId={comment.postId}
+                  userId={reply.userId}
+                />
+              )
+            )}
+          </ReplyCardWrapper>
+        )}
       </Wrapper>
     </CommentCardWrapper>
   );
@@ -109,7 +116,7 @@ const Wrapper = styled.div`
 const DeleteBtn = styled.button`
   position: absolute;
   right: 20px;
-  top: 8px;
+  top: 6px;
   padding: 0;
   border: none;
 `;
@@ -139,12 +146,19 @@ const ContentSection = styled.button`
 const Content = styled.span`
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   padding: 8px;
   font-size: 14px;
   background-color: #e5e7eb;
   width: 100%;
-  height: 32px;
+  min-height: 32px;
   border-radius: 10px;
+  word-break: break-all;
+  text-align: left;
+`;
+const ReplyCardWrapper = styled.button`
+  border: none;
+  padding: none;
 `;
 const CommentCardWrapper = styled.div`
   position: relative;

@@ -106,7 +106,7 @@ const PostImg = styled.img`
 const CountSection = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
 `;
 const Count = styled.span`
   font-size: 12px;
@@ -131,12 +131,13 @@ const CenterWrapper = styled.div`
 `;
 const Content = styled.p`
   font-size: 14px;
+  line-height: 1.2;
   color: #333;
 `;
 const ViewCount = styled.div`
   font-size: 12px;
   color: #666;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `;
 const DataStringPost = styled.div`
   margin-bottom: 8px;

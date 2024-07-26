@@ -146,12 +146,13 @@ function CommentSection({ postId }: { postId: string }) {
   );
 }
 const EmptyComment = styled.div`
-  padding-top: 10px;
+  padding: 10px 20px 30px;
+  font-size: 14px;
+  font-weight: bold;
 `;
 
 const CommentSectionWrapper = styled.div`
   padding-bottom: 120px;
-  border-top: 1px solid #ccc;
 `;
 const CommentForm = styled.form`
   display: flex;

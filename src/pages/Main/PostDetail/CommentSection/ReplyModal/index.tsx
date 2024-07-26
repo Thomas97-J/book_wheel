@@ -39,18 +39,19 @@ function ReplyModal({
           handleReplyPopupOpen={handleReplyPopupOpen}
           withOutReply={true}
         />
-
-        {replyTarget.comment.replies?.map((reply: any) => (
-          <ReplyCard
-            id={reply?.id}
-            key={reply?.id}
-            content={reply.content}
-            commentId={replyTarget.comment?.id}
-            createdAt={reply.createdAt}
-            postId={replyTarget.comment.postId}
-            userId={reply.userId}
-          />
-        ))}
+        <ReplyCardWrapper>
+          {replyTarget.comment.replies?.map((reply: any) => (
+            <ReplyCard
+              id={reply?.id}
+              key={reply?.id}
+              content={reply.content}
+              commentId={replyTarget.comment?.id}
+              createdAt={reply.createdAt}
+              postId={replyTarget.comment.postId}
+              userId={reply.userId}
+            />
+          ))}
+        </ReplyCardWrapper>
       </ModalContent>
     </>
   );
@@ -81,6 +82,9 @@ const ModalContent = styled.div`
   position: fixed;
   bottom: 120px;
   z-index: 1000;
+`;
+const ReplyCardWrapper = styled.div`
+  padding: 0 20px 0 52px;
 `;
 const Content = styled.span`
   display: flex;
