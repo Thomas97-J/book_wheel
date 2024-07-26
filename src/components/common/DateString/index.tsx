@@ -1,11 +1,6 @@
 import styled from "styled-components";
 import formatRelativeTime from "../../../utils/formatRelativeTime";
 
-const DateStringWrapper = styled.div<{ $fontSize: string }>`
-  font-size: ${(props) => (props.$fontSize ? props.$fontSize : "0.8rem")};
-  color: #666;
-`;
-
 function DateString({
   date,
   fontSize,
@@ -16,8 +11,13 @@ function DateString({
   const formattedDate = formatRelativeTime(date);
 
   return (
-    <DateStringWrapper $fontSize={fontSize}>{formattedDate}</DateStringWrapper>
+    <DateStringWrapper $fontSize={fontSize ?? ""}>
+      {formattedDate}
+    </DateStringWrapper>
   );
 }
-
+const DateStringWrapper = styled.div<{ $fontSize: string }>`
+  font-size: ${(props) => (props.$fontSize ? props.$fontSize : "0.8rem")};
+  color: #666;
+`;
 export default DateString;

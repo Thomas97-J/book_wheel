@@ -92,6 +92,9 @@ const PostSectionWrapper = styled.div`
 const StickyMenu = styled.div<{ $scrolled: boolean }>`
   position: sticky;
   z-index: 100;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
   background: #fff;
   top: 50px;
   height: 50px;

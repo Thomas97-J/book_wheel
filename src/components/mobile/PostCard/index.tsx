@@ -2,10 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../../App";
 import useGetCommentCount from "../../../hooks/comments/useGetCommentCount";
-import DateString from "../../common/DateString";
-import useGetUserById from "../../../hooks/users/useGetUserById";
-import imgPaths from "../../../assets/images/image_path";
 import useGetReceivedLikesCount from "../../../hooks/like/useGetReceivedLikesCount";
+import ProfileForCard from "../ProfileForCard";
 
 function PostCard({
   title,
@@ -18,7 +16,6 @@ function PostCard({
   viewCount,
 }: Post) {
   const { commentCount } = useGetCommentCount(id ?? "");
-  const { userData } = useGetUserById(uid);
   const { receivedLikesCount } = useGetReceivedLikesCount(id ?? "");
   console.log("receivedLikesCount", receivedLikesCount);
 
@@ -29,19 +26,7 @@ function PostCard({
         sessionStorage.setItem(`scrollTarget-/post`, String(id));
       }}
     >
-      <ProfileSection>
-        <ProFile
-          src={userData?.profileImage ?? imgPaths.defaultProfileImage}
-          alt="프로필 이미지"
-        />
-        <NicknameAndDate>
-          <NickName to={`${PATH.profile}?user=${userData?.nickname}`}>
-            {userData?.nickname}
-          </NickName>
-
-          <DateString date={createdAt} fontSize="10px" />
-        </NicknameAndDate>
-      </ProfileSection>
+      <ProfileForCard uid={uid} createdAt={createdAt as Timestamp} />
       <GoToDetail to={`${PATH.postDetail}?no=${index}`}>
         <TitleAndInfo>
           <Title>{title}</Title>
@@ -110,30 +95,7 @@ const PostCardWrapper = styled.div`
   transition: all 0.3s ease;
   padding: 20px 20px;
 `;
-const ProfileSection = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-`;
-const ProFile = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
-const NicknameAndDate = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-const NickName = styled(Link)`
-  text-decoration: none;
-  color: #000;
-  margin-right: 10px;
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 4px;
-`;
+
 const GoToDetail = styled(Link)`
   text-decoration: none;
   color: black;

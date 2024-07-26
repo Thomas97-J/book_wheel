@@ -196,13 +196,14 @@ http://localhost:5173/
 
 ## 6. 트러블 슈팅
 
-1. 크롬, 엣지 이미지 랜더링 문제
+1. [API 응답 속도 개선 1부 - 요청 횟수 줄이기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-1%EB%B6%80)
 
-## 7. 성능 최적화
+2. [API 응답 속도 개선 2부 - 근본적인 문제 살피기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-2%EB%B6%80-%EA%B7%BC%EB%B3%B8%EC%A0%81%EC%9D%B8-%EB%AC%B8%EC%A0%9C-%EC%82%B4%ED%94%BC%EA%B8%B0)
+
+## 7. 기술적 의사 결정
 
 1. [프론트 개발자의 쿼리 고민](https://velog.io/@alstn6987/%ED%94%84%EB%A1%A0%ED%8A%B8-%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98-%EC%BF%BC%EB%A6%AC-%EA%B3%A0%EB%AF%BC)
-2. [API 응답 속도 개선 1부 - 요청 횟수 줄이기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-1%EB%B6%80)
-3. [API 응답 속도 개선 2부 - 근본적인 문제 살피기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-2%EB%B6%80-%EA%B7%BC%EB%B3%B8%EC%A0%81%EC%9D%B8-%EB%AC%B8%EC%A0%9C-%EC%82%B4%ED%94%BC%EA%B8%B0)
-4. [Zustand vs 세션스토리지, 페이지 위치 저장.](https://velog.io/@alstn6987/Zustand-vs-%EC%84%B8%EC%85%98%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80.-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9C%84%EC%B9%98-%EC%A0%80%EC%9E%A5)
+
+2. [Zustand vs 세션스토리지, 페이지 위치 저장.](https://velog.io/@alstn6987/Zustand-vs-%EC%84%B8%EC%85%98%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80.-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%9C%84%EC%B9%98-%EC%A0%80%EC%9E%A5)
 
 <!-- 3. 닉네임-사용자 매핑 테이블 제작기 -->

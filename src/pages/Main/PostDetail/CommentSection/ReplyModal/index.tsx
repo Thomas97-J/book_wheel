@@ -5,6 +5,7 @@ import LikeBtnComment from "../../../../../components/mobile/LikeBtnComment";
 import { useAuth } from "../../../../../context/AuthContext";
 import ReplyCard from "../../../../../components/mobile/CommentCard/ReplyCard";
 import DateString from "../../../../../components/common/DateString";
+import CommentCard from "../../../../../components/mobile/CommentCard";
 
 const ReplyModalWrapper = styled.div`
   /* Add your styles here */
@@ -25,31 +26,20 @@ function ReplyModal({
   replyTarget: { comment: Comment; userData: UserData };
   handleReplyPopupOpen: (bool: boolean) => void;
 }) {
-  const { currentUser } = useAuth();
-
-  console.log("replyTarget", replyTarget);
-
   return (
-    <div>
+    <>
       <ModalOverlay
         onClick={() => {
           handleReplyPopupOpen(false);
         }}
       ></ModalOverlay>
       <ModalContent>
-        <InfoSection>
-          <ProfileLink
-            to={`${PATH.profile}?user=${replyTarget?.userData?.nickname}`}
-          >
-            {replyTarget?.userData?.nickname}
-          </ProfileLink>
-          <DateString date={replyTarget?.comment?.createdAt} />
-          <LikeBtnComment
-            userId={currentUser?.uid ?? ""}
-            commentId={replyTarget?.comment?.id}
-          />
-        </InfoSection>
-        <Content>{replyTarget?.comment?.content}</Content>
+        <CommentCard
+          comment={replyTarget.comment}
+          handleReplyPopupOpen={handleReplyPopupOpen}
+          withOutReply={true}
+        />
+
         {replyTarget.comment.replies?.map((reply: any) => (
           <ReplyCard
             id={reply?.id}
@@ -62,20 +52,10 @@ function ReplyModal({
           />
         ))}
       </ModalContent>
-    </div>
+    </>
   );
 }
-const InfoSection = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-`;
 
-const ProfileLink = styled(Link)`
-  text-decoration: none;
-  color: #414141;
-  margin-right: 6px;
-`;
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -91,15 +71,16 @@ const ModalOverlay = styled.div`
 `;
 const ModalContent = styled.div`
   background: white;
-  padding: 20px 20px;
+  padding: 20px 0;
+  padding-bottom: 100px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100vw;
   min-height: 120px;
   max-width: 600px;
   position: fixed;
-  bottom: 90px;
-  z-index: 1001;
+  bottom: 120px;
+  z-index: 1000;
 `;
 const Content = styled.span`
   display: flex;

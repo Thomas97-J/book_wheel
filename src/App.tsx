@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import BottomNav from "./components/mobile/BottomNav";
 import Fallback from "./components/mobile/Fallback";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import BottomNavVer2 from "./components/mobile/BottomNavVer2";
 
 const My = React.lazy(() => import("./pages/My"));
 const Explore = React.lazy(() => import("./pages/Explore"));
@@ -152,7 +153,8 @@ function App() {
           </Routes>
         </HelmetProvider>
       </Suspense>
-      <BottomNav />
+      {/* <BottomNav /> */}
+      <BottomNavVer2 />
     </BrowserRouter>
   );
 }

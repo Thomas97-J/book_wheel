@@ -85,7 +85,6 @@ const DropDownWrapper = styled.div`
 const DropDownHeader = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px;
   cursor: pointer;
 `;
 

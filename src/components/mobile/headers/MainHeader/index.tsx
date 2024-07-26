@@ -112,7 +112,7 @@ function Mainheaders({ needBottomLine }: { needBottomLine: boolean }) {
   );
 }
 const MainheadersWrapper = styled(Header)<{ $scrolled: boolean }>`
-  padding: 0 8px;
+  padding: 0 18px;
   ${(props) => (props.$scrolled ? "box-shadow: none" : "")};
   z-index: 1001;
 `;
@@ -120,6 +120,7 @@ const MainheadersWrapper = styled(Header)<{ $scrolled: boolean }>`
 const LeftSide = styled.div`
   display: flex;
   align-items: center;
+  gap: 4px;
 `;
 const SearchLink = styled(Link)`
   text-decoration: none;
