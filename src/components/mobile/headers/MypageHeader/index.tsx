@@ -42,5 +42,9 @@ function MypageHeader() {
 }
 const MypageHeaderWrapper = styled(Header)`
   justify-content: flex-end;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0 10px;
 `;
 export default MypageHeader;

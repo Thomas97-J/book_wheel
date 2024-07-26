@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import FollowBtn from "../FollowBtn";
 import { useAuth } from "../../../context/AuthContext";
 import ProfileImage from "../../common/ProfileImage";
+import ProfileImageSmall from "../../common/ProfileImageSmall";
 
 function UserCard({ userInfo }: { userInfo: UserData }) {
   const { currentUser } = useAuth();
@@ -11,7 +12,7 @@ function UserCard({ userInfo }: { userInfo: UserData }) {
   return (
     <UserCardWrapper>
       <GoToProfile to={`/profile?user=${userInfo.nickname}`}>
-        <ProfileImage src={userInfo?.profileImage} />
+        <ProfileImageSmall src={userInfo?.profileImage} />
         <NicknameAndBio>
           <Nickname>{userInfo.nickname}</Nickname>
           <Biography>{userInfo?.bio}</Biography>

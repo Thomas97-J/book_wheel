@@ -6,6 +6,7 @@ import useGetUidByNickname from "../../hooks/users/useGetUidByNickname";
 import PageWrapper from "../../assets/styles/PageWrapper";
 import FollowBtn from "../../components/mobile/FollowBtn";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
+import ProfileHeader from "../../components/mobile/headers/ProfileHeader";
 
 function Profile() {
   const { currentUser } = useAuth();
@@ -15,7 +16,7 @@ function Profile() {
 
   return (
     <ProfileWrapper>
-      <DefaultHeader />
+      <ProfileHeader />
       <ProfileBody>
         <ProfileAndInfo uid={targetUid || ""} nickname={nickname} />
       </ProfileBody>{" "}
@@ -25,13 +26,10 @@ function Profile() {
 
 const ProfileWrapper = styled(PageWrapper)`
   position: relative;
+  padding-top: 0;
 `;
 const ProfileBody = styled.div`
-  padding: 0 10px;
+  padding: 0;
 `;
-const FollowBtnWrapper = styled.div`
-  position: absolute;
-  top: 122px;
-  right: 10px;
-`;
+
 export default Profile;

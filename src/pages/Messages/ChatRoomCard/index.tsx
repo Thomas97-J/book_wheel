@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import RedDot from "../../../components/common/RedDot";
 import ProfileImage from "../../../components/common/ProfileImage";
+import ProfileImageSmall from "../../../components/common/ProfileImageSmall";
 
 function ChatRoomCard({ room }: { room: any }) {
   const { currentUser } = useAuth();
@@ -29,7 +30,7 @@ function ChatRoomCard({ room }: { room: any }) {
 
   return (
     <ChatRoomCardWrapper to={`${PATH.messageDetail}?chat=${room.id}`}>
-      <ProfileImage src={room.otherUsers[0]?.profileImage} />
+      <ProfileImageSmall src={room.otherUsers[0]?.profileImage} />
       <TextWrapper>
         <Info>
           <strong>{room.otherUsers[0].nickname}</strong>님 과의 대화
@@ -58,6 +59,10 @@ const ChatRoomCardWrapper = styled(Link)`
   img {
     width: 40px;
     height: 40px;
+    min-height: 40px;
+    min-width: 40px;
+    border: none;
+    margin-right: 8px;
   }
 `;
 const TextWrapper = styled.div`

@@ -64,57 +64,40 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
           {userData?.bio && <Biography>{userData?.bio}</Biography>}
           <FollowTextWrapper>
             <UserInfoLink to={`${PATH.follow}?type=following&user=${nickname}`}>
-              팔로잉 <UnderLine>{followData?.followingCount}</UnderLine>명
+              팔로잉 <UnderLine>{followData?.followingCount}</UnderLine>
             </UserInfoLink>
             <UserInfoLink to={`${PATH.follow}?type=followers&user=${nickname}`}>
-              팔로워 <UnderLine>{followData?.followersCount}</UnderLine>명
+              팔로워 <UnderLine>{followData?.followersCount}</UnderLine>
+            </UserInfoLink>{" "}
+            <UserInfoLink to={`${PATH.bookshelf}?user=${nickname}`}>
+              {isCurrentUser ? "내 책장" : `${userData?.nickname}의 책장`}{" "}
+              <UnderLine>{bookcount}</UnderLine>
+            </UserInfoLink>
+            <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
+              작성글 <UnderLine>{postDatas?.length}</UnderLine>
             </UserInfoLink>
           </FollowTextWrapper>
         </InfoSection>
       </TopSection>
-      <BottomSection>
-        <UserInfoLink to={`${PATH.bookshelf}?user=${nickname}`}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="rgba(0, 0, 0, 1)"
-          >
-            <path d="M6 22h15v-2H6.012C5.55 19.988 5 19.805 5 19s.55-.988 1.012-1H21V4c0-1.103-.897-2-2-2H6c-1.206 0-3 .799-3 3v14c0 2.201 1.794 3 3 3zM5 8V5c0-.805.55-.988 1-1h13v12H5V8z"></path>
-            <path d="M8 6h9v2H8z"></path>
-          </svg>
-          {isCurrentUser ? "내 책장" : `${userData?.nickname}의 책장`}{" "}
-          <UnderLine>{bookcount}</UnderLine>권
-        </UserInfoLink>
-        <UserInfoLink to={`${PATH.userPost}?user=${nickname}`}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="rgba(0, 0, 0, 1)"
-          >
-            <path d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"></path>
-            <path d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"></path>
-          </svg>
-          작성글 <UnderLine>{postDatas?.length}</UnderLine>개
-        </UserInfoLink>
-      </BottomSection>
+      <BottomSection></BottomSection>
     </UserInfo>
   );
 }
 
-const UnderLine = styled.span`
-  text-decoration: underline;
-  margin-left: 4px;
-`;
 const FollowTextWrapper = styled.div`
   display: flex;
+  justify-content: space-around;
+  width: 100%;
 `;
 const TopSection = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 10px 0;
+  padding-top: 120px;
+  background: linear-gradient(#10b981 51%, #ffffff 49%);
+  width: 100%;
+  height: 360px;
 `;
 
 const BottomSection = styled.div`
@@ -125,14 +108,37 @@ const InfoSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 16px;
+  width: 100%;
+`;
+const NickName = styled.strong`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #111827;
+  white-space: nowrap;
+`;
+const Biography = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
 `;
 const UserInfoLink = styled(Link)`
   text-decoration: none;
-  color: #000;
-  height: 30px;
-  margin-right: 8px;
+  color: #6b7280;
+  font-size: 12px;
+  width: 100px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  white-space: nowrap;
+
   svg {
     margin-right: 4px;
   }
@@ -141,25 +147,19 @@ const UserInfoLink = styled(Link)`
     color: ${({ theme }) => theme.color.default_green};
   }
 `;
-
-const NickName = styled.strong`
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
-`;
-const Biography = styled.div`
+const UnderLine = styled.span`
+  text-decoration: underline;
+  margin-top: 12px;
   font-size: 14px;
-  color: #737373;
-  margin-bottom: 8px;
+  font-weight: bold;
+  color: #111827;
 `;
 const UserInfo = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  white-space: nowrap;
 `;
 
 export default ProfileAndInfo;

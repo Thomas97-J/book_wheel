@@ -26,7 +26,7 @@ function BookDetail() {
     <BookDetailWrapper>
       <BookHeader user={currentUser} bookData={bookData} />
       <BookDetailBody>
-        <ProfileSimple uid={ownerId} />
+        {/* <ProfileSimple uid={ownerId} /> */}
         {bookData?.photoUrl && (
           <BookImage src={bookData?.photoUrl} alt="도서 이미지" />
         )}

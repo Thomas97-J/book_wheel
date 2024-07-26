@@ -8,9 +8,14 @@ function ProfileImage({ src }: { src: string | null | undefined }) {
 }
 
 const ProFile = styled.img`
-  width: 100px;
-  height: 100px;
+  min-width: 120px;
+  width: 120px;
+  min-height: 120px;
+  height: 120px;
   border-radius: 50%;
-  margin-right: 10px;
+  border: 4px solid #f9fafb;
+
+  box-shadow: 0px 10px 15px -3px #0000001a;
+  background-color: #fff;
 `;
 export default ProfileImage;
