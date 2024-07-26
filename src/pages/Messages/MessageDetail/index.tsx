@@ -64,7 +64,7 @@ function MessageDetail() {
     if (bottomRef?.current) {
       bottomRef?.current.scrollIntoView();
     }
-    console.log("users", users);
+    console.log("bottomRef?.current", bottomRef?.current);
   }, [messages]);
 
   useEffect(() => {
@@ -77,9 +77,9 @@ function MessageDetail() {
     };
   }, [currentUser?.uid]);
 
-  useEffect(() => {
-    setFocus("message");
-  }, []);
+  // useEffect(() => {
+  //   setFocus("message");
+  // }, []);
 
   if (isError) {
     return <div>Error loading messages.</div>;
@@ -92,6 +92,8 @@ function MessageDetail() {
         {messages?.map((message, index) => {
           const showProfileImage =
             index === 0 || messages[index - 1].uid !== message.uid;
+          const isLastMessage =
+            messages[messages?.length - 1 ?? 0]?.id === message?.id;
           const currentDate = dayjs(
             (message.createdAt as Timestamp)?.toDate()
           ).format("YYYY년 MM월 DD일");
@@ -102,10 +104,9 @@ function MessageDetail() {
                 ).format("YYYY년 MM월 DD일")
               : null;
           const showDate = currentDate !== previousDate;
-
           if (message.uid === currentUser?.uid) {
             return (
-              <div key={message.id}>
+              <div key={message.id} ref={isLastMessage ? bottomRef : undefined}>
                 {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
                 <MyMessage message={message} />
               </div>
@@ -113,7 +114,10 @@ function MessageDetail() {
           } else {
             if (message?.isDealMessage) {
               return (
-                <div key={message.id}>
+                <div
+                  key={message.id}
+                  ref={isLastMessage ? bottomRef : undefined}
+                >
                   {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
                   <DealMessage message={message} />
                 </div>
@@ -121,7 +125,7 @@ function MessageDetail() {
             }
 
             return (
-              <div key={message.id}>
+              <div key={message.id} ref={isLastMessage ? bottomRef : undefined}>
                 {showDate && <DateChangeLine>{currentDate}</DateChangeLine>}
                 <NotMyMessage
                   message={message}
@@ -131,10 +135,15 @@ function MessageDetail() {
             );
           }
         })}
+        {/* <div ref={bottomRef}></div> */}
       </MessageDetailBody>
-      <div ref={bottomRef}></div>
       <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
-        <input {...register("message")} type="text" enterKeyHint="send" />
+        <input
+          {...register("message")}
+          type="text"
+          enterKeyHint="send"
+          autoComplete="off"
+        />
         {/* <button type="submit">전송</button> */}
       </MessageForm>
     </MessageDetailWrapper>
