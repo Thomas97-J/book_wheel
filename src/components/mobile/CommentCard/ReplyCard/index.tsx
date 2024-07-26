@@ -107,6 +107,7 @@ const ReplyCardWrapper = styled.div`
   position: relative;
   display: flex;
   padding: 8px 0 0;
+  width: 100%;
 `;
 const InfoSection = styled.div`
   display: flex;

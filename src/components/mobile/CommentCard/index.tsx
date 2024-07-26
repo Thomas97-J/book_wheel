@@ -158,7 +158,8 @@ const Content = styled.span`
 `;
 const ReplyCardWrapper = styled.button`
   border: none;
-  padding: none;
+  width: 100%;
+  padding: 0;
 `;
 const CommentCardWrapper = styled.div`
   position: relative;

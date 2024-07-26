@@ -155,6 +155,7 @@ const MessageDetailWrapper = styled(PageWrapper)`
 `;
 const MessageDetailBody = styled.div`
   padding: 0 10px;
+  /* overflow-y: scroll; */
 `;
 const DateChangeLine = styled.div`
   display: flex;
