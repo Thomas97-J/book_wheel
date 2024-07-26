@@ -8,6 +8,7 @@ const DefaultHeaderWrapper = styled(Header)`
   padding: 0 20px;
   border: none;
   box-shadow: none;
+  font-weight: bold;
 `;
 
 export default DealHeader;

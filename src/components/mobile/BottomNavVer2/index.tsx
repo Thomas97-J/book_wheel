@@ -40,8 +40,8 @@ function BottomNavVer2() {
         end
       >
         <svg
-          width="24"
-          height="24"
+          width="22"
+          height="22"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -61,8 +61,8 @@ function BottomNavVer2() {
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <svg
-          width="25"
-          height="24"
+          width="22.5"
+          height="22"
           viewBox="0 0 25 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -80,8 +80,8 @@ function BottomNavVer2() {
       <ExchangeBg></ExchangeBg>
       <Exchange key="deal" to={PATH.deal}>
         <svg
-          width="24"
-          height="24"
+          width="22"
+          height="22"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +102,8 @@ function BottomNavVer2() {
       >
         {messageCount ? <NavRedDot>{messageCount}</NavRedDot> : ""}
         <svg
-          width="23"
-          height="22"
+          width="22"
+          height="21"
           viewBox="0 0 23 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -124,8 +124,8 @@ function BottomNavVer2() {
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <svg
-          width="24"
-          height="24"
+          width="22"
+          height="22"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -180,13 +180,13 @@ const LinkIcon = styled(NavLink)<{ $isCurrentPath?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 8px;
+  padding-top: 10px;
   width: 60px;
-  gap: 8px;
+  gap: 6px;
 
   span {
     display: none;
-    font-size: 12px;
+    font-size: 11px;
   }
   &.active {
     span {

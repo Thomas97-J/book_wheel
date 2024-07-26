@@ -9,6 +9,7 @@ function MessageMainHeader() {
 }
 const MessageMainHeaderWrapper = styled(Header)`
   padding: 0 20px;
+  font-weight: bold;
 `;
 
 export default MessageMainHeader;
