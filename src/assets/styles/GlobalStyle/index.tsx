@@ -57,9 +57,9 @@ const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
     box-sizing: border-box;
     font-family: NEXON Lv1 Gothic OTF, sans-serif, Arial;
+    -webkit-tap-highlight-color: transparent;
 
   }
-
 
   h2, p {
     margin: 0;
