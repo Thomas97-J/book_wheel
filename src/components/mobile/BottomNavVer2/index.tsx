@@ -27,8 +27,9 @@ function BottomNavVer2() {
     }
   }, [unreadCounts]);
 
-  console.log("location", location);
-
+  if (PATH.messageDetail === location.pathname) {
+    return "";
+  }
   return (
     <BottomNavWrapper>
       <Background src="\images\bottom_nav_background.svg" />

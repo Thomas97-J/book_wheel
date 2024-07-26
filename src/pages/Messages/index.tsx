@@ -33,5 +33,7 @@ const MessagesWrapper = styled(PageWrapper)`
 `;
 const MessageBody = styled.div`
   padding: 0 10px;
+  display: flex;
+  flex-direction: column;
 `;
 export default Messages;

@@ -45,11 +45,16 @@ function ChatRoomCard({ room }: { room: any }) {
 const ChatRoomCardWrapper = styled(Link)`
   position: relative;
   display: flex;
+  align-items: center;
   padding: 8px 4px;
   text-decoration: none;
   font-size: 16px;
   color: #000;
-  border-bottom: solid 1px #ccc;
+  background: #f3f4f6;
+
+  box-shadow: 0px 4px 6px -1px #0000001a;
+  border-radius: 5px;
+  margin: 4px 0;
   img {
     width: 40px;
     height: 40px;
@@ -71,10 +76,11 @@ const Content = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 14px;
+  min-height: 14px;
 `;
 const Date = styled.span`
   margin-left: 4px;
-  font-size: 14px;
+  font-size: 12px;
   color: #828282;
 `;
 

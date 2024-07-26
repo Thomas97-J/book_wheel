@@ -77,6 +77,10 @@ function MessageDetail() {
     };
   }, [currentUser?.uid]);
 
+  useEffect(() => {
+    setFocus("message");
+  }, []);
+
   if (isError) {
     return <div>Error loading messages.</div>;
   }
@@ -138,7 +142,7 @@ function MessageDetail() {
 }
 
 const MessageDetailWrapper = styled(PageWrapper)`
-  /* Add your styles here */
+  padding-bottom: 60px;
 `;
 const MessageDetailBody = styled.div`
   padding: 0 10px;
@@ -158,14 +162,18 @@ const MessageForm = styled.form`
   bottom: 0;
   width: 100vw;
   max-width: 600px;
-  height: 50px;
-  padding: 4px 10px;
+  height: 60px;
+  padding: 8px 20px;
   background-color: #fff;
   box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.2);
   input {
+    display: flex;
     width: 100%;
     height: 40px;
     border-radius: 30px;
+    padding: 0 20px;
+    background-color: #f3f4f6;
+    border: none;
   }
   button {
     white-space: nowrap;
