@@ -8,12 +8,12 @@ const RedDot = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background-color: #f00;
   border: none;
   color: #fff;
-  font-size: 12px;
+  font-size: 11px;
 `;
 export default RedDot;

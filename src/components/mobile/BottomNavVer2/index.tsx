@@ -170,9 +170,9 @@ const Background = styled.img`
 const NavRedDot = styled(RedDot)`
   width: 14px;
   height: 14px;
-  font-size: 10px;
-  right: -2px;
-  top: -2px;
+  font-size: 9px;
+  right: 8px;
+  top: 5px;
 `;
 const LinkIcon = styled(NavLink)<{ $isCurrentPath?: boolean }>`
   text-decoration: none;
@@ -183,7 +183,7 @@ const LinkIcon = styled(NavLink)<{ $isCurrentPath?: boolean }>`
   padding-top: 10px;
   width: 60px;
   gap: 6px;
-
+  position: relative;
   span {
     display: none;
     font-size: 11px;
