@@ -10,5 +10,9 @@ declare module "styled-components" {
       default_green: string;
       default_gray_green: string;
     };
+    height: {
+      header: string;
+      bottomNav: string;
+    };
   }
 }

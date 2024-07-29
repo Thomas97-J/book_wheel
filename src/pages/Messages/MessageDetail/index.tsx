@@ -93,7 +93,7 @@ function MessageDetail() {
           const showProfileImage =
             index === 0 || messages[index - 1].uid !== message.uid;
           const isLastMessage =
-            messages[messages?.length - 1 ?? 0]?.id === message?.id;
+            messages[messages?.length - 1]?.id === message?.id;
           const currentDate = dayjs(
             (message.createdAt as Timestamp)?.toDate()
           ).format("YYYY년 MM월 DD일");
@@ -135,7 +135,6 @@ function MessageDetail() {
             );
           }
         })}
-        {/* <div ref={bottomRef}></div> */}
       </MessageDetailBody>
       <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
         <input
@@ -155,7 +154,10 @@ const MessageDetailWrapper = styled(PageWrapper)`
 `;
 const MessageDetailBody = styled.div`
   padding: 0 10px;
-  /* overflow-y: scroll; */
+
+  height: calc(100vh - 50px - 60px);
+  max-height: calc(100vh - 50px - 60px);
+  overflow-y: scroll;
 `;
 const DateChangeLine = styled.div`
   display: flex;
