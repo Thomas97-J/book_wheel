@@ -78,7 +78,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     display: flex;
     justify-content: center;
-    height: 100%;
+    /* height: 100%; */
     ::-webkit-scrollbar {
       width: 0;
       height: 0;

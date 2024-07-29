@@ -62,7 +62,7 @@ function MessageDetail() {
 
   useEffect(() => {
     if (bottomRef?.current) {
-      bottomRef?.current.scrollIntoView();
+      bottomRef?.current.scrollIntoView({ block: "center" });
     }
     console.log("bottomRef?.current", bottomRef?.current);
   }, [messages]);
@@ -76,10 +76,6 @@ function MessageDetail() {
       resetUnReadCount();
     };
   }, [currentUser?.uid]);
-
-  // useEffect(() => {
-  //   setFocus("message");
-  // }, []);
 
   if (isError) {
     return <div>Error loading messages.</div>;
@@ -136,14 +132,13 @@ function MessageDetail() {
           }
         })}
       </MessageDetailBody>
-      <MessageForm onSubmit={handleSubmit(handleSendMessage)}>
+      <MessageForm onSubmit={handleSubmit(handleSendMessage)} id="messageForm">
         <input
           {...register("message")}
           type="text"
           enterKeyHint="send"
           autoComplete="off"
         />
-        {/* <button type="submit">전송</button> */}
       </MessageForm>
     </MessageDetailWrapper>
   );
@@ -151,11 +146,11 @@ function MessageDetail() {
 
 const MessageDetailWrapper = styled(PageWrapper)`
   padding-bottom: 60px;
+  min-height: auto;
 `;
 const MessageDetailBody = styled.div`
   padding: 0 10px;
 
-  height: calc(100vh - 50px - 60px);
   max-height: calc(100vh - 50px - 60px);
   overflow-y: scroll;
 `;

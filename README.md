@@ -196,9 +196,11 @@ http://localhost:5173/
 
 ## 6. 트러블 슈팅
 
-1. [API 응답 속도 개선 1부 - 요청 횟수 줄이기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-1%EB%B6%80)
+1. [Fixed Input 가상 키보드 스크롤 이슈](https://velog.io/@alstn6987/Fixed-Input-%EA%B0%80%EC%83%81-%ED%82%A4%EB%B3%B4%EB%93%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%9D%B4%EC%8A%88)
 
-2. [API 응답 속도 개선 2부 - 근본적인 문제 살피기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-2%EB%B6%80-%EA%B7%BC%EB%B3%B8%EC%A0%81%EC%9D%B8-%EB%AC%B8%EC%A0%9C-%EC%82%B4%ED%94%BC%EA%B8%B0)
+2. [API 응답 속도 개선 1부 - 요청 횟수 줄이기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-1%EB%B6%80)
+
+3. [API 응답 속도 개선 2부 - 근본적인 문제 살피기](https://velog.io/@alstn6987/API-%EC%9D%91%EB%8B%B5-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-2%EB%B6%80-%EA%B7%BC%EB%B3%B8%EC%A0%81%EC%9D%B8-%EB%AC%B8%EC%A0%9C-%EC%82%B4%ED%94%BC%EA%B8%B0)
 
 ## 7. 기술적 의사 결정
 
