@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import _ from "lodash";
 import useGetCommentLikeId from "../../../hooks/like/useGetCommentLikeId";
 import useCreateCommentLike from "../../../hooks/like/useCreateCommentLike";
@@ -76,4 +76,4 @@ const LikeBtnWrapper = styled.button`
   align-items: center;
   margin-left: 4px;
 `;
-export default LikeBtnComment;
+export default React.memo(LikeBtnComment);

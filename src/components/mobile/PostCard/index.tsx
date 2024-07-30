@@ -4,6 +4,7 @@ import { PATH } from "../../../App";
 import useGetCommentCount from "../../../hooks/comments/useGetCommentCount";
 import useGetReceivedLikesCount from "../../../hooks/like/useGetReceivedLikesCount";
 import ProfileForCard from "../ProfileForCard";
+import React from "react";
 
 function PostCard({
   title,
@@ -153,4 +154,4 @@ const Content = styled.div`
   line-height: 1.2;
 `;
 
-export default PostCard;
+export default React.memo(PostCard);

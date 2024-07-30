@@ -4,6 +4,7 @@ import FollowBtn from "../FollowBtn";
 import { useAuth } from "../../../context/AuthContext";
 import ProfileImage from "../../common/ProfileImage";
 import ProfileImageSmall from "../../common/ProfileImageSmall";
+import React from "react";
 
 function UserCard({ userInfo }: { userInfo: UserData }) {
   const { currentUser } = useAuth();
@@ -68,4 +69,4 @@ const FollowBtnWrapper = styled.div`
   position: absolute;
   right: 10px;
 `;
-export default UserCard;
+export default React.memo(UserCard);

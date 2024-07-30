@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../../App";
+import React from "react";
 
 function BookCardSmall({
   filter,
@@ -97,4 +98,4 @@ const Content = styled.p`
   line-height: 1.2;
 `;
 
-export default BookCardSmall;
+export default React.memo(BookCardSmall);

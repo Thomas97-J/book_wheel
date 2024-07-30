@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { PATH } from "../../../App";
 import ToggleSwitch from "../../common/ToggleSwitch";
 import { useUpdatePublic } from "../../../hooks/books/useUpdatePublic";
+import React from "react";
 
 function BookCard({
   filter,
@@ -126,4 +127,4 @@ const Content = styled.p`
   line-height: 1.2;
 `;
 
-export default BookCard;
+export default React.memo(BookCard);

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import useCreatePostLike from "../../../hooks/like/useCreatePostLike";
 import useDeletePostLike from "../../../hooks/like/useDeletePostLike";
 import useGetPostLikeId from "../../../hooks/like/useGetPostLikeId";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import _ from "lodash";
 
 function LikeBtn({ userId, postId }: { userId: string; postId: string }) {
@@ -62,4 +62,4 @@ const LikeBtnWrapper = styled.button`
   border: none;
   padding: 0;
 `;
-export default LikeBtn;
+export default React.memo(LikeBtn);

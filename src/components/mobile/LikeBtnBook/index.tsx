@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import _ from "lodash";
 import useGetBookLikeId from "../../../hooks/like/useGetBookLikeId";
 import useCreateBookLike from "../../../hooks/like/useCreateBookLike";
@@ -63,4 +63,4 @@ const LikeBtnWrapper = styled.button`
   border: none;
 `;
 
-export default LikeBtnBook;
+export default React.memo(LikeBtnBook);
