@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   query,
   where,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -69,7 +70,11 @@ export const getAllDeals = async (): Promise<Deal[]> => {
 export async function getDealsByToUserUid(uid: string): Promise<Deal[]> {
   try {
     const dealsCollection = collection(db, "deals");
-    const dealsQuery = query(dealsCollection, where("to_uid", "==", uid));
+    const dealsQuery = query(
+      dealsCollection,
+      orderBy("updatedAt", "desc"),
+      where("to_uid", "==", uid)
+    );
     const dealSnapshot = await getDocs(dealsQuery);
     const dealList = dealSnapshot.docs.map((doc) => ({
       ...doc.data(),
@@ -85,7 +90,11 @@ export async function getDealsByToUserUid(uid: string): Promise<Deal[]> {
 export async function getDealsByFromUserUid(uid: string): Promise<Deal[]> {
   try {
     const dealsCollection = collection(db, "deals");
-    const dealsQuery = query(dealsCollection, where("from_uid", "==", uid));
+    const dealsQuery = query(
+      dealsCollection,
+      orderBy("updatedAt", "desc"),
+      where("from_uid", "==", uid)
+    );
     const dealSnapshot = await getDocs(dealsQuery);
     const dealList = dealSnapshot.docs.map((doc) => ({
       ...doc.data(),

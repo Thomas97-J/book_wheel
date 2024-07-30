@@ -35,7 +35,10 @@ function UserBookPagination({
 
   useEffect(() => {
     if (!isCheckable) {
-      setFilter((prevFilter) => ({ ...prevFilter, indexes: selectedIndices }));
+      setFilter((prevFilter: any) => ({
+        ...prevFilter,
+        indexes: selectedIndices,
+      }));
     }
   }, [selectedIndices]);
 
