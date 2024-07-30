@@ -4,7 +4,7 @@ import styled from "styled-components";
 function LoadingSpinner() {
   return (
     <LodingSpinnerWrapper>
-      <ClipLoader color={"rgb(74 131 50)"} />
+      <ClipLoader color={"rgb(16, 185, 129)"} />
     </LodingSpinnerWrapper>
   );
 }

@@ -75,7 +75,6 @@ const GlobalStyle = createGlobalStyle`
   html,
   body,
   :root {
-    overflow-x: hidden;
     display: flex;
     justify-content: center;
     /* height: 100%; */

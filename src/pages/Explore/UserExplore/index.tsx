@@ -90,7 +90,7 @@ const SearchForm = styled.form`
   position: fixed;
   top: 93px;
   width: 100%;
-  max-width: 600px;
+  max-width: 598px;
   background: #fff;
   z-index: 100;
   height: 50px;

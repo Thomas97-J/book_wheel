@@ -132,6 +132,7 @@ const TabBar = styled.div`
   position: fixed;
   top: 49px;
   width: 100%;
+  max-width: 598px;
   background-color: #fff;
   z-index: 1001;
 `;

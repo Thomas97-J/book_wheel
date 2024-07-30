@@ -5,7 +5,7 @@ import PageWrapper from "../../../assets/styles/PageWrapper";
 function Fallback() {
   return (
     <FallbackWrapper>
-      <BeatLoader color={"rgb(74 131 50)"} />
+      <BeatLoader color={"rgb(16, 185, 129)"} />
     </FallbackWrapper>
   );
 }
