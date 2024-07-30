@@ -9,10 +9,8 @@ import PageWrapper from "../../../assets/styles/PageWrapper";
 import LikeBtn from "../../../components/mobile/LikeBtn";
 import useGetReceivedLikesCount from "../../../hooks/like/useGetReceivedLikesCount";
 import CommentSection from "./CommentSection";
-import ProfileSimple from "../../../components/mobile/ProfileSimple";
 import DateString from "../../../components/common/DateString";
 import useGetCommentCount from "../../../hooks/comments/useGetCommentCount";
-import ProfileForCard from "../../../components/mobile/ProfileForCard";
 import ProfileForPost from "./ProfileForPost";
 
 function PostDetail() {
@@ -89,6 +87,7 @@ function PostDetail() {
 const PostDetailWrapper = styled(PageWrapper)``;
 const PostDetailBody = styled.div`
   padding: 0 20px;
+  overflow-x: hidden;
 `;
 const Title = styled.h2`
   font-weight: bold;
@@ -97,9 +96,9 @@ const Title = styled.h2`
 `;
 
 const PostImg = styled.img`
-  width: calc(100% + 24 * 2px);
+  width: calc(100% + 20 * 2px);
 
-  margin: 0 0 24px -24px;
+  margin: 0 0 20px -20px;
   object-fit: contain;
   margin-bottom: 10px;
 `;
