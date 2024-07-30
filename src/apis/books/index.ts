@@ -17,13 +17,15 @@ import {
 import { db } from "../../firebase";
 import { deleteFile } from "../firestore";
 
-export async function getBooksBatchBy10({
+export async function getBooksBatch({
   pageParam = null,
   filter = {},
   areaNo = 0,
+  batchSize,
 }: {
   areaNo: number;
   pageParam?: any;
+  batchSize?: number;
   filter?: {
     uid?: string;
     title?: string;
@@ -40,9 +42,11 @@ export async function getBooksBatchBy10({
     let q = query(
       booksRef,
       orderBy("createdAt", "desc"),
-      where("areaNo", "==", areaNo),
-      limit(10)
+      where("areaNo", "==", areaNo)
     );
+    if (batchSize) {
+      q = query(q, limit(batchSize));
+    }
     console.log("filter", filter);
 
     if (!filter.owner) {
@@ -78,7 +82,7 @@ export async function getBooksBatchBy10({
     if (pageParam) {
       q = query(q, startAfter(pageParam));
     }
-    console.log("getBooksBatchBy10:", q, filter);
+    console.log(pageParam);
 
     const querySnapshot = await getDocs(q);
     const count = querySnapshot.size;
@@ -87,7 +91,6 @@ export async function getBooksBatchBy10({
       id: doc.id,
       ...doc.data(),
     }));
-    console.log("getBooksBatchBy10:", books);
 
     const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 

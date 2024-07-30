@@ -51,7 +51,7 @@ const CardLink = styled(Link)`
   color: #000;
 `;
 const ThumbnailImage = styled.img`
-  width: 50px;
+  width: 54px;
   height: 70px;
   margin-right: 10px;
   object-fit: cover;
@@ -92,7 +92,7 @@ const Content = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; // 원하는 라인수
+  -webkit-line-clamp: 1; // 원하는 라인수
   -webkit-box-orient: vertical;
   line-height: 1.2;
 `;

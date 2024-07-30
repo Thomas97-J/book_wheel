@@ -57,19 +57,30 @@ const Nickname = styled.div`
   width: 100%;
 `;
 const State = styled.span`
-  color: #fff;
+  display: flex;
+  margin-right: 10px;
+  width: 60px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  color: #f9fafb;
   background-color: ${({ theme }) => theme.color.default_green};
-  border: solid 1px;
-  border-color: initial;
-  padding: 6px 8px;
-  border-radius: 4px;
-  font-size: 14px;
+  border: none;
+  padding: 4px 6px;
+  border-radius: 50px;
+  font-size: 12px;
   white-space: nowrap;
-  margin: 0 8px;
   &.disabled {
-    color: #666;
-    background-color: ${({ theme }) => theme.color.default_gray_green};
-    opacity: 0.7;
+    background-color: #ef4444;
+  }
+  &.await {
+    background-color: #f59e0b;
+  }
+  &.accept {
+    background-color: ${({ theme }) => theme.color.default_green};
+  }
+  &.finished {
+    opacity: 0.5;
   }
 `;
 

@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getBooksBatchBy10 } from "../../apis/books";
+import { getBooksBatch } from "../../apis/books";
+import useGetBooksCountByUid from "./useGetBooksCountByUid";
 
 export function usePaginationUserBook(
   uid: string | undefined,
-  itemsPerPage: number = 10
+  itemsPerPage: number = 5
 ) {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filter, setFilter] = useState({ uid });
-
+  const { bookcount } = useGetBooksCountByUid(uid ?? "");
+  const [pagingBook, setPagingBook] = useState<any>([[]]);
   const fetchBooks = async ({ queryKey }: { queryKey: any }) => {
-    const [_, { filter, page }] = queryKey;
-    const response = await getBooksBatchBy10({
-      pageParam: page - 1,
+    const [_, { filter }] = queryKey;
+    const response = await getBooksBatch({
       filter,
       areaNo: 1,
     });
@@ -21,15 +22,25 @@ export function usePaginationUserBook(
   };
 
   const { data, isLoading, status } = useQuery({
-    queryKey: ["books", { filter, page }],
+    queryKey: ["books", { filter }],
     queryFn: fetchBooks,
     enabled: !!filter.uid,
     placeholderData: keepPreviousData,
   });
+  function chunk(data: Book[] = [], size = 1) {
+    const arr = [];
 
+    for (let i = 0; i < data.length; i += size) {
+      arr.push(data.slice(i, i + size));
+    }
+
+    return arr;
+  }
   useEffect(() => {
     if (data) {
-      const totalBooks = data.count ?? 0; // Assuming the API returns totalBooks
+      const totalBooks = bookcount ?? 0; // Assuming the API returns totalBooks
+      console.log(totalBooks, data);
+      setPagingBook(chunk(data.books as Book[], 5));
       setTotalPages(Math.ceil(totalBooks / itemsPerPage));
     }
   }, [data, itemsPerPage]);
@@ -46,7 +57,7 @@ export function usePaginationUserBook(
     totalPages,
     filter,
     setFilter,
-    data,
+    data: pagingBook[page - 1],
     isLoading,
     status,
   };

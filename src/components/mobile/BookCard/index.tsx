@@ -15,7 +15,6 @@ function BookCard({
   myBook?: boolean;
   isOdd?: boolean;
 }) {
-  console.log("book", book, filter);
   const updatePublisherMutation = useUpdatePublic(book?.id ?? "", filter);
   if (!book) {
     return <></>;

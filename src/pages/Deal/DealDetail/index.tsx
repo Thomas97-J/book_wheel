@@ -60,7 +60,7 @@ function DealDetail() {
         <ProfileSimpleSmall uid={dealData?.from_uid ?? ""} />
         <DealDate>신청 일시 : {dealCreatedAt}</DealDate>
         <BookInfo>신청 도서</BookInfo>
-        <BookCard book={targetBookData} />
+        <BookCard book={targetBookData} isOdd={true} />
         <UserBookSection>
           <Title>{userData?.nickname}님의 도서 목록</Title>
           <SubTitle>
@@ -128,6 +128,7 @@ const DealDate = styled.div`
 `;
 const BookInfo = styled.div`
   font-weight: bold;
+  margin-bottom: 4px;
 `;
 
 const UserBookSection = styled.section`
@@ -178,7 +179,7 @@ const RejectBtn = styled.button`
   }
 `;
 const DealDetailBody = styled.div`
-  padding: 0 10px;
+  padding: 0 20px;
 `;
 
 export default DealDetail;
