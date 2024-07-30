@@ -88,7 +88,7 @@ function UserBookPagination({
                       <path
                         d="M0.75 4C0.75 2.20508 2.20507 0.75 4 0.75H20C21.7949 0.75 23.25 2.20507 23.25 4V20C23.25 21.7949 21.7949 23.25 20 23.25H4C2.20508 23.25 0.75 21.7949 0.75 20V4Z"
                         stroke="#9CA3AF"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                       />
                     </svg>
                   )}

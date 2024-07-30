@@ -42,7 +42,7 @@
       }
 
       .cls-3 {
-        stroke-linejoin: round;
+        strokeLinejoin: round;
       }
 
       .cls-3, .cls-4 {

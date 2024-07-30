@@ -33,17 +33,9 @@ function ProfileAndInfo({ uid, nickname }: { uid: string; nickname: string }) {
             style={{ margin: "4px" }}
             height={24}
             width={200}
-            count={3}
-          />
-        </TopSection>
-        <BottomSection>
-          <Skeleton
-            style={{ margin: "4px" }}
-            height={24}
-            width={250}
             count={2}
           />
-        </BottomSection>
+        </TopSection>
       </UserInfo>
     );
   if (error) return <div>Error: {error.message}</div>;

@@ -89,9 +89,9 @@ function BottomNavVer2() {
           <path
             d="M5.99999 9.60002L2.39999 6.00002M2.39999 6.00002L5.99999 2.40002M2.39999 6.00002H21.6M18 14.4L21.6 18M21.6 18L18 21.6M21.6 18H2.39999"
             stroke="#F9FAFB"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </Exchange>
