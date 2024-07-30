@@ -106,6 +106,7 @@ const Content = styled.pre`
   color: #333;
   line-height: 1.3;
   margin-bottom: 8px;
+  white-space: pre-wrap;
 `;
 
 export default BookDetail;

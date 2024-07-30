@@ -64,6 +64,10 @@ function BookEdit() {
 
   useEffect(() => {
     if (bookData) {
+      if (!currentUser || (currentUser && currentUser?.uid !== bookData.uid)) {
+        alert("잘못된 접근입니다.");
+        navigate(-1);
+      }
       setValue("title", bookData.title);
       setValue("author", bookData.author);
       setValue("genres", bookData.genres);

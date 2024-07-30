@@ -13,6 +13,7 @@ import ProfileSimple from "../../../components/mobile/ProfileSimple";
 import DateString from "../../../components/common/DateString";
 import useGetCommentCount from "../../../hooks/comments/useGetCommentCount";
 import ProfileForCard from "../../../components/mobile/ProfileForCard";
+import ProfileForPost from "./ProfileForPost";
 
 function PostDetail() {
   const { currentUser } = useAuth();
@@ -36,8 +37,7 @@ function PostDetail() {
     <PostDetailWrapper>
       <PostHeader user={currentUser} postData={postData} />
       <PostDetailBody>
-        {" "}
-        <ProfileForCard
+        <ProfileForPost
           uid={postData?.uid ?? ""}
           createdAt={postData?.createdAt as Timestamp}
         />
@@ -133,6 +133,7 @@ const Content = styled.pre`
   font-size: 14px;
   line-height: 1.2;
   color: #333;
+  white-space: pre-wrap;
 `;
 const ViewCount = styled.div`
   font-size: 12px;

@@ -14,9 +14,11 @@ const ORIENTATION_TO_ANGLE: { [key: string]: number } = {
 function ImgCropRectangle({
   saveCroppedImage,
   children,
+  aspect,
 }: {
   saveCroppedImage: (blob: Blob | null, url: string | null) => void;
   children: any;
+  aspect?: number;
 }) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -78,7 +80,7 @@ function ImgCropRectangle({
               crop={crop}
               rotation={rotation}
               zoom={zoom}
-              aspect={4 / 5}
+              aspect={aspect ? aspect : 4 / 5}
               onCropChange={setCrop}
               onRotationChange={setRotation}
               onCropComplete={onCropComplete}
@@ -131,7 +133,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  width: 100%;
 `;
 
 const CropContainer = styled.div`
@@ -174,11 +176,12 @@ const Slider = styled.input`
   flex: 1;
   padding: 16px 0;
   margin-left: 16px;
+  accent-color: ${({ theme }) => theme.color.default_green};
 `;
 
 const Button = styled.button`
   padding: 8px 16px;
-  background-color: #007bff;
+  background: ${({ theme }) => theme.color.default_green};
   color: white;
   border: none;
   border-radius: 4px;

@@ -16,12 +16,12 @@ const FileUploadInput = styled.input`
 
 const FileUploadButton = styled.label`
   display: inline-block;
-  background: ${({ theme }) => theme.color.default_green};
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
+  /* background: ${({ theme }) => theme.color.default_green}; */
+  /* color: white; */
+  /* padding: 10px 20px; */
+  /* font-size: 16px; */
+  /* border: none; */
+  /* border-radius: 4px; */
   cursor: pointer;
   transition: background-color 0.3s ease;
 `;
