@@ -27,7 +27,7 @@ function BottomNavVer2() {
     }
   }, [unreadCounts]);
 
-  if (PATH.messageDetail === location.pathname) {
+  if (location.pathname.includes(PATH.messageDetail)) {
     return "";
   }
   return (

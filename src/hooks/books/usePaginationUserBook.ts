@@ -9,9 +9,10 @@ export function usePaginationUserBook(
 ) {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filter, setFilter] = useState({ uid });
+  const [filter, setFilter] = useState<any>({ uid });
   const { bookcount } = useGetBooksCountByUid(uid ?? "");
   const [pagingBook, setPagingBook] = useState<any>([[]]);
+  const selectBookLength = filter?.indexes?.length;
   const fetchBooks = async ({ queryKey }: { queryKey: any }) => {
     const [_, { filter }] = queryKey;
     const response = await getBooksBatch({
@@ -38,7 +39,9 @@ export function usePaginationUserBook(
   }
   useEffect(() => {
     if (data) {
-      const totalBooks = bookcount ?? 0; // Assuming the API returns totalBooks
+      console.log(selectBookLength);
+
+      const totalBooks = (selectBookLength || bookcount) ?? 0; //선택된 책이 있는 경우 그 데이터 받아옴
       console.log(totalBooks, data);
       setPagingBook(chunk(data.books as Book[], 5));
       setTotalPages(Math.ceil(totalBooks / itemsPerPage));
@@ -47,7 +50,7 @@ export function usePaginationUserBook(
 
   useEffect(() => {
     if (uid) {
-      setFilter((prevFilter) => ({ ...prevFilter, uid }));
+      setFilter((prevFilter: any) => ({ ...prevFilter, uid }));
     }
   }, [uid]);
 
