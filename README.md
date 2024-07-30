@@ -38,7 +38,7 @@ http://localhost:5173/
 <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
 
 <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=netlify&logoColor=white">
-![프로젝트 아키텍처](https://github.com/user-attachments/assets/8dc351e7-c2ea-4dbc-8404-8c9cfe046190)
+<img src="https://github.com/user-attachments/assets/8dc351e7-c2ea-4dbc-8404-8c9cfe046190">
 
 ## 2. 개발 기간
 
@@ -47,22 +47,41 @@ http://localhost:5173/
 ## 3. 주요 기능
 
 1. 도서 등록 및 관리
-
    1. 도서 등록
-      <img src="https://velog.velcdn.com/images/alstn6987/post/0275f85d-1801-4a94-9ffb-77f417124e80/image.gif" width="400">
-
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/949da22c-af4d-47e8-afce-b3941759a8a9" width="300px">
+      </p>
    2. 도서 관리
-      <img src="https://velog.velcdn.com/images/alstn6987/post/82577bb1-68d8-4e26-b71b-f7bc521e36ff/image.gif" width="400">
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/af0fbb30-ddab-4ac7-be4f-5b9359cfaf97" width="300px">
+      </p>
 
+      
 2. 도서 교환
-
-   1. 도서 검색
-   2. 사용자 프로필을 통한 도서 목록
+   1. 도서 검색 페이지를 통한 도서 접근    
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/318a9e69-f6b1-44db-b749-ecd7014b209b" width="300px">
+      </p>
+   2. 사용자 프로필을 통한 도서 접근
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/aa4d5144-22cf-452c-ad31-6ddb7136748f" width="300px">
+      </p>
    3. 도서 교환 신청
-   4. 신청 내역 확인
-   5. 도서 교환 수락
-   6. 수락 내역 확인
-
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/2b2c45c4-a133-4fa4-955a-eb45e332e9b3" width="300px">
+      </p>
+   4. 신청 내역 확인 및 수락 (교환 신청을 받은 상대 화면)
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/d2857a7a-0c08-4136-9e4d-9377ec27bbd8" width="300px">
+      </p>
+   5. 수락 내역 확인 
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/58f42742-b4a9-4f3e-8501-fc0f2c8056ff" width="300px">
+      </p>
+   6. 교환 완료 처리 (교환 신청을 받은 상대 화면)
+      <p align="center">
+         <img src="https://github.com/user-attachments/assets/8a1fc7ae-32a5-4d17-b20e-62ff46a3986b" width="300px">
+      </p>
 ## 4. 페이지별 기능
 
 1. 홈
