@@ -78,8 +78,8 @@ function BookExplore() {
         ) : (
           bookData?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page?.books.map((book: any) => (
-                <BookCard key={book.id} book={book} />
+              {page?.books.map((book: any, index) => (
+                <BookCard key={book.id} book={book} isOdd={index % 2 === 1} />
               ))}
             </div>
           ))

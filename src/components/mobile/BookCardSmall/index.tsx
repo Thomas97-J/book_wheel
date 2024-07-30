@@ -1,22 +1,17 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATH } from "../../../App";
-import ToggleSwitch from "../../common/ToggleSwitch";
-import { useUpdatePublic } from "../../../hooks/books/useUpdatePublic";
 
-function BookCard({
+function BookCardSmall({
   filter,
   book,
-  myBook,
   isOdd,
 }: {
   filter?: any;
   book: Book | undefined;
-  myBook?: boolean;
   isOdd?: boolean;
 }) {
   console.log("book", book, filter);
-  const updatePublisherMutation = useUpdatePublic(book?.id ?? "", filter);
   if (!book) {
     return <></>;
   }
@@ -36,20 +31,6 @@ function BookCard({
           <Content>{book.content}</Content>
         </CardContent>
       </CardLink>
-      {myBook && (
-        <PublicBtnWrapper>
-          <strong>공개하기</strong>
-          <ToggleSwitch
-            isOn={book?.isPublic}
-            onToggle={async () => {
-              await updatePublisherMutation.mutateAsync({
-                bookId: book?.id ?? "",
-                newIsPublic: !book?.isPublic,
-              });
-            }}
-          />
-        </PublicBtnWrapper>
-      )}
     </BookCardWrapper>
   );
 }
@@ -59,7 +40,7 @@ const BookCardWrapper = styled.div<{ $isOdd: boolean }>`
 
   overflow: hidden;
   padding: 10px;
-  height: 120px;
+  height: 80px;
   background-color: ${(props) => (props.$isOdd ? "#F3F4F6" : "")};
   border-radius: 4px;
 `;
@@ -70,24 +51,13 @@ const CardLink = styled(Link)`
   color: #000;
 `;
 const ThumbnailImage = styled.img`
-  width: 80px;
-  height: 100px;
+  width: 50px;
+  height: 70px;
   margin-right: 10px;
   object-fit: cover;
   border-radius: 4px;
 `;
-const PublicBtnWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 8px;
-  strong {
-    white-space: nowrap;
-    margin-bottom: 4px;
-    font-size: 14px;
-    color: #666;
-  }
-`;
+
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -122,9 +92,9 @@ const Content = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3; // 원하는 라인수
+  -webkit-line-clamp: 2; // 원하는 라인수
   -webkit-box-orient: vertical;
   line-height: 1.2;
 `;
 
-export default BookCard;
+export default BookCardSmall;

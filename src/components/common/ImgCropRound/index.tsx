@@ -151,7 +151,7 @@ const Controls = styled.div`
   padding: 4px 16px;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   @media (min-width: 600px) {
     flex-direction: row;
     align-items: center;
@@ -163,6 +163,7 @@ const SliderContainer = styled.div`
   flex: 1;
   align-items: center;
   margin-bottom: 8px;
+  width: 100%;
   @media (min-width: 600px) {
     margin-bottom: 0;
     margin-right: 16px;
@@ -186,7 +187,8 @@ const Button = styled.button`
   color: white;
   border: none;
   border-radius: 4px;
+  width: 120px;
+  font-size: 16px;
   cursor: pointer;
 `;
-
 export default ImgCropRound;

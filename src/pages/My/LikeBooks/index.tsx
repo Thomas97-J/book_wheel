@@ -29,8 +29,8 @@ function LikeBooks() {
       ) : (
         likedBooksDatas?.pages.map((page, pageIndex) => (
           <div key={pageIndex}>
-            {page?.likedBooksData.map((book: any) => (
-              <BookCard key={book.id} book={book} />
+            {page?.likedBooksData.map((book: any, index) => (
+              <BookCard key={book.id} book={book} isOdd={index % 2 === 1} />
             ))}
           </div>
         ))

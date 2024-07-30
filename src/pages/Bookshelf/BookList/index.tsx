@@ -64,23 +64,26 @@ function BookList() {
           placeholder="전체"
         />
       </StickyMenu>
-      {isEmpty ? (
-        <ListEmpty>첫 도서를 등록해주세요!</ListEmpty>
-      ) : (
-        bookData?.pages.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page?.books.map((book: any) => (
-              <BookCard
-                filter={filter}
-                key={book.id}
-                book={book}
-                myBook={book.uid === currentUser?.uid}
-              />
-            ))}
-          </div>
-        ))
-      )}
-      <div ref={ref}></div>
+      <BookListBody>
+        {isEmpty ? (
+          <ListEmpty>첫 도서를 등록해주세요!</ListEmpty>
+        ) : (
+          bookData?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page?.books.map((book: any, index) => (
+                <BookCard
+                  filter={filter}
+                  key={book.id}
+                  book={book}
+                  isOdd={index % 2 === 1}
+                  myBook={book.uid === currentUser?.uid}
+                />
+              ))}
+            </div>
+          ))
+        )}
+        <div ref={ref}></div>
+      </BookListBody>
     </PostSectionWrapper>
   );
 }
@@ -88,10 +91,17 @@ const PostSectionWrapper = styled.div`
   width: 100%;
   position: relative;
 `;
+
+const BookListBody = styled.div`
+  padding: 0 10px;
+`;
 const StickyMenu = styled.div`
   position: sticky;
   background: #fff;
   top: 50px;
-  height: 50px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
 `;
 export default BookList;
