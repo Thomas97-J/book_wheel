@@ -6,6 +6,7 @@ import useInfiniteUsers from "../../../hooks/users/useInfiniteUsers";
 import UserCard from "../../../components/mobile/UserCard";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 import UserCardSkeleton from "../../../components/mobile/UserCardSkeleton";
+import { motion } from "framer-motion";
 interface Search {
   type: string;
   keyword: string;
@@ -51,7 +52,11 @@ function UserExplore() {
           type="text"
         />
       </SearchForm>
-      <UserExploreBody>
+      <UserExploreBody
+        key="book"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+      >
         {isFirstLoading ? (
           <>
             <UserCardSkeleton />
@@ -78,7 +83,7 @@ function UserExplore() {
 const UserExploreWrapper = styled.div`
   position: relative;
 `;
-const UserExploreBody = styled.div`
+const UserExploreBody = styled(motion.div)`
   padding: 0 10px;
 `;
 const SearchForm = styled.form`

@@ -80,16 +80,16 @@ const TabBar = styled.div`
   background: #fff;
   z-index: 100;
 `;
-
 const Tab = styled.button<{ $isActive: boolean }>`
   background: none;
   border: none;
-  padding: 10px 20px;
+  padding: 6px 20px;
   width: 100%;
   cursor: pointer;
-  font-size: 16px;
-  border-bottom: ${(props) => (props.$isActive ? "2px solid black" : "none")};
-  background: #fff;
+  font-size: 14px;
+  border-bottom: ${(props) =>
+    props.$isActive ? "2px solid #10B981" : "2px solid #9CA3AF"};
+  color: ${(props) => (props.$isActive ? "#10B981" : "#9CA3AF")};
 `;
 
 const Content = styled.div`

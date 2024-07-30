@@ -118,7 +118,9 @@ function Follow() {
     </FollowWrapper>
   );
 }
-const FollowWrapper = styled(PageWrapper)``;
+const FollowWrapper = styled(PageWrapper)`
+  padding-top: 96px;
+`;
 const FollowBody = styled.div`
   padding: 0 10px;
   position: relative;
@@ -127,19 +129,26 @@ const FollowBody = styled.div`
 const TabBar = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  position: fixed;
+  top: 49px;
   width: 100%;
+  background-color: #fff;
+  z-index: 1001;
 `;
 
 const Tab = styled.button<{ $isActive: boolean }>`
   background: none;
   border: none;
-  padding: 10px 20px;
+  padding: 6px 20px;
   width: 100%;
+  height: 40px;
+  background-color: #fff;
+
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   border-bottom: ${(props) =>
-    props.$isActive ? "2px solid black" : "2px solid #fff"};
+    props.$isActive ? "2px solid #10B981" : "2px solid #9CA3AF"};
+  color: ${(props) => (props.$isActive ? "#10B981" : "#9CA3AF")};
 `;
 
 const TabContent = styled(motion.div)`

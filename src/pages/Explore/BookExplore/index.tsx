@@ -6,6 +6,7 @@ import BookCard from "../../../components/mobile/BookCard";
 import useInfiniteBooks from "../../../hooks/books/useInfiniteBooks";
 import LoadingSpinner from "../../../components/mobile/LoadingSpinner";
 import BookCardSkeleton from "../../../components/mobile/BookCardSkeleton";
+import { motion } from "framer-motion";
 
 interface Search {
   type: string;
@@ -68,7 +69,11 @@ function BookExplore() {
           type="text"
         />
       </SearchForm>
-      <BookExploreBody>
+      <BookExploreBody
+        key="book"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+      >
         {isFirstLoading ? (
           <>
             <BookCardSkeleton />
@@ -93,7 +98,8 @@ function BookExplore() {
 const BookExploreWrapper = styled.div`
   position: relative;
 `;
-const BookExploreBody = styled.div``;
+const BookExploreBody = styled(motion.div)``;
+
 const SearchForm = styled.form`
   position: fixed;
   top: 93px;
