@@ -96,7 +96,7 @@ const Genres = styled.p`
   margin: 0 0 8px 0;
 `;
 
-const Content = styled.p`
+const Content = styled.pre`
   font-size: 14px;
   color: #333;
   text-overflow: ellipsis;

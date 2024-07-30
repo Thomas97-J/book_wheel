@@ -129,7 +129,7 @@ const Count = styled.span`
 const CenterWrapper = styled.div`
   width: 100%;
 `;
-const Content = styled.p`
+const Content = styled.pre`
   font-size: 14px;
   line-height: 1.2;
   color: #333;

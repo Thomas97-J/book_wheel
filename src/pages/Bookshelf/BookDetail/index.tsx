@@ -101,7 +101,7 @@ const Author = styled.p`
   color: #555;
   margin-bottom: 8px;
 `;
-const Content = styled.p`
+const Content = styled.pre`
   font-size: 14px;
   color: #333;
   line-height: 1.3;
