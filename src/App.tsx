@@ -7,7 +7,6 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Main from "./pages/Main";
 import NotFound from "./pages/NotFound";
-import BottomNav from "./components/mobile/BottomNav";
 import Fallback from "./components/mobile/Fallback";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import BottomNavVer2 from "./components/mobile/BottomNavVer2";
