@@ -7,6 +7,8 @@ import PageWrapper from "../../assets/styles/PageWrapper";
 import imgPaths from "../../assets/images/image_path";
 import DefaultHeader from "../../components/mobile/headers/DefaultHeader";
 import Warn from "../../components/common/Warn";
+import { useCallback } from "react";
+import { debounce } from "lodash";
 
 interface SignupForm {
   nickname: string;
@@ -56,11 +58,19 @@ function Signup() {
       }
     }
   }
+
+  const debouncedOnSignup = useCallback(
+    debounce((data: SignupForm) => {
+      onSignup(data);
+    }, 300),
+    []
+  );
+
   return (
     <SignupWrapper>
       <DefaultHeader />
       <Logo src={imgPaths.logoWithText} alt="로고" />
-      <form onSubmit={handleSubmit(onSignup)}>
+      <form onSubmit={handleSubmit(debouncedOnSignup)}>
         <label>이메일</label>
         <input
           {...register("email", {

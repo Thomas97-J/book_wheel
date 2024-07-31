@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -13,6 +13,7 @@ import { PATH } from "../../../App";
 import { v4 as uuidv4 } from "uuid";
 import DefaultHeader from "../../../components/mobile/headers/DefaultHeader";
 import ImgCropRectangle from "../../../components/common/ImgCropRectangle";
+import { debounce } from "lodash";
 
 interface BookForm extends Book {
   photoFile: any;
@@ -132,16 +133,18 @@ function BookEdit() {
       console.error(error);
     }
   }
-
-  useEffect(() => {
-    console.log("imagePreview", imagePreview);
-  }, [imagePreview]);
+  const debouncedOnSubmit = useCallback(
+    debounce((data: BookForm) => {
+      onSubmit(data);
+    }, 300),
+    []
+  );
 
   return (
     <BookEditWrapper>
       <DefaultHeader />
       <EditBody>
-        <BookForm onSubmit={handleSubmit(onSubmit)}>
+        <BookForm onSubmit={handleSubmit(debouncedOnSubmit)}>
           <DropDownSelect
             options={options}
             onSelect={handleSelect}

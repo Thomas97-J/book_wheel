@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -15,6 +15,7 @@ import useImageUpload from "../../../hooks/common/useImageUpload";
 import { v4 as uuidv4 } from "uuid";
 import Warn from "../../../components/common/Warn";
 import useDeleteImageInPost from "../../../hooks/posts/useDeleteImageInPost";
+import { debounce } from "lodash";
 
 interface PostValue {
   uid: string;
@@ -128,12 +129,21 @@ function NewPost() {
       console.log("err", err);
     }
   }
+  const debouncedOnPostSubmit = useCallback(
+    debounce((postData: PostValue) => {
+      onPostSubmit(postData);
+    }, 300),
+    [] // 의존성 배열은 빈 배열로, 이 함수가 한 번만 생성되도록 함
+  );
 
   return (
     <NewPostWrapper>
       <PostEditHeader submitBtnDisable={submitBtnDisable} />
       <EditBody>
-        <PostForm id={"postForm"} onSubmit={handleSubmit(onPostSubmit)}>
+        <PostForm
+          id={"postForm"}
+          onSubmit={handleSubmit(debouncedOnPostSubmit)}
+        >
           <CategoryAndImage>
             <DropDownSelect
               options={options}

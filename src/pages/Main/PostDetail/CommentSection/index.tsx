@@ -4,12 +4,13 @@ import { useAuth } from "../../../../context/AuthContext";
 import useCreateComment from "../../../../hooks/comments/useCreateComment";
 import useInfiniteComments from "../../../../hooks/comments/useInfiniteComments";
 import CommentCard from "../../../../components/mobile/CommentCard";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ReplyModal from "./ReplyModal";
 import useAddReplyToComment from "../../../../hooks/comments/useAddReplyToComment";
 import LoadingSpinner from "../../../../components/mobile/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../App";
+import { debounce, throttle } from "lodash";
 interface CommentValue {
   content: string;
   "": string;
@@ -50,8 +51,6 @@ function CommentSection({ postId }: { postId: string }) {
   async function onCommentSubmit(commentData: CommentValue) {
     if (currentUser?.uid) {
       if (replyPopupOpen) {
-        console.log("replyData", commentData);
-
         await replyMutation.mutateAsync({
           commentId: replyTarget?.comment.id,
           replyData: { content: commentData.content, userId: currentUser.uid },
@@ -75,6 +74,13 @@ function CommentSection({ postId }: { postId: string }) {
     }
   }
 
+  const throttledOnCommentSubmit = useCallback(
+    throttle((commentData: CommentValue) => {
+      onCommentSubmit(commentData);
+    }, 1000),
+    []
+  );
+
   function handleReplyPopupOpen(bool: boolean, content?: any) {
     setReplyPopupOpen(bool);
     setReplyTarget(content);
@@ -84,6 +90,7 @@ function CommentSection({ postId }: { postId: string }) {
       setFocus("");
     }
   }
+
   return (
     <CommentSectionWrapper>
       {isLoading && <LoadingSpinner />}
@@ -109,7 +116,7 @@ function CommentSection({ postId }: { postId: string }) {
           handleReplyPopupOpen={handleReplyPopupOpen}
         />
       )}
-      <CommentForm onSubmit={handleSubmit(onCommentSubmit)}>
+      <CommentForm onSubmit={handleSubmit(throttledOnCommentSubmit)}>
         <InputShape>
           <input
             {...register("content", { required: true })}
