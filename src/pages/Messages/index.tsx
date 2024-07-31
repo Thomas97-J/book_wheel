@@ -6,6 +6,7 @@ import { useUserChatRooms } from "../../hooks/message/useUserChatRooms";
 import MessageMainHeader from "../../components/mobile/headers/MessageMainHeader";
 import ListEmpty from "../../components/mobile/ListEmpty";
 import { Helmet } from "react-helmet-async";
+import ErrorBoundary from "../../HOCs/ErrorBoundary";
 
 function Messages() {
   const { currentUser } = useAuth();
@@ -22,7 +23,11 @@ function Messages() {
         {isEmpty ? (
           <ListEmpty>첫 대화를 시작해주세요!</ListEmpty>
         ) : (
-          chatRooms?.map((room) => <ChatRoomCard key={room.id} room={room} />)
+          chatRooms?.map((room) => (
+            <ErrorBoundary>
+              <ChatRoomCard key={room.id} room={room} />
+            </ErrorBoundary>
+          ))
         )}
       </MessageBody>
     </MessagesWrapper>
