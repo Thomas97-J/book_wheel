@@ -152,7 +152,7 @@ const EmptyComment = styled.div`
 `;
 
 const CommentSectionWrapper = styled.div`
-  padding-bottom: 120px;
+  padding-bottom: 180px;
 `;
 const CommentForm = styled.form`
   display: flex;

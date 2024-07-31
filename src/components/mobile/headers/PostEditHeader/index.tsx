@@ -28,9 +28,9 @@ function PostEditHeader({ submitBtnDisable }: { submitBtnDisable: boolean }) {
           />
         </svg>
       </button>
-      <button form="postForm" type="submit" disabled={submitBtnDisable}>
+      <PostSubmitBtn form="postForm" type="submit" disabled={submitBtnDisable}>
         저장
-      </button>
+      </PostSubmitBtn>
     </PostEditHeaderWrapper>
   );
 }
@@ -41,6 +41,13 @@ const PostEditHeaderWrapper = styled(Header)`
     border: none;
     font-size: 16px;
   }
+`;
+const PostSubmitBtn = styled.button`
+  border: none;
+  background: none;
+  font-weight: bold;
+  color: #666;
+  font-size: 14px;
 `;
 
 export default PostEditHeader;
