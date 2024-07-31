@@ -190,6 +190,7 @@ function NewPost() {
             {...register("content")}
             placeholder="내용을 입력하세요."
           />
+          <SubmitBtn type="submit">저장</SubmitBtn>
         </PostForm>
       </EditBody>
     </NewPostWrapper>
@@ -227,6 +228,14 @@ const ImagePreview = styled.div`
   }
 `;
 
+const SubmitBtn = styled.button`
+  height: 36px;
+  border-radius: 6px;
+  color: #fff;
+  background-color: ${({ theme }) => theme.color.default_green};
+  border: none;
+  margin-top: 12px;
+`;
 const PostForm = styled.form`
   position: relative;
   display: flex;
