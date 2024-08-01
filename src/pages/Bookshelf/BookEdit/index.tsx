@@ -42,7 +42,7 @@ function BookEdit() {
   const imgPreviewRef = useRef<HTMLImageElement | null>(null);
   const { uploadImgFile, isUploading } = useUploadImgFile({
     maxSizeMB: 1,
-    maxWidthOrHeight: 512,
+    maxWidthOrHeight: 1024,
   });
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState<string | null>(null);

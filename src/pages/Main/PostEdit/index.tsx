@@ -51,7 +51,7 @@ function NewPost() {
   const [query, setQuery] = useSearchParams();
   const { uploadImgFile, isUploading } = useUploadImgFile({
     maxSizeMB: 1,
-    maxWidthOrHeight: 512,
+    maxWidthOrHeight: 1024,
   });
   const postIndex = parseInt(query.get("no") ?? "");
   const { postData, isLoading, error } = useGetPostByIndex(postIndex);
