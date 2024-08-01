@@ -105,10 +105,12 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   button{
-    background: none;  
+    background: none;
+    -webkit-tap-highlight-color: transparent;
+
     &:disabled {
-    background: #bcbcbc;
-  }
+      background: #bcbcbc;
+    }
   }
   #root{
     width: 100vw;
