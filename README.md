@@ -3,7 +3,7 @@
 배포 url : https://book-wheel.vercel.app/
 
 ## 프로젝트 소개
-![image](https://github.com/user-attachments/assets/a1bd071b-bcc5-4286-ada3-93e9ab43faae)
+![KakaoTalk_20240801_110831971](https://github.com/user-attachments/assets/de0a29c4-5478-4dea-9717-42cf7cf183de)
 
 책바퀴는 책장 한켠에 잠들어 있는 도서를 위한 모바일 교환 커뮤니티입니다.
 책바퀴는 실시간 채팅, 간편한 도서 교환을 위한 거래 페이지, 게시판, 도서 정보 페이지 등 자신의 도서와 그에 따른 이야기를 나눌 수 있는 다양한 수단을 제공합니다.
