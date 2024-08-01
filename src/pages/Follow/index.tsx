@@ -72,10 +72,10 @@ function Follow() {
             {tab.name}
           </Tab>
         ))}
-      </TabBar>
-      <FollowBody>
-        {(isFollowingLoading || isFollowingLoading) && <LoadingSpinner />}
-        <AnimatePresence>
+      </TabBar>{" "}
+      <AnimatePresence>
+        <FollowBody>
+          {(isFollowingLoading || isFollowingLoading) && <LoadingSpinner />}
           {activeTab === "followers" ? (
             <TabContent
               key="followers"
@@ -113,8 +113,8 @@ function Follow() {
               <div ref={followingRef}></div>
             </TabContent>
           )}
-        </AnimatePresence>
-      </FollowBody>
+        </FollowBody>{" "}
+      </AnimatePresence>
     </FollowWrapper>
   );
 }

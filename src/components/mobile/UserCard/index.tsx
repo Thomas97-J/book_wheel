@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import FollowBtn from "../FollowBtn";
 import { useAuth } from "../../../context/AuthContext";
-import ProfileImage from "../../common/ProfileImage";
 import ProfileImageSmall from "../../common/ProfileImageSmall";
 import React from "react";
 
@@ -33,6 +32,7 @@ const UserCardWrapper = styled.div`
   display: flex;
   height: 68;
   padding: 4px 0;
+  width: 100%;
 `;
 const GoToProfile = styled(Link)`
   position: relative;
@@ -40,7 +40,7 @@ const GoToProfile = styled(Link)`
   align-items: center;
   text-decoration: none;
   color: #000;
-  width: 100%;
+  flex: 1;
   img {
     width: 60px;
     height: 60px;
@@ -65,8 +65,5 @@ const NicknameAndBio = styled.div`
   width: 100%;
 `;
 
-const FollowBtnWrapper = styled.div`
-  position: absolute;
-  right: 10px;
-`;
+const FollowBtnWrapper = styled.div``;
 export default React.memo(UserCard);
