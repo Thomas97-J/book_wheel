@@ -49,8 +49,8 @@ http://localhost:5173/
 
    | 도서 등록 | 도서 관리 |
    | --- | --- |
-   | <p align="center"><img src="https://github.com/user-attachments/assets/949da22c-af4d-47e8-afce-b3941759a8a9" width="300px"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/af0fbb30-ddab-4ac7-be4f-5b9359cfaf97" width="300px"></p> |
-   
+   | <p align="center"><img src="https://github.com/user-attachments/assets/57ee4b3c-3117-4871-a1ca-ab78416b6261" width="430x"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/7bd62863-9a57-49d8-8898-64bd5fdf2d21" width="430px"></p> |
+
 2. 도서 교환
    
    | 도서 검색 페이지를 통한 도서 접근 | 사용자 프로필을 통한 도서 접근 |
