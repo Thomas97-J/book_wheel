@@ -53,17 +53,17 @@ http://localhost:5173/
 
 2. 도서 교환
    
-   | 도서 검색 페이지를 통한 도서 접근 | 사용자 프로필을 통한 도서 접근 |
+   | 검색 페이지를 통한 교환 신청 | 사용자 프로필을 통한 교환 신청 |
    | --- | --- |
-   | <p align="center"><img src="https://github.com/user-attachments/assets/318a9e69-f6b1-44db-b749-ecd7014b209b" width="300px"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/aa4d5144-22cf-452c-ad31-6ddb7136748f" width="300px"></p> |
-   
-   | 도서 교환 신청 | 신청 내역 확인 및 수락 (교환 상대 화면) |
+   | <p align="center"><img src="https://github.com/user-attachments/assets/562732e4-50fe-4757-8fdb-964012716721" width="430px"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/d9dafc99-f2a3-4a12-9b76-57af4eb811b4" width="430px"></p> |
+
+   | 신청 내역 확인 및 수락 (교환 상대 화면) | 수락 내역 확인 |
    | --- | --- |
-   | <p align="center"><img src="https://github.com/user-attachments/assets/2b2c45c4-a133-4fa4-955a-eb45e332e9b3" width="300px"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/d2857a7a-0c08-4136-9e4d-9377ec27bbd8" width="300px"></p> |
-   
-   | 수락 내역 확인 | 교환 완료 처리 (교환 상대 화면) |
+   | <p align="center"><img src="https://github.com/user-attachments/assets/c30037c4-493d-43b8-a5d1-9ecf6b90aa19" width="430px"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/660984a1-ffa7-4566-8666-b100b9fbfebc" width="430px"></p> |
+
+   | 교환 진행 | 교환 완료 처리 (교환 상대 화면) |
    | --- | --- |
-   | <p align="center"><img src="https://github.com/user-attachments/assets/58f42742-b4a9-4f3e-8501-fc0f2c8056ff" width="300px"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/8a1fc7ae-32a5-4d17-b20e-62ff46a3986b" width="300px"></p> |
+   | <p align="center"><img src="https://github.com/user-attachments/assets/4dd1e58b-b9e1-4ec9-af40-1be6243951b3" width="430px"></p> | <p align="center"><img src="https://github.com/user-attachments/assets/66ba004a-7d70-4946-9ea8-998de3f34dcf" width="430px"></p> |
 
 ## 4. 페이지별 기능
 
