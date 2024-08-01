@@ -10,6 +10,7 @@ import ProfileSimple from "../../../components/mobile/ProfileSimple";
 import CreateDealPopup from "./CreateDealPopup";
 import { useState } from "react";
 import AcceptBtn from "../../../components/common/AcceptBtn";
+import ProfileForPost from "../../Main/PostDetail/ProfileForPost";
 
 function BookDetail() {
   const { currentUser } = useAuth();
@@ -26,7 +27,10 @@ function BookDetail() {
     <BookDetailWrapper>
       <BookHeader user={currentUser} bookData={bookData} />
       <BookDetailBody>
-        {/* <ProfileSimple uid={ownerId} /> */}
+        <ProfileForPost
+          uid={ownerId}
+          createdAt={bookData?.createdAt as Timestamp}
+        />
         {bookData?.photoUrl && (
           <BookImage src={bookData?.photoUrl} alt="도서 이미지" />
         )}
@@ -60,7 +64,6 @@ function BookDetail() {
             </AcceptBtn>
           )}
         </LikeBtnWrapper>
-
         {isPopupOn && (
           <CreateDealPopup
             setIsPopupOn={setIsPopupOn}
