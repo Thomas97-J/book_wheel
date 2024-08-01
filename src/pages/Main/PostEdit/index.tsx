@@ -15,7 +15,7 @@ import useImageUpload from "../../../hooks/common/useImageUpload";
 import { v4 as uuidv4 } from "uuid";
 import Warn from "../../../components/common/Warn";
 import useDeleteImageInPost from "../../../hooks/posts/useDeleteImageInPost";
-import { debounce } from "lodash";
+import { debounce, throttle } from "lodash";
 
 interface PostValue {
   uid: string;
@@ -130,10 +130,10 @@ function NewPost() {
     }
   }
   const debouncedOnPostSubmit = useCallback(
-    debounce((postData: PostValue) => {
+    throttle((postData: PostValue) => {
       onPostSubmit(postData);
-    }, 300),
-    [] // 의존성 배열은 빈 배열로, 이 함수가 한 번만 생성되도록 함
+    }, 1000),
+    []
   );
 
   return (

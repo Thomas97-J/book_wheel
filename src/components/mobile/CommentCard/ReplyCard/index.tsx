@@ -7,6 +7,7 @@ import useDeleteReplyFromComment from "../../../../hooks/comments/useDeleteReply
 import { useAuth } from "../../../../context/AuthContext";
 import DateString from "../../../common/DateString";
 import imgPaths from "../../../../assets/images/image_path";
+import { useState } from "react";
 
 function ReplyCard({
   id,
@@ -26,8 +27,13 @@ function ReplyCard({
   const { userData } = useGetUserById(userId);
   const { currentUser } = useAuth();
   const isCommentOwner = userId === currentUser?.uid;
+  const [isRemoved, setIsRemoved] = useState(false);
 
   const deleteMutation = useDeleteReplyFromComment(commentId, postId);
+
+  if (isRemoved) {
+    return "";
+  }
   return (
     <ReplyCardWrapper>
       <Profile
@@ -44,9 +50,11 @@ function ReplyCard({
         <Content>{content}</Content>
         {isCommentOwner && (
           <DeleteBtn
-            onClick={async () => {
+            onClick={async (e) => {
               if (isCommentOwner) {
+                e.stopPropagation();
                 await deleteMutation.mutateAsync(id);
+                setIsRemoved(true);
               }
             }}
           >
@@ -60,7 +68,7 @@ function ReplyCard({
               <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm4.207 12.793-1.414 1.414L12 13.414l-2.793 2.793-1.414-1.414L10.586 12 7.793 9.207l1.414-1.414L12 10.586l2.793-2.793 1.414 1.414L13.414 12l2.793 2.793z"></path>
             </svg>{" "}
           </DeleteBtn>
-        )}{" "}
+        )}
       </Wrapper>
     </ReplyCardWrapper>
   );

@@ -78,7 +78,7 @@ function CommentSection({ postId }: { postId: string }) {
     throttle((commentData: CommentValue) => {
       onCommentSubmit(commentData);
     }, 1000),
-    []
+    [replyPopupOpen]
   );
 
   function handleReplyPopupOpen(bool: boolean, content?: any) {

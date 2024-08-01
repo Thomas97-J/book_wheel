@@ -114,6 +114,7 @@ const Title = styled.h2`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  line-height: 1.2;
 `;
 
 const CountSection = styled.div`

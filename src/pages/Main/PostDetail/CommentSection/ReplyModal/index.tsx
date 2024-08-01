@@ -1,15 +1,7 @@
 import styled from "styled-components";
-import { PATH } from "../../../../../App";
-import { Link } from "react-router-dom";
-import LikeBtnComment from "../../../../../components/mobile/LikeBtnComment";
-import { useAuth } from "../../../../../context/AuthContext";
 import ReplyCard from "../../../../../components/mobile/CommentCard/ReplyCard";
-import DateString from "../../../../../components/common/DateString";
 import CommentCard from "../../../../../components/mobile/CommentCard";
 
-const ReplyModalWrapper = styled.div`
-  /* Add your styles here */
-`;
 interface Comment {
   id: string;
   postId: string;
@@ -56,7 +48,9 @@ function ReplyModal({
     </>
   );
 }
-
+const ReplyModalWrapper = styled.div`
+  /* Add your styles here */
+`;
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
